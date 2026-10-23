@@ -1,0 +1,45 @@
+meta {
+  name: Register
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{email}}",
+    "username": "{{username}}",
+    "password": "{{password}}"
+  }
+}
+
+script:pre-request {
+  const id = Date.now();
+  bru.setVar("email", `user${id}@example.com`);
+  bru.setVar("username", `user_${id}`);
+}
+
+tests {
+  test("201 created", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("returns the user without password hash", function () {
+    const user = res.getBody().user;
+    expect(user.email).to.equal(bru.getVar("email"));
+    expect(user.id).to.be.a("string");
+    expect(user).to.not.have.property("password_hash");
+  });
+
+  test("sets an HttpOnly session cookie", function () {
+    const cookie = [].concat(res.getHeader("set-cookie") || []).join(";");
+    expect(cookie).to.include("sid=");
+    expect(cookie).to.include("HttpOnly");
+    expect(cookie).to.include("SameSite=Lax");
+  });
+}
