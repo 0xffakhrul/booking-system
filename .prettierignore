@@ -1,0 +1,6 @@
+package-lock.json
+**/dist/
+**/coverage/
+
+# hand-formatted markdown tables; Prettier would re-pad every table
+docs/
