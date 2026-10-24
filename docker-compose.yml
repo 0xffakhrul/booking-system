@@ -1,4 +1,4 @@
-name: load-test
+name: booking-system
 
 services:
   postgres:
@@ -20,7 +20,8 @@ services:
 
   api:
     build:
-      context: ./api
+      context: .
+      dockerfile: api/Dockerfile
       target: dev
     environment:
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
@@ -35,7 +36,7 @@ services:
       postgres:
         condition: service_healthy
     volumes:
-      - ./api/src:/app/src
+      - ./api/src:/app/api/src
 
 volumes:
   postgres-data:
