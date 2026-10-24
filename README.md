@@ -26,7 +26,7 @@ Requirements: **Node.js 24** (see `.nvmrc`) and **Docker**.
 ```bash
 cp .env.example .env    # adjust values if you like
 npm install             # installs tooling + API dependencies
-npm run dev             # starts Postgres + the API with hot reload
+npm run dev             # starts Postgres + the API, runs migrations, hot reload
 ```
 
 Then check it's up:
@@ -42,22 +42,25 @@ To try the API by hand, open the `bruno/` folder in [Bruno](https://www.usebruno
 
 Run from the repo root:
 
-| Command             | What it does                                          |
-| ------------------- | ----------------------------------------------------- |
-| `npm run dev`       | Start Postgres and the API in Docker, with hot reload |
-| `npm run lint`      | ESLint across the repo                                |
-| `npm run format`    | Format everything with Prettier                       |
-| `npm run typecheck` | TypeScript check for every workspace                  |
-| `npm run check`     | Format check + lint + typecheck (what CI will run)    |
+| Command                         | What it does                                                    |
+| ------------------------------- | --------------------------------------------------------------- |
+| `npm run dev`                   | Start Postgres and the API in Docker, with hot reload           |
+| `npm run lint`                  | ESLint across the repo                                          |
+| `npm run format`                | Format everything with Prettier                                 |
+| `npm run typecheck`             | TypeScript check for every workspace                            |
+| `npm run check`                 | Format check + lint + typecheck (what CI will run)              |
+| `npm run migrate up`            | Apply pending database migrations (needs `npm run dev` running) |
+| `npm run migrate down`          | Roll back the most recent migration                             |
+| `npm run migrate create <name>` | Create a new SQL migration in `api/migrations/`                 |
 
 ## Project structure
 
 ```
-api/        Express API (npm workspace)
-web/        React app (coming soon)
-infra/      Postgres init scripts
-bruno/      API requests for manual testing
-docs/       Product requirements, data model, API contract, decisions
+api/              Express API (npm workspace)
+api/migrations/   SQL migrations (node-pg-migrate)
+web/              React app (coming soon)
+bruno/            API requests for manual testing
+docs/             Product requirements, data model, API contract, decisions
 ```
 
 ## Documentation

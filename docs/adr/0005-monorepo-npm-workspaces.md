@@ -15,7 +15,7 @@ Use one Git repository with npm workspaces:
 tempah/
 ├── api/            Express 5 + TypeScript API (workspace)
 ├── web/            React + Vite + TypeScript app (workspace, added on Day 15)
-├── infra/          Postgres init scripts (roles, extensions), later Caddy config
+├── infra/          deploy config: Caddy, Postgres roles (added later)
 ├── bruno/          Bruno collection for manual API testing
 ├── docs/           PRD, ERD, API contract, ADRs
 ├── .github/        CI workflows, PR template

@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 COPY api/package.json api/
 
-# dev: all dependencies; docker compose mounts api/src over the copied source
+# dev: all dependencies; docker compose mounts api/src and api/migrations over the copied files
 FROM base AS dev
 RUN npm ci --workspace api
 COPY api/ api/
@@ -25,6 +25,7 @@ FROM base AS prod
 ENV NODE_ENV=production
 RUN npm ci --workspace api --omit=dev && npm cache clean --force
 COPY --from=build /app/api/dist ./api/dist
+COPY --from=build /app/api/migrations ./api/migrations
 WORKDIR /app/api
 USER node
 EXPOSE 3009

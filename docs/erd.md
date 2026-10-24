@@ -88,7 +88,7 @@ erDiagram
 
 ## What changes from the current repo
 
-The repo's `infra/postgres/init/001_init.sql` already creates `users` and `sessions`. Moving them into the first migration on Day 4 also brings these changes:
+`users` and `sessions` came from the original auth code and now live in the first migration. Registering a business (Day 8) brings these changes:
 
 | Table | Change | Why |
 | --- | --- | --- |
@@ -137,7 +137,7 @@ Bookings use the default `ON DELETE NO ACTION`, so a staff member or service wit
 
 ## Extensions
 
-Created in `infra/postgres/init/`, because creating extensions needs a superuser.
+Created in the first migration. Both are *trusted* extensions, so the database owner can create them without superuser rights.
 
 | Extension | Used for |
 | --- | --- |
