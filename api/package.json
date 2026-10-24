@@ -4,10 +4,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "npm run migrate up && tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "migrate": "node-pg-migrate -j sql"
   },
   "dependencies": {
     "argon2": "^0.41.1",
@@ -15,6 +16,7 @@
     "express": "^5.1.0",
     "express-rate-limit": "^7.5.0",
     "helmet": "^8.0.0",
+    "node-pg-migrate": "^9.0.0",
     "pg": "^8.13.0",
     "pino": "^9.14.0",
     "pino-http": "^10.5.0",

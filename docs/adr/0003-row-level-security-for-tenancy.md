@@ -34,7 +34,7 @@ Because the setting is transaction-local, it can't leak to the next request that
 | `tempah_owner` | Migrations | Owns the tables. Table owners bypass RLS unless `FORCE ROW LEVEL SECURITY` is set. |
 | `tempah_app` | The API at runtime (`DATABASE_URL`) | Not a superuser, not the table owner, no `BYPASSRLS`. Only has `SELECT/INSERT/UPDATE/DELETE` grants. |
 
-Both roles are created in `infra/postgres/init/` (see [ADR-0001](0001-raw-sql-with-pg.md)), so the API needs two connection strings: `MIGRATION_DATABASE_URL` for `tempah_owner` and `DATABASE_URL` for `tempah_app`.
+Both roles are created once per environment by a small setup script, since creating roles needs a superuser. So the API needs two connection strings: `MIGRATION_DATABASE_URL` for `tempah_owner` and `DATABASE_URL` for `tempah_app`.
 
 These tables have **no** RLS policy, because they're read before a tenant is known:
 

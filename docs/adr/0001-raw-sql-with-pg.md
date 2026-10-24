@@ -13,7 +13,7 @@ This is also a learning and portfolio project. Being able to read, write and exp
 
 - Use the [`pg`](https://node-postgres.com/) driver directly, with one shared `Pool`.
 - Write schema changes as SQL migrations with [`node-pg-migrate`](https://salsita.github.io/node-pg-migrate/), committed to the repo and run with `npm run migrate up`.
-- `infra/postgres/init/` (Docker's `docker-entrypoint-initdb.d`) only creates **database roles and extensions**, which need a superuser. Those scripts only run when the data volume is empty, so all tables live in migrations, which run on every deploy.
+- **Everything** lives in migrations, including `CREATE EXTENSION`. `citext` and `btree_gist` are *trusted* extensions (Postgres 13+), so the database owner can create them without superuser rights. That also means a fresh test database gets them just by running migrations.
 - Group queries into a repository file per feature module (`modules/bookings/bookings.repository.ts`). Route handlers never build SQL.
 - Use **parameterized queries only** (`$1, $2`). Never concatenate input into SQL.
 - Map `snake_case` columns to `camelCase` in the repository layer.
@@ -32,4 +32,4 @@ This is also a learning and portfolio project. Being able to read, write and exp
 - **Good:** every query is visible and explainable in an interview. Full access to Postgres features. Fewer dependencies.
 - **Bad:** more boilerplate (row mapping, writing `INSERT`s by hand). No generated types (see [ADR-0006](0006-typescript-for-the-api.md)).
 - **Risk:** SQL injection if someone concatenates a string. Mitigated by the parameterized-only rule, code review, and an ESLint rule or grep check in CI for template literals passed to `query()`.
-- **Migration path:** the `users` and `sessions` tables currently created in `infra/postgres/init/001_init.sql` move into the first migration on Day 4. After that, the init script keeps only `CREATE EXTENSION` and `CREATE ROLE`.
+- **Migration path:** the `users` and `sessions` tables that used to be created by `infra/postgres/init/001_init.sql` moved into the first migration, and the init script was removed. Init scripts only run on an empty data volume, so they're a poor place for schema that changes.
