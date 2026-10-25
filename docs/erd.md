@@ -111,6 +111,7 @@ These rules live in the database, not only in application code. If the code has 
 | `services` | `CHECK (price_cents >= 0)` | Money stored as integer sen, never floats |
 | `working_hours` | `CHECK (weekday BETWEEN 0 AND 6)` | Matches JavaScript's `Date.getDay()` |
 | `working_hours` | `CHECK (end_time > start_time)` | No overnight shifts in the MVP |
+| `working_hours` | `EXCLUDE USING gist (staff_id WITH =, weekday WITH =, tsrange(...) WITH &&)` | One staff member's ranges on the same day can't overlap. Back-to-back is fine. |
 | `bookings` | `UNIQUE (tenant_id, ref)` | A customer's reference finds exactly one booking |
 | `bookings` | `CHECK (status IN ('confirmed', 'cancelled'))` | `pending` is added in Phase 7 |
 | `bookings` | `CHECK (source IN ('online', 'manual'))` | Who created the booking: the customer or the owner |
