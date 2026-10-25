@@ -117,7 +117,7 @@ Changing `durationMin` doesn't affect existing bookings, because each booking st
 { "weekday": 3, "start": "10:00", "end": "13:00" }
 ```
 
-`PUT` **replaces the whole week** in one transaction. Ranges on the same weekday must not overlap each other (validated in the API). Changing hours doesn't cancel existing bookings.
+`PUT` **replaces the whole week** in one transaction. Ranges on the same weekday must not overlap each other. The database enforces this with an exclusion constraint; the API maps the error to `400 VALIDATION_FAILED`. Changing hours doesn't cancel existing bookings.
 
 ## Bookings (owner)
 
