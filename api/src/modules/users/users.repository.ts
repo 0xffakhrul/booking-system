@@ -24,7 +24,10 @@ export async function createUser(
     if (err instanceof pg.DatabaseError && err.code === "23505") {
       const field =
         err.constraint === "users_username_key" ? "username" : "email";
-      throw new ConflictError(`${field} already taken`);
+      throw new ConflictError(
+        field === "username" ? "USERNAME_TAKEN" : "EMAIL_TAKEN",
+        `${field} already taken`,
+      );
     }
     throw err;
   }

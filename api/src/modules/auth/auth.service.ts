@@ -20,7 +20,10 @@ export async function login({ email, password }: LoginInput) {
   const valid = await verifyPassword(found?.password_hash, password);
 
   if (!found || !valid)
-    throw new UnauthorizedError("invalid email or password");
+    throw new UnauthorizedError(
+      "INVALID_CREDENTIALS",
+      "invalid email or password",
+    );
 
   const { password_hash: _, ...user } = found;
   const session = await createSession(user.id);

@@ -32,7 +32,7 @@ Every error response has the same shape:
 }
 ```
 
-`fields` appears only on validation errors (from zod's `flatten().fieldErrors`), and `requestId` only on 500s.
+`fields` appears only on validation errors, keyed by field path (`email`, `hours.0.start`). `requestId` appears only on 500s and matches the `x-request-id` header and the server log line.
 
 | HTTP | `code` | When |
 | --- | --- | --- |
@@ -45,11 +45,13 @@ Every error response has the same shape:
 | 404 | `NOT_FOUND` | Unknown ID or slug, or another tenant's ID |
 | 409 | `SLUG_TAKEN` | Register with a slug that already exists |
 | 409 | `EMAIL_TAKEN` | Register with an email that already exists |
+| 409 | `USERNAME_TAKEN` | Register with a username that already exists (temporary: `username` is removed when register creates a business) |
 | 409 | `SLOT_TAKEN` | Booking overlaps another booking (Postgres error `23P01`) |
 | 422 | `OUTSIDE_WORKING_HOURS` | Booking doesn't fit inside the staff member's hours |
 | 422 | `TOO_SOON` | Booking starts less than 1 hour from now (includes the past) |
 | 422 | `OUTSIDE_BOOKING_WINDOW` | Date or booking is more than 30 days ahead, or before today |
 | 422 | `INACTIVE_RESOURCE` | Service or staff member has been removed |
+| 413 | `PAYLOAD_TOO_LARGE` | Request body over 10 KB |
 | 429 | `RATE_LIMITED` | Too many requests. Already applied to register and login. |
 | 500 | `INTERNAL` | Anything unexpected. Details are logged, never returned. |
 

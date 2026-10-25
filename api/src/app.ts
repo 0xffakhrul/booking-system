@@ -5,7 +5,7 @@ import { env } from "./config/env.js";
 import { pool } from "./db/pool.js";
 import { loadUser } from "./middleware/auth.js";
 import { checkOrigin } from "./middleware/check-origin.js";
-import { errorHandler } from "./middleware/error-handler.js";
+import { errorHandler, notFoundHandler } from "./middleware/error-handler.js";
 import { httpLogger } from "./middleware/http-logger.js";
 import authRoutes from "./modules/auth/auth.routes.js";
 
@@ -27,6 +27,7 @@ export function createApp() {
 
   app.use("/api/auth", authRoutes);
 
+  app.use(notFoundHandler); // after all routes
   app.use(errorHandler); // always last
   return app;
 }
