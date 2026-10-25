@@ -2,7 +2,7 @@ import { createHash, randomBytes } from "node:crypto";
 import type { CookieOptions, Request } from "express";
 import { env } from "../../config/env.js";
 import { pool, type Queryable } from "../../db/pool.js";
-import type { User } from "../users/users.repository.js";
+import { USER_COLUMNS, type User } from "../users/users.repository.js";
 
 export const COOKIE_NAME = "sid";
 const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
@@ -37,7 +37,7 @@ export async function createSession(
 
 export async function getSessionUser(token: string) {
   const { rows } = await pool.query<User>(
-    `SELECT u.id, u.email, u.username
+    `SELECT ${USER_COLUMNS}
        FROM sessions s
        JOIN users u ON u.id = s.user_id
       WHERE s.id_hash = $1 AND s.expires_at > now()`,

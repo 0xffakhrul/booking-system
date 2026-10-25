@@ -12,16 +12,18 @@ post {
 
 body:json {
   {
+    "businessName": "Kedai Gunting {{runId}}",
+    "slug": "{{slug}}",
     "email": "{{email}}",
-    "username": "{{username}}",
     "password": "{{password}}"
   }
 }
 
 script:pre-request {
   const id = Date.now();
-  bru.setVar("email", `user${id}@example.com`);
-  bru.setVar("username", `user_${id}`);
+  bru.setVar("runId", id);
+  bru.setVar("email", `owner${id}@example.com`);
+  bru.setVar("slug", `shop-${id}`);
 }
 
 tests {
@@ -33,7 +35,15 @@ tests {
     const user = res.getBody().user;
     expect(user.email).to.equal(bru.getVar("email"));
     expect(user.id).to.be.a("string");
-    expect(user).to.not.have.property("password_hash");
+    expect(user.role).to.equal("owner");
+    expect(user).to.not.have.property("passwordHash");
+  });
+
+  test("returns the new business", function () {
+    const { user, tenant } = res.getBody();
+    expect(tenant.slug).to.equal(bru.getVar("slug"));
+    expect(tenant.timezone).to.equal("Asia/Kuala_Lumpur");
+    expect(user.tenantId).to.equal(tenant.id);
   });
 
   test("sets an HttpOnly session cookie", function () {

@@ -39,10 +39,10 @@ async function setSessionCookie(
 
 router.post("/register", authLimiter, async (req, res) => {
   const input = registerSchema.parse(req.body); // throws ZodError → 400
-  const { user, session } = await authService.register(input);
+  const { tenant, user, session } = await authService.register(input);
   await setSessionCookie(req, res, session);
-  req.log.info({ userId: user.id }, "user registered");
-  res.status(201).json({ user });
+  req.log.info({ userId: user.id, tenantId: tenant.id }, "business registered");
+  res.status(201).json({ user, tenant });
 });
 
 router.post("/login", authLimiter, async (req, res) => {

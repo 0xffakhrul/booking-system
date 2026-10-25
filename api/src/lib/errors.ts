@@ -7,7 +7,6 @@ export type ErrorCode =
   | "FORBIDDEN"
   | "NOT_FOUND"
   | "EMAIL_TAKEN"
-  | "USERNAME_TAKEN"
   | "SLUG_TAKEN"
   | "SLOT_TAKEN"
   | "OUTSIDE_WORKING_HOURS"

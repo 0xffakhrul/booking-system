@@ -45,7 +45,6 @@ Every error response has the same shape:
 | 404 | `NOT_FOUND` | Unknown ID or slug, or another tenant's ID |
 | 409 | `SLUG_TAKEN` | Register with a slug that already exists |
 | 409 | `EMAIL_TAKEN` | Register with an email that already exists |
-| 409 | `USERNAME_TAKEN` | Register with a username that already exists (temporary: `username` is removed when register creates a business) |
 | 409 | `SLOT_TAKEN` | Booking overlaps another booking (Postgres error `23P01`) |
 | 422 | `OUTSIDE_WORKING_HOURS` | Booking doesn't fit inside the staff member's hours |
 | 422 | `TOO_SOON` | Booking starts less than 1 hour from now (includes the past) |
