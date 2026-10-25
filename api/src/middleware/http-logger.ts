@@ -15,9 +15,10 @@ export const httpLogger = pinoHttp({
     return id;
   },
 
-  customLogLevel: (_req, res, err) => {
+  customLogLevel: (req, res, err) => {
     if (err || res.statusCode >= 500) return "error";
     if (res.statusCode >= 400) return "warn";
+    if (req.url === "/api/health") return "silent";
     return "info";
   },
 
@@ -35,6 +36,4 @@ export const httpLogger = pinoHttp({
     }),
     res: (res) => ({ statusCode: res.statusCode }),
   },
-
-  autoLogging: { ignore: (req) => req.url === "/api/health" },
 });

@@ -11,6 +11,7 @@ import {
 } from "../sessions/sessions.js";
 import { loginSchema, registerSchema } from "./auth.schemas.js";
 import * as authService from "./auth.service.js";
+import { AppError } from "../../lib/errors.js";
 
 const router = express.Router();
 
@@ -19,6 +20,10 @@ const authLimiter = rateLimit({
   limit: 10,
   standardHeaders: "draft-7",
   legacyHeaders: false,
+  handler: (_req, _res, next) =>
+    next(
+      new AppError(429, "RATE_LIMITED", "too many attempts, try again later"),
+    ),
 });
 
 // Kill any old session (session fixation defense), then set the new cookie
