@@ -15,4 +15,10 @@ tests {
     expect(res.getStatus()).to.equal(200);
     expect(res.getBody().user.email).to.equal(bru.getVar("email"));
   });
+
+  test("includes the user's business", function () {
+    const { user, tenant } = res.getBody();
+    expect(tenant.id).to.equal(user.tenantId);
+    expect(tenant.slug).to.equal(bru.getVar("slug"));
+  });
 }
