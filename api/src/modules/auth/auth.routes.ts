@@ -47,10 +47,10 @@ router.post("/register", authLimiter, async (req, res) => {
 
 router.post("/login", authLimiter, async (req, res) => {
   const input = loginSchema.parse(req.body);
-  const { user, session } = await authService.login(input);
+  const { user, tenant, session } = await authService.login(input);
   await setSessionCookie(req, res, session);
   req.log.info({ userId: user.id }, "user logged in");
-  res.json({ user });
+  res.json({ user, tenant });
 });
 
 router.post("/logout", async (req, res) => {
@@ -60,8 +60,8 @@ router.post("/logout", async (req, res) => {
   res.status(204).end();
 });
 
-router.get("/me", requireAuth, (req, res) => {
-  res.json({ user: currentUser(req) });
+router.get("/me", requireAuth, async (req, res) => {
+  res.json(await authService.getAccount(currentUser(req)));
 });
 
 export default router;

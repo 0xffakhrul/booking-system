@@ -2,8 +2,16 @@ import { withTransaction } from "../../db/transaction.js";
 import { UnauthorizedError } from "../../lib/errors.js";
 import { hashPassword, verifyPassword } from "../../lib/password.js";
 import { createSession } from "../sessions/sessions.js";
-import { createTenant } from "../tenants/tenants.repository.js";
-import { createUser, findUserByEmail } from "../users/users.repository.js";
+import {
+  createTenant,
+  findTenantById,
+  type Tenant,
+} from "../tenants/tenants.repository.js";
+import {
+  createUser,
+  findUserByEmail,
+  type User,
+} from "../users/users.repository.js";
 import type { LoginInput, RegisterInput } from "./auth.schemas.js";
 
 export async function register(input: RegisterInput) {
@@ -37,6 +45,19 @@ export async function login({ email, password }: LoginInput) {
     );
 
   const { passwordHash: _, ...user } = found;
+  const tenant = await loadTenant(user);
   const session = await createSession(user.id);
-  return { user, session };
+  return { user, tenant, session };
+}
+
+export async function getAccount(user: User) {
+  return { user, tenant: await loadTenant(user) };
+}
+
+async function loadTenant(user: User): Promise<Tenant> {
+  const tenant = await findTenantById(user.tenantId);
+
+  if (!tenant)
+    throw new Error(`tenant ${user.tenantId} not found for user ${user.id}`);
+  return tenant;
 }

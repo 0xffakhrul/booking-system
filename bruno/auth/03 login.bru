@@ -1,0 +1,32 @@
+meta {
+  name: Login
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{email}}",
+    "password": "{{password}}"
+  }
+}
+
+tests {
+  test("200 with user and business", function () {
+    expect(res.getStatus()).to.equal(200);
+    const { user, tenant } = res.getBody();
+    expect(user.email).to.equal(bru.getVar("email"));
+    expect(tenant.slug).to.equal(bru.getVar("slug"));
+  });
+
+  test("sets a new session cookie", function () {
+    const cookie = [].concat(res.getHeader("set-cookie") || []).join(";");
+    expect(cookie).to.include("sid=");
+  });
+}
