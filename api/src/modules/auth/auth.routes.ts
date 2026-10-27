@@ -12,6 +12,7 @@ import {
 import { loginSchema, registerSchema } from "./auth.schemas.js";
 import * as authService from "./auth.service.js";
 import { AppError } from "../../lib/errors.js";
+import { env } from "../../config/env.js";
 
 const router = express.Router();
 
@@ -20,6 +21,7 @@ const authLimiter = rateLimit({
   limit: 10,
   standardHeaders: "draft-7",
   legacyHeaders: false,
+  skip: () => env.NODE_ENV === "test",
   handler: (_req, _res, next) =>
     next(
       new AppError(429, "RATE_LIMITED", "too many attempts, try again later"),
