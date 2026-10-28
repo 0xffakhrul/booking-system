@@ -16,7 +16,8 @@
     "format:check": "prettier . --check",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "check": "npm run format:check && npm run lint && npm run typecheck",
-    "migrate": "docker compose exec api npm run migrate --"
+    "migrate": "docker compose exec api npm run migrate --",
+    "test": "npm run test --workspaces --if-present"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

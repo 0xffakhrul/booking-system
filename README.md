@@ -49,6 +49,7 @@ Run from the repo root:
 | `npm run format`                | Format everything with Prettier                                 |
 | `npm run typecheck`             | TypeScript check for every workspace                            |
 | `npm run check`                 | Format check + lint + typecheck (what CI will run)              |
+| `npm test`                      | Run the API integration tests (needs `npm run dev` running)     |
 | `npm run migrate up`            | Apply pending database migrations (needs `npm run dev` running) |
 | `npm run migrate down`          | Roll back the most recent migration                             |
 | `npm run migrate create <name>` | Create a new SQL migration in `api/migrations/`                 |
