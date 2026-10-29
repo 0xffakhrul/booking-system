@@ -10,6 +10,7 @@ import { httpLogger } from "./middleware/http-logger.js";
 import authRoutes from "./modules/auth/auth.routes.js";
 import servicesRoutes from "./modules/services/services.routes.js";
 import staffRoutes from "./modules/staff/staff.routes.js";
+import workingHoursRoutes from "./modules/working-hours/working-hours.routes.js";
 
 export function createApp() {
   const app = express();
@@ -30,6 +31,7 @@ export function createApp() {
   app.use("/api/auth", authRoutes);
   app.use("/api/services", servicesRoutes);
   app.use("/api/staff", staffRoutes);
+  app.use("/api/staff/:staffId/hours", workingHoursRoutes);
 
   app.use(notFoundHandler); // after all routes
   app.use(errorHandler); // always last
