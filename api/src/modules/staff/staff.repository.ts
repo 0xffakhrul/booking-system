@@ -55,6 +55,23 @@ export async function updateStaff(
 }
 
 /**
+ * True if the staff member exists in this business (active or not).
+ * With lock: true, the row stays locked until the transaction ends.
+ */
+export async function staffExists(
+  tenantId: string,
+  id: string,
+  db: Queryable = pool,
+  { lock = false } = {},
+): Promise<boolean> {
+  const { rowCount } = await db.query(
+    `SELECT 1 FROM staff WHERE tenant_id = $1 AND id = $2${lock ? " FOR UPDATE" : ""}`,
+    [tenantId, id],
+  );
+  return rowCount === 1;
+}
+
+/**
  * Soft delete. Their working hours stay in the database (the availability query
  * skips inactive staff), and their past bookings keep pointing at them.
  * Returns false if not found.

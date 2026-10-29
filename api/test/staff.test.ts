@@ -1,7 +1,6 @@
 import request from "supertest";
 import { beforeEach, describe, expect, it } from "vitest";
 import { createApp } from "../src/app.js";
-import { pool } from "../src/db/pool.js";
 import { loggedInOwner } from "./helpers.js";
 
 const app = createApp();
@@ -53,12 +52,8 @@ describe("staff API", () => {
   it("soft-deletes but keeps their working hours", async () => {
     const { body } = await ali.post("/api/staff").send({ name: "Ali" });
     const id = body.staff.id;
-    // no hours API yet, so add a row directly
-    await pool.query(
-      `INSERT INTO working_hours (tenant_id, staff_id, weekday, start_time, end_time)
-       SELECT tenant_id, id, 3, '10:00', '13:00' FROM staff WHERE id = $1`,
-      [id],
-    );
+    const hours = [{ weekday: 3, start: "10:00", end: "13:00" }];
+    await ali.put(`/api/staff/${id}/hours`).send({ hours });
 
     const del = await ali.delete(`/api/staff/${id}`);
     expect(del.status).toBe(204);
@@ -69,11 +64,9 @@ describe("staff API", () => {
       expect.objectContaining({ id, active: false }),
     ]);
 
-    const { rowCount } = await pool.query(
-      "SELECT 1 FROM working_hours WHERE staff_id = $1",
-      [id],
-    );
-    expect(rowCount).toBe(1);
+    // still there, ready if they're re-activated later
+    const after = await ali.get(`/api/staff/${id}/hours`);
+    expect(after.body.hours).toEqual(hours);
   });
 
   it("keeps businesses apart: another owner can't see or change this staff", async () => {
