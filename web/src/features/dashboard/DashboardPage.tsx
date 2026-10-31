@@ -1,38 +1,80 @@
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
-import { useLogout } from "@/features/auth/useAuth";
+import { CheckCircle2Icon, CircleIcon } from "lucide-react";
+import { Link } from "react-router";
+import { PageHeader } from "@/components/PageHeader";
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item";
 import { useMe } from "@/features/auth/useMe";
+import { useServices } from "@/features/services/useServices";
+import { useStaff } from "@/features/staff/useStaff";
 
-// Placeholder owner home. The day timeline replaces this later.
+// Placeholder owner home: a setup checklist until the day timeline replaces it
 export function DashboardPage() {
-  const { data: account } = useMe(); // RequireAuth already made sure this exists
-  const logout = useLogout();
+  const { data: account } = useMe();
+  const services = useServices();
+  const staff = useStaff();
 
-  if (!account) return null;
-  const { user, tenant } = account;
+  const steps = [
+    {
+      to: "/app/services",
+      title: "Add your services",
+      count: services.data?.length,
+      noun: "service",
+    },
+    {
+      to: "/app/staff",
+      title: "Add your staff",
+      count: staff.data?.length,
+      noun: "staff member",
+    },
+  ];
 
   return (
-    <div className="min-h-svh bg-muted">
-      <header className="flex items-center justify-between border-b bg-background px-4 py-3">
-        <span className="font-semibold">{tenant.name}</span>
-        <Button
-          variant="outline"
-          size="sm"
-          disabled={logout.isPending}
-          onClick={() => logout.mutate()}
-        >
-          {logout.isPending && <Spinner />}
-          Log out
-        </Button>
-      </header>
-      <main className="mx-auto max-w-2xl space-y-1 p-4">
-        <h1 className="text-xl font-semibold">Welcome back</h1>
-        <p className="text-sm text-muted-foreground">
-          Signed in as {user.email}. Your booking link is /book/{tenant.slug}
-          {" · "}
-          {tenant.timezone}
-        </p>
-      </main>
-    </div>
+    <>
+      <PageHeader
+        title="Welcome back"
+        description={`Customers will book at /book/${account?.tenant.slug}`}
+      />
+      <ItemGroup className="gap-2">
+        {steps.map((step) => {
+          const done = !!step.count;
+          return (
+            <Item
+              key={step.to}
+              variant="outline"
+              className="bg-background"
+              asChild
+            >
+              <Link to={step.to}>
+                <ItemMedia>
+                  {done ? (
+                    <CheckCircle2Icon className="text-green-600" />
+                  ) : (
+                    <CircleIcon className="text-muted-foreground" />
+                  )}
+                </ItemMedia>
+                <ItemContent>
+                  <ItemTitle>{step.title}</ItemTitle>
+                  <ItemDescription>
+                    {step.count === undefined
+                      ? "…"
+                      : `${step.count} ${step.noun}${step.count === 1 ? "" : "s"}`}
+                  </ItemDescription>
+                </ItemContent>
+                <ItemActions className="text-sm text-muted-foreground">
+                  {done ? "Edit" : "Start"}
+                </ItemActions>
+              </Link>
+            </Item>
+          );
+        })}
+      </ItemGroup>
+    </>
   );
 }

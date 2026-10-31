@@ -1,11 +1,14 @@
 import { createBrowserRouter, Navigate } from "react-router";
+import { AppLayout } from "@/components/AppLayout";
 import { LoginPage } from "@/features/auth/LoginPage";
 import { RegisterPage } from "@/features/auth/RegisterPage";
 import { GuestOnly, RequireAuth } from "@/features/auth/RequireAuth";
 import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { HealthPage } from "@/features/health/HealthPage";
+import { ServicesPage } from "@/features/services/ServicesPage";
+import { StaffPage } from "@/features/staff/StaffPage";
 
-// Later: /book/:slug/* for customers (no login), and more /app/* pages for owners
+// Later: /book/:slug/* for customers (no login)
 export const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/app" replace /> },
   { path: "/health", element: <HealthPage /> },
@@ -18,7 +21,16 @@ export const router = createBrowserRouter([
   },
   {
     element: <RequireAuth />,
-    children: [{ path: "/app", element: <DashboardPage /> }],
+    children: [
+      {
+        element: <AppLayout />,
+        children: [
+          { path: "/app", element: <DashboardPage /> },
+          { path: "/app/services", element: <ServicesPage /> },
+          { path: "/app/staff", element: <StaffPage /> },
+        ],
+      },
+    ],
   },
   { path: "*", element: <Navigate to="/app" replace /> },
 ]);
