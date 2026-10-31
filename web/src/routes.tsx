@@ -7,6 +7,7 @@ import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { HealthPage } from "@/features/health/HealthPage";
 import { ServicesPage } from "@/features/services/ServicesPage";
 import { StaffPage } from "@/features/staff/StaffPage";
+import { WorkingHoursPage } from "@/features/staff/WorkingHoursPage";
 
 // Later: /book/:slug/* for customers (no login)
 export const router = createBrowserRouter([
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
           { path: "/app", element: <DashboardPage /> },
           { path: "/app/services", element: <ServicesPage /> },
           { path: "/app/staff", element: <StaffPage /> },
+          {
+            path: "/app/staff/:staffId/hours",
+            element: <WorkingHoursPage />,
+          },
         ],
       },
     ],

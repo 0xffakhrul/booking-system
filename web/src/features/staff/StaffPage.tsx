@@ -1,5 +1,12 @@
-import { PencilIcon, PlusIcon, Trash2Icon, UsersIcon } from "lucide-react";
+import {
+  ClockIcon,
+  PencilIcon,
+  PlusIcon,
+  Trash2Icon,
+  UsersIcon,
+} from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router";
 import { PageHeader } from "@/components/PageHeader";
 import { RemoveDialog } from "@/components/RemoveDialog";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -73,6 +80,15 @@ export function StaffPage() {
                 <ItemTitle>{member.name}</ItemTitle>
               </ItemContent>
               <ItemActions>
+                <Button variant="outline" size="sm" asChild>
+                  <Link
+                    to={`/app/staff/${member.id}/hours`}
+                    aria-label={`Working hours for ${member.name}`}
+                  >
+                    <ClockIcon />
+                    Hours
+                  </Link>
+                </Button>
                 <Button
                   variant="ghost"
                   size="icon"
