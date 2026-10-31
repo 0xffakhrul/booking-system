@@ -113,9 +113,11 @@ These rules live in the database, not only in application code. If the code has 
 | `working_hours` | `CHECK (end_time > start_time)` | No overnight shifts in the MVP |
 | `working_hours` | `EXCLUDE USING gist (staff_id WITH =, weekday WITH =, tsrange(...) WITH &&)` | One staff member's ranges on the same day can't overlap. Back-to-back is fine. |
 | `bookings` | `UNIQUE (tenant_id, ref)` | A customer's reference finds exactly one booking |
+| `bookings` | `CHECK (ref ~ '^[A-HJKMNP-Z2-9]{8}$')` | Refs are 8 characters with no look-alikes (no `0/O`, `1/I/L`), so they're easy to read out over the phone |
+| `bookings` | `CHECK (customer_phone ~ '^\+[1-9][0-9]{6,14}$')` | Phone numbers are stored in E.164 (`+60123456789`) |
 | `bookings` | `CHECK (status IN ('confirmed', 'cancelled'))` | `pending` is added in Phase 7 |
 | `bookings` | `CHECK (source IN ('online', 'manual'))` | Who created the booking: the customer or the owner |
-| `bookings` | `CHECK (NOT isempty(during))` | A booking always has a length |
+| `bookings` | `CHECK (NOT isempty(during) AND lower_inc(during) AND NOT upper_inc(during) AND …)` | A booking always has a length, a real start and end, and the `[start, end)` shape the overlap rule relies on |
 | `bookings` | `EXCLUDE USING gist (staff_id WITH =, during WITH &&) WHERE (status <> 'cancelled')` | **No overlapping bookings for one staff member.** See [ADR-0002](adr/0002-exclusion-constraint-for-double-booking.md). |
 
 ### Same-tenant foreign keys
