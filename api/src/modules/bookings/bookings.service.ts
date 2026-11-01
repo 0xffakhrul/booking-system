@@ -1,8 +1,9 @@
 import pg from "pg";
 import { bookingRules } from "../../config/booking.js";
+import { withTransaction } from "../../db/transaction.js";
 import { ConflictError, NotFoundError, RuleError } from "../../lib/errors.js";
 import { findService } from "../services/services.repository.js";
-import { findStaff } from "../staff/staff.repository.js";
+import { findStaff, staffExists } from "../staff/staff.repository.js";
 import type { Tenant } from "../tenants/tenants.repository.js";
 import {
   findCandidates,
@@ -65,7 +66,7 @@ export async function createBooking(
   // One small insert per candidate. Each runs on its own, so a failed one doesn't affect the next.
   for (const candidate of candidates.filter((c) => c.free)) {
     try {
-      return await insertWithNewRef({
+      return await insertWithRetries({
         tenantId: tenant.id,
         staffId: candidate.id,
         serviceId: service.id,
@@ -87,13 +88,23 @@ export async function createBooking(
   );
 }
 
-async function insertWithNewRef(booking: Omit<NewBooking, "ref">) {
+async function insertWithRetries(booking: Omit<NewBooking, "ref">) {
   for (let attempt = 1; ; attempt++) {
     try {
-      return await insertBooking({ ...booking, ref: generateRef() });
+      return await withTransaction(async (tx) => {
+        // One insert at a time per staff member (ADR-0009). Without this, inserts racing for
+        // the same slot deadlock inside the exclusion constraint check, and Postgres takes
+        // deadlock_timeout (1 s) to break each one. The constraint is still what prevents
+        // double-booking; the lock just makes the losers fail fast with a clean 23P01.
+        await staffExists(booking.tenantId, booking.staffId, tx, {
+          lock: true,
+        });
+        return insertBooking({ ...booking, ref: generateRef() }, tx);
+      });
     } catch (err) {
-      // a random ref matched one this business already has: very rare, just draw again
-      if (isRefCollision(err) && attempt < 5) continue;
+      // Worth another go: a random ref that this business already has (very rare), or a
+      // deadlock with some other code path that writes bookings without taking the lock
+      if ((isRefCollision(err) || isDeadlock(err)) && attempt < 3) continue;
       throw err;
     }
   }
@@ -105,6 +116,10 @@ function isOverlap(err: unknown) {
     err.code === "23P01" &&
     err.constraint === "bookings_no_overlap"
   );
+}
+
+function isDeadlock(err: unknown) {
+  return err instanceof pg.DatabaseError && err.code === "40P01";
 }
 
 function isRefCollision(err: unknown) {
