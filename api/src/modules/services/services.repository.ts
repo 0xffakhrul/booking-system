@@ -82,3 +82,16 @@ export async function deactivateService(
   );
   return rowCount === 1;
 }
+
+/** Includes inactive services, so callers can tell "removed" (422) from "never existed" (404) */
+export async function findService(
+  tenantId: string,
+  id: string,
+  db: Queryable = pool,
+): Promise<Service | null> {
+  const { rows } = await db.query<Service>(
+    `SELECT ${COLUMNS} FROM services WHERE tenant_id = $1 AND id = $2`,
+    [tenantId, id],
+  );
+  return rows[0] ?? null;
+}

@@ -66,3 +66,10 @@ export class ConflictError extends AppError {
     super(409, code, message);
   }
 }
+
+/** 422: the request is well-formed but breaks a business rule */
+export class RuleError extends AppError {
+  constructor(code: ErrorCode, message: string) {
+    super(422, code, message);
+  }
+}

@@ -165,6 +165,8 @@ Availability only returns slots starting at least 1 hour from now, and `date` mu
 
 The public booking response leaves out the booking `id`, `customerPhone` and internal fields. The customer gets the `ref`.
 
+`customerPhone` accepts what people type (`012-345 6789`, `60123456789`, `+60 12 345 6789`) and is stored as E.164. A number without a country code is taken as Malaysian.
+
 ### How booking with "anyone" works
 
 When `staffId` is omitted, the server:

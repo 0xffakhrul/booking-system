@@ -43,3 +43,15 @@ export async function findTenantById(
 
   return rows[0] ?? null;
 }
+
+/** slug is CITEXT, so "Kedai-Ali" finds "kedai-ali" */
+export async function findTenantBySlug(
+  slug: string,
+  db: Queryable = pool,
+): Promise<Tenant | null> {
+  const { rows } = await db.query<Tenant>(
+    `SELECT ${COLUMNS} FROM tenants WHERE slug = $1`,
+    [slug],
+  );
+  return rows[0] ?? null;
+}
