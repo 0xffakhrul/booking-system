@@ -60,7 +60,7 @@ export function StaffPage() {
           <AlertDescription>{error.message}</AlertDescription>
         </Alert>
       ) : staff.length === 0 ? (
-        <Empty className="border bg-background">
+        <Empty className="border bg-card">
           <EmptyHeader>
             <EmptyMedia variant="icon">
               <UsersIcon />
@@ -75,7 +75,7 @@ export function StaffPage() {
       ) : (
         <ItemGroup className="gap-2">
           {staff.map((member) => (
-            <Item key={member.id} variant="outline" className="bg-background">
+            <Item key={member.id} variant="outline" className="bg-card">
               <ItemContent>
                 <ItemTitle>{member.name}</ItemTitle>
               </ItemContent>
