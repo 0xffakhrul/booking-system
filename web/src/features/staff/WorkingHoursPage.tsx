@@ -83,7 +83,7 @@ function WeekEditor({ staffId, saved }: { staffId: string; saved: Range[] }) {
 
   return (
     <form onSubmit={onSubmit} noValidate>
-      <div className="divide-y rounded-xl border bg-background px-4">
+      <div className="divide-y rounded-xl border bg-card px-4">
         {WEEK.map((day) => {
           const ranges = fields
             .map((field, index) => ({ field, index }))

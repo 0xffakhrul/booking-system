@@ -5,8 +5,9 @@ const ringgit = new Intl.NumberFormat("en-MY", {
   currency: "MYR",
 });
 
-/** 2800 → "RM 28.00" */
-export function formatPrice(sen: number) {
+/** 2800 → "RM 28.00", or with `short`, "RM 28" (sen only when there are some: "RM 28.50") */
+export function formatPrice(sen: number, { short = false } = {}) {
+  if (short && sen % 100 === 0) return `RM ${sen / 100}`;
   return ringgit.format(sen / 100);
 }
 

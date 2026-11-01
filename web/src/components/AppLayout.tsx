@@ -17,8 +17,8 @@ export function AppLayout() {
   const logout = useLogout();
 
   return (
-    <div className="min-h-svh bg-muted/40">
-      <header className="border-b bg-background">
+    <div className="min-h-svh bg-background">
+      <header className="border-b bg-card">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 pt-3">
           <span className="truncate font-semibold">{account?.tenant.name}</span>
           <Button

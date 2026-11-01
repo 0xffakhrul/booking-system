@@ -56,7 +56,7 @@ export function ServicesPage() {
           <AlertDescription>{error.message}</AlertDescription>
         </Alert>
       ) : services.length === 0 ? (
-        <Empty className="border bg-background">
+        <Empty className="border bg-card">
           <EmptyHeader>
             <EmptyMedia variant="icon">
               <ScissorsIcon />
@@ -71,7 +71,7 @@ export function ServicesPage() {
       ) : (
         <ItemGroup className="gap-2">
           {services.map((service) => (
-            <Item key={service.id} variant="outline" className="bg-background">
+            <Item key={service.id} variant="outline" className="bg-card">
               <ItemContent>
                 <ItemTitle>{service.name}</ItemTitle>
                 <ItemDescription>

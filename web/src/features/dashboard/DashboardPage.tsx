@@ -45,12 +45,7 @@ export function DashboardPage() {
         {steps.map((step) => {
           const done = !!step.count;
           return (
-            <Item
-              key={step.to}
-              variant="outline"
-              className="bg-background"
-              asChild
-            >
+            <Item key={step.to} variant="outline" className="bg-card" asChild>
               <Link to={step.to}>
                 <ItemMedia>
                   {done ? (

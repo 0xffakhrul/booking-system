@@ -57,7 +57,7 @@ export function RegisterPage() {
   });
 
   return (
-    <main className="flex min-h-svh items-center justify-center bg-muted p-4">
+    <main className="flex min-h-svh items-center justify-center bg-background p-4">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle>Create your shop</CardTitle>
