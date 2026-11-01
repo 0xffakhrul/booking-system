@@ -29,6 +29,9 @@ jobs:
           POSTGRES_USER: app
           POSTGRES_PASSWORD: app
           POSTGRES_DB: booking
+          # initdb takes the server's default timezone from TZ. UTC+14, so a query that
+          # quietly depends on the server's timezone gives wrong answers here (docs/api.md: Times)
+          TZ: Pacific/Kiritimati
         ports:
           - 5432:5432
         options: >-
@@ -40,6 +43,8 @@ jobs:
     env:
       # vitest.config.ts uses this instead of .env; global-setup creates and migrates the database
       TEST_DATABASE_URL: postgres://app:app@localhost:5432/booking_test
+      # Node in yet another timezone (UTC-8/-7), for the same reason as the database's TZ above
+      TZ: America/Los_Angeles
 
     steps:
       - uses: actions/checkout@v7
@@ -50,6 +55,12 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      # proof that the timezones above are really in effect
+      - name: Show timezones
+        run: |
+          node -p "'node: ' + Intl.DateTimeFormat().resolvedOptions().timeZone"
+          docker exec ${{ job.services.postgres.id }} psql -U app -d booking -tAc "SHOW timezone"
 
       - name: Format, lint and typecheck
         run: npm run check
