@@ -2,6 +2,7 @@ import pg from "pg";
 import { bookingRules } from "../../config/booking.js";
 import { withTransaction } from "../../db/transaction.js";
 import { ConflictError, NotFoundError, RuleError } from "../../lib/errors.js";
+import { addDays, localDate } from "../../lib/time.js";
 import { findService } from "../services/services.repository.js";
 import { findStaff, staffExists } from "../staff/staff.repository.js";
 import type { Tenant } from "../tenants/tenants.repository.js";
@@ -145,15 +146,4 @@ function checkNoticeAndWindow(start: Date, timezone: string, now: Date) {
       "OUTSIDE_BOOKING_WINDOW",
       `bookings can be made up to ${bookingRules.windowDays} days ahead`,
     );
-}
-
-/** The calendar date of an instant in a timezone, as "YYYY-MM-DD" (the en-CA date format) */
-function localDate(instant: Date, timeZone: string) {
-  return new Intl.DateTimeFormat("en-CA", { timeZone }).format(instant);
-}
-
-function addDays(date: string, days: number) {
-  return new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
 }
