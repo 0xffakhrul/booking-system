@@ -87,3 +87,16 @@ export async function deactivateStaff(
   );
   return rowCount === 1;
 }
+
+/** Includes inactive staff, so callers can tell "removed" (422) from "never existed" (404) */
+export async function findStaff(
+  tenantId: string,
+  id: string,
+  db: Queryable = pool,
+): Promise<Staff | null> {
+  const { rows } = await db.query<Staff>(
+    `SELECT ${COLUMNS} FROM staff WHERE tenant_id = $1 AND id = $2`,
+    [tenantId, id],
+  );
+  return rows[0] ?? null;
+}
