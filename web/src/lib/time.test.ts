@@ -2,8 +2,11 @@ import { describe, expect, it } from "vitest";
 import {
   addDays,
   bookableDates,
+  dateOf,
   describeDate,
+  describeGap,
   formatTime,
+  formatTimeRange,
   isCalendarDate,
   todayIn,
 } from "./time";
@@ -43,6 +46,7 @@ describe("time helpers", () => {
       day: 3,
       month: "November 2026",
       long: "Tuesday 3 November",
+      short: "Tue 3 Nov",
     });
   });
 
@@ -50,5 +54,26 @@ describe("time helpers", () => {
     expect(isCalendarDate("2028-02-29")).toBe(true);
     expect(isCalendarDate("2026-02-30")).toBe(false);
     expect(isCalendarDate("tomorrow")).toBe(false);
+  });
+
+  it("formats a slot as one range, naming AM/PM once when it can", () => {
+    const kl = "Asia/Kuala_Lumpur";
+    expect(
+      formatTimeRange("2026-11-03T06:00:00Z", "2026-11-03T06:45:00Z", kl),
+    ).toBe("2:00 – 2:45 PM");
+    expect(
+      formatTimeRange("2026-11-03T03:30:00Z", "2026-11-03T04:15:00Z", kl),
+    ).toBe("11:30 AM – 12:15 PM");
+    // 17:00 UTC on 2 Nov is 01:00 on 3 Nov in KL, so it belongs to the 3rd
+    expect(dateOf("2026-11-02T17:00:00Z", kl)).toBe("2026-11-03");
+  });
+
+  it("describes how far another slot is from the one you wanted", () => {
+    const wanted = "2026-11-03T06:00:00Z";
+    expect(describeGap(wanted, "2026-11-03T06:45:00Z")).toBe("45 min later");
+    expect(describeGap(wanted, "2026-11-03T07:30:00Z")).toBe(
+      "1 h 30 min later",
+    );
+    expect(describeGap(wanted, "2026-11-03T04:00:00Z")).toBe("2 h earlier");
   });
 });

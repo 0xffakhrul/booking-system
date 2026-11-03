@@ -36,7 +36,8 @@ export function bookableDates(timeZone: string, now = new Date()): string[] {
 }
 
 /**
- * "2026-11-03" → { weekday: "Tue", day: 3, month: "November 2026", long: "Tuesday 3 November" }.
+ * "2026-11-03" → { weekday: "Tue", day: 3, month: "November 2026",
+ *                  long: "Tuesday 3 November", short: "Tue 3 Nov" }.
  * A date has no timezone, so it's formatted as UTC midnight to keep it from shifting a day.
  */
 export function describeDate(date: string) {
@@ -48,7 +49,13 @@ export function describeDate(date: string) {
     day: d.getUTCDate(),
     month: format({ month: "long", year: "numeric" }),
     long: format({ weekday: "long", day: "numeric", month: "long" }),
+    short: format({ weekday: "short", day: "numeric", month: "short" }),
   };
+}
+
+/** The business's calendar date of an API instant: "2026-11-02T17:00:00Z" in KL → "2026-11-03" */
+export function dateOf(iso: string, timeZone: string): string {
+  return todayIn(timeZone, new Date(iso));
 }
 
 /** An instant from the API, as a clock time in the business's timezone: "9:00 AM" */
@@ -63,4 +70,30 @@ export function formatTime(iso: string, timeZone: string): string {
       // newer browsers put a narrow no-break space before AM/PM; one kind of space is simpler
       .replace(/\s/g, " ")
   );
+}
+
+/** "2:00 – 2:45 PM", or "11:30 AM – 12:15 PM" when the range crosses noon */
+export function formatTimeRange(
+  startIso: string,
+  endIso: string,
+  timeZone: string,
+): string {
+  const start = formatTime(startIso, timeZone);
+  const end = formatTime(endIso, timeZone);
+  const sameHalf = start.slice(-2) === end.slice(-2);
+  return `${sameHalf ? start.slice(0, -3) : start} – ${end}`;
+}
+
+/** How far `to` is from `from`: "45 min later", "1 h 30 min later", "2 h earlier" */
+export function describeGap(fromIso: string, toIso: string): string {
+  const minutes = Math.round(
+    (Date.parse(toIso) - Date.parse(fromIso)) / 60_000,
+  );
+  const abs = Math.abs(minutes);
+  const h = Math.floor(abs / 60);
+  const m = abs % 60;
+  const amount = [h && `${h} h`, (m || !h) && `${m} min`]
+    .filter(Boolean)
+    .join(" ");
+  return `${amount} ${minutes < 0 ? "earlier" : "later"}`;
 }
