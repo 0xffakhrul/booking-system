@@ -97,3 +97,21 @@ export function describeGap(fromIso: string, toIso: string): string {
     .join(" ");
   return `${amount} ${minutes < 0 ? "earlier" : "later"}`;
 }
+
+/** Minutes since local midnight in the business's timezone: "2026-11-02T06:45:00Z" in KL → 885 (2:45 PM) */
+export function minutesIntoDay(iso: string, timeZone: string): number {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone,
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23", // midnight is 00, never 24
+  }).formatToParts(new Date(iso));
+  const get = (type: string) =>
+    Number(parts.find((p) => p.type === type)?.value);
+  return get("hour") * 60 + get("minute");
+}
+
+/** "2026-11-05" → 4 (Thursday). 0 = Sunday, the same numbers as the API's working hours */
+export function weekdayOf(date: string): number {
+  return new Date(`${date}T00:00:00Z`).getUTCDay();
+}
