@@ -8,7 +8,9 @@ import {
   formatTime,
   formatTimeRange,
   isCalendarDate,
+  minutesIntoDay,
   todayIn,
+  weekdayOf,
 } from "./time";
 
 describe("time helpers", () => {
@@ -75,5 +77,19 @@ describe("time helpers", () => {
       "1 h 30 min later",
     );
     expect(describeGap(wanted, "2026-11-03T04:00:00Z")).toBe("2 h earlier");
+  });
+});
+
+describe("timeline helpers", () => {
+  it("measures minutes into the business's day", () => {
+    expect(minutesIntoDay("2026-11-02T06:45:00Z", "Asia/Kuala_Lumpur")).toBe(
+      885,
+    ); // 2:45 PM
+    expect(minutesIntoDay("2026-11-01T16:00:00Z", "Asia/Kuala_Lumpur")).toBe(0); // midnight, not 24:00
+  });
+
+  it("knows the weekday of a date, 0 = Sunday", () => {
+    expect(weekdayOf("2026-11-01")).toBe(0);
+    expect(weekdayOf("2026-11-05")).toBe(4);
   });
 });

@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  queryOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { api } from "@/lib/api";
 
 /** One block of time a staff member works: local wall-clock time in the shop's timezone */
@@ -6,12 +11,16 @@ export type Range = { weekday: number; start: string; end: string };
 
 const hoursKey = (staffId: string) => ["staff", staffId, "hours"] as const;
 
-export function useWorkingHours(staffId: string) {
-  return useQuery({
+/** Shared with the dashboard, which loads every staff member's hours at once */
+export const workingHoursQuery = (staffId: string) =>
+  queryOptions({
     queryKey: hoursKey(staffId),
     queryFn: async () =>
       (await api.get<{ hours: Range[] }>(`/staff/${staffId}/hours`)).hours,
   });
+
+export function useWorkingHours(staffId: string) {
+  return useQuery(workingHoursQuery(staffId));
 }
 
 /** Replaces the whole week in one request, like the API's PUT */
