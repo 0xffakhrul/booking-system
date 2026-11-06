@@ -9,6 +9,7 @@ import {
   formatTimeRange,
   isCalendarDate,
   minutesIntoDay,
+  minutesToTime,
   timeOfDay,
   todayIn,
   toInstant,
@@ -111,6 +112,11 @@ describe("wall-clock times in the business's timezone", () => {
     expect(toInstant("2026-12-01", "10:00", "Europe/London")).toBe(
       "2026-12-01T10:00:00.000Z",
     );
+  });
+
+  it("writes minutes into the day as HH:MM", () => {
+    expect(minutesToTime(870)).toBe("14:30");
+    expect(minutesToTime(5)).toBe("00:05");
   });
 
   it("reads an instant back as HH:MM for a time input", () => {

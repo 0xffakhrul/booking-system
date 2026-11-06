@@ -60,3 +60,18 @@ export function useMoveBooking() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: bookingsKey }),
   });
 }
+
+/** A walk-in or phone booking. The API marks it `source: "manual"`. */
+export function useCreateBooking() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (input: {
+      serviceId: string;
+      staffId: string;
+      start: string;
+      customerName: string;
+      customerPhone: string;
+    }) => api.post<{ booking: Booking }>("/bookings", input),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: bookingsKey }),
+  });
+}
