@@ -22,6 +22,7 @@ import {
   todayIn,
   weekdayOf,
 } from "@/lib/time";
+import { BookingDialog } from "./BookingDialog";
 import { DayTimeline } from "./DayTimeline";
 import { SetupChecklist } from "./SetupChecklist";
 import { buildTimeline, formatDuration, summarizeDay } from "./timeline";
@@ -52,6 +53,10 @@ export function DashboardPage() {
         (staff.data ?? []).map((s, i) => [s.id, results[i]?.data]),
       ),
   });
+
+  // the open booking is looked up by id, so it shows fresh data after a refetch
+  const [openId, setOpenId] = useState<string | null>(null);
+  const openBooking = bookings.data?.find((b) => b.id === openId) ?? null;
 
   const setupDone = !!services.data?.length && !!staff.data?.length;
   const summary = summarizeDay(bookings.data ?? []);
@@ -150,10 +155,22 @@ export function DashboardPage() {
                 hours,
                 bookings: bookings.data,
               })}
+              onSelect={(b) => setOpenId(b.id)}
             />
           </>
         )}
       </section>
+
+      <BookingDialog
+        booking={openBooking}
+        onClose={() => setOpenId(null)}
+        timezone={timezone}
+        staff={staff.data ?? []}
+        onMoved={(movedTo) => {
+          setOpenId(null);
+          if (movedTo !== date) goTo(movedTo); // follow it to its new day
+        }}
+      />
     </div>
   );
 }

@@ -50,6 +50,7 @@ Every error response has the same shape:
 | 422 | `TOO_SOON` | Booking starts less than 1 hour from now (includes the past) |
 | 422 | `OUTSIDE_BOOKING_WINDOW` | Date or booking is more than 30 days ahead, or before today |
 | 422 | `INACTIVE_RESOURCE` | Service or staff member has been removed |
+| 422 | `BOOKING_CANCELLED` | Moving a booking that's already cancelled |
 | 413 | `PAYLOAD_TOO_LARGE` | Request body over 10 KB |
 | 429 | `RATE_LIMITED` | Too many requests. Already applied to register and login. |
 | 500 | `INTERNAL` | Anything unexpected. Details are logged, never returned. |
@@ -127,6 +128,11 @@ Changing `durationMin` doesn't affect existing bookings, because each booking st
 | GET | `/api/bookings?date=YYYY-MM-DD` | none | `200 { bookings: Booking[] }`, sorted by start time, cancelled included | 400 |
 | POST | `/api/bookings` | `{ serviceId, staffId, start, customerName, customerPhone }` | `201 { booking }` with `source: "manual"` | 409 `SLOT_TAKEN`, 400, 422 |
 | PATCH | `/api/bookings/:id` | `{ status: "cancelled" }` or `{ start, staffId? }` | `200 { booking }` | 404, 409 `SLOT_TAKEN`, 400, 422 |
+
+`PATCH` either cancels or moves:
+
+- **Cancel** sets `status: "cancelled"`. Cancelling twice is fine. The exclusion constraint ignores cancelled rows, so the slot can be booked again straight away.
+- **Move** keeps the booking's length (even if the service's length has changed since) and its staff member unless `staffId` is given. The new time must fit that person's working hours (`OUTSIDE_WORKING_HOURS`) and not overlap their other bookings (`409 SLOT_TAKEN`). Overlapping its own old time is fine, so 2:00 can move to 2:15. A cancelled booking can't be moved (`422 BOOKING_CANCELLED`).
 
 Owner-created bookings skip the `TOO_SOON` and `OUTSIDE_BOOKING_WINDOW` checks (so a walk-in can be recorded after it started, and phone bookings can be made further ahead) but still obey the overlap constraint.
 

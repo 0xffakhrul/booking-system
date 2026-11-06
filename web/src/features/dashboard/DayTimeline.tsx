@@ -1,6 +1,7 @@
 import { formatTimeRange } from "@/lib/time";
 import { cn } from "@/lib/utils";
 import type { Span, Timeline } from "./timeline";
+import type { Booking } from "./useBookings";
 
 const HOUR_PX = 64; // same scale as the mockup: a 45-minute haircut is 48px tall
 const px = (minutes: number) => (minutes / 60) * HOUR_PX;
@@ -16,10 +17,12 @@ type Props = {
   timezone: string;
   /** minutes into the day right now, when the timeline shows today */
   now?: number;
+  /** tapping a booking opens it */
+  onSelect: (booking: Booking) => void;
 };
 
 /** One column per staff member, bookings placed by start time and sized by length */
-export function DayTimeline({ timeline, timezone, now }: Props) {
+export function DayTimeline({ timeline, timezone, now, onSelect }: Props) {
   const height = px(timeline.end - timeline.start);
   const top = (span: Span) => px(span.start - timeline.start);
   const grid = {
@@ -63,7 +66,7 @@ export function DayTimeline({ timeline, timezone, now }: Props) {
           {timeline.columns.map((c) => (
             <div
               key={c.staff.id}
-              role="list"
+              role="group"
               aria-label={`${c.staff.name}'s bookings`}
               className="relative overflow-hidden rounded-lg"
               style={{
@@ -85,21 +88,23 @@ export function DayTimeline({ timeline, timezone, now }: Props) {
                 const h = px(span.end - span.start);
                 const time = formatTimeRange(b.start, b.end, timezone);
                 return (
-                  <div
+                  <button
                     key={b.id}
-                    role="listitem"
+                    type="button"
+                    onClick={() => onSelect(b)}
                     title={`${b.customerName} · ${b.service.name} · ${time} · ${b.ref}`}
                     className={cn(
-                      "absolute inset-x-1 flex flex-col justify-center overflow-hidden rounded-md border-l-[3px] px-2 leading-tight",
+                      "absolute inset-x-1 flex flex-col justify-center overflow-hidden rounded-md border-l-[3px] px-2 text-left leading-tight transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
                       b.source === "online"
                         ? "border-primary bg-accent text-foreground"
                         : "border-muted-foreground/60 bg-secondary text-foreground",
                     )}
                     style={{ top: top(span) + 1, height: Math.max(h - 2, 14) }}
                   >
-                    <div
+                    {/* spans, not divs: a button may only hold inline content */}
+                    <span
                       className={cn(
-                        "truncate font-bold",
+                        "block truncate font-bold",
                         // a 15-minute booking is only 16px tall
                         h < 24 ? "text-xs leading-none" : "text-[13px]",
                       )}
@@ -112,13 +117,13 @@ export function DayTimeline({ timeline, timezone, now }: Props) {
                           · {b.service.name}
                         </span>
                       )}
-                    </div>
+                    </span>
                     {h >= 40 && (
-                      <div className="truncate text-xs opacity-80">
+                      <span className="block truncate text-xs opacity-80">
                         {b.service.name} · {time}
-                      </div>
+                      </span>
                     )}
-                  </div>
+                  </button>
                 );
               })}
             </div>

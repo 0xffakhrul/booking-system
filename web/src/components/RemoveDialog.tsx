@@ -19,6 +19,10 @@ type Props = {
   onConfirm: () => void;
   pending: boolean;
   error?: string;
+  /** the red button's label */
+  confirmLabel?: string;
+  /** the button that backs out */
+  cancelLabel?: string;
 };
 
 /**
@@ -33,6 +37,8 @@ export function RemoveDialog({
   onConfirm,
   pending,
   error,
+  confirmLabel = "Remove",
+  cancelLabel = "Cancel",
 }: Props) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -47,11 +53,13 @@ export function RemoveDialog({
           </Alert>
         )}
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={pending}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={pending}>
+            {cancelLabel}
+          </AlertDialogCancel>
           {/* a plain Button, not AlertDialogAction, which would close before the request finishes */}
           <Button variant="destructive" disabled={pending} onClick={onConfirm}>
             {pending && <Spinner />}
-            Remove
+            {confirmLabel}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

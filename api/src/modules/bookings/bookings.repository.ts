@@ -146,3 +146,64 @@ export async function listBookingsForDay(
   );
   return rows;
 }
+
+/** One booking of this business, or null. Another business's id is "not found" too. */
+export async function findBooking(
+  tenantId: string,
+  id: string,
+  db: Queryable = pool,
+): Promise<Booking | null> {
+  const { rows } = await db.query<Booking>(
+    `SELECT ${BOOKING_COLUMNS}
+       FROM bookings b
+       ${BOOKING_JOINS}
+      WHERE b.tenant_id = $1 AND b.id = $2`,
+    [tenantId, id],
+  );
+  return rows[0] ?? null;
+}
+
+/**
+ * Cancels and returns the booking, or null if this business has no such booking.
+ * Cancelling twice is fine. The exclusion constraint skips cancelled rows, so the slot frees up.
+ */
+export async function cancelBooking(
+  tenantId: string,
+  id: string,
+  db: Queryable = pool,
+): Promise<Booking | null> {
+  const { rows } = await db.query<Booking>(
+    `WITH b AS (
+       UPDATE bookings SET status = 'cancelled'
+        WHERE tenant_id = $1 AND id = $2
+       RETURNING *
+     )
+     SELECT ${BOOKING_COLUMNS}
+       FROM b
+       ${BOOKING_JOINS}`,
+    [tenantId, id],
+  );
+  return rows[0] ?? null;
+}
+
+/**
+ * Moves a live booking to a new time and staff member, returning it, or null if it's
+ * missing or cancelled. Throws 23P01 when the new time overlaps another booking.
+ */
+export async function moveBooking(
+  b: { tenantId: string; id: string; staffId: string; start: Date; end: Date },
+  db: Queryable = pool,
+): Promise<Booking | null> {
+  const { rows } = await db.query<Booking>(
+    `WITH b AS (
+       UPDATE bookings SET staff_id = $3, during = tstzrange($4, $5)
+        WHERE tenant_id = $1 AND id = $2 AND status <> 'cancelled'
+       RETURNING *
+     )
+     SELECT ${BOOKING_COLUMNS}
+       FROM b
+       ${BOOKING_JOINS}`,
+    [b.tenantId, b.id, b.staffId, b.start, b.end],
+  );
+  return rows[0] ?? null;
+}
