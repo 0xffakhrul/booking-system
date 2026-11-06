@@ -9,7 +9,9 @@ import {
   formatTimeRange,
   isCalendarDate,
   minutesIntoDay,
+  timeOfDay,
   todayIn,
+  toInstant,
   weekdayOf,
 } from "./time";
 
@@ -91,5 +93,32 @@ describe("timeline helpers", () => {
   it("knows the weekday of a date, 0 = Sunday", () => {
     expect(weekdayOf("2026-11-01")).toBe(0);
     expect(weekdayOf("2026-11-05")).toBe(4);
+  });
+});
+
+describe("wall-clock times in the business's timezone", () => {
+  it("turns a date and time into the instant the API wants", () => {
+    expect(toInstant("2026-11-06", "14:30", "Asia/Kuala_Lumpur")).toBe(
+      "2026-11-06T06:30:00.000Z",
+    );
+    expect(toInstant("2026-11-06", "00:15", "Asia/Kuala_Lumpur")).toBe(
+      "2026-11-05T16:15:00.000Z", // just after midnight in KL is still the 5th in UTC
+    );
+    // London changes clocks: 10:00 is UTC+1 in summer, UTC+0 in winter
+    expect(toInstant("2026-07-01", "10:00", "Europe/London")).toBe(
+      "2026-07-01T09:00:00.000Z",
+    );
+    expect(toInstant("2026-12-01", "10:00", "Europe/London")).toBe(
+      "2026-12-01T10:00:00.000Z",
+    );
+  });
+
+  it("reads an instant back as HH:MM for a time input", () => {
+    expect(timeOfDay("2026-11-06T06:30:00Z", "Asia/Kuala_Lumpur")).toBe(
+      "14:30",
+    );
+    expect(timeOfDay("2026-11-05T16:05:00Z", "Asia/Kuala_Lumpur")).toBe(
+      "00:05",
+    );
   });
 });

@@ -115,3 +115,44 @@ export function minutesIntoDay(iso: string, timeZone: string): number {
 export function weekdayOf(date: string): number {
   return new Date(`${date}T00:00:00Z`).getUTCDay();
 }
+
+/** An API instant as "HH:MM" in the business's timezone, for a time input: 06:45Z in KL → "14:45" */
+export function timeOfDay(iso: string, timeZone: string): string {
+  const minutes = minutesIntoDay(iso, timeZone);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${pad(Math.floor(minutes / 60))}:${pad(minutes % 60)}`;
+}
+
+/**
+ * A wall-clock time in the business's timezone, as the UTC instant the API wants:
+ * ("2026-11-06", "14:30", "Asia/Kuala_Lumpur") → "2026-11-06T06:30:00.000Z".
+ * The browser's own timezone never comes into it.
+ */
+export function toInstant(
+  date: string,
+  time: string,
+  timeZone: string,
+): string {
+  const wanted = Date.parse(`${date}T${time}:00Z`); // the wall clock, pretending it's UTC
+  // how far the zone's clock is from UTC at instant t: +8 h in KL
+  const offset = (t: number) => {
+    const p: Record<string, number> = Object.fromEntries(
+      new Intl.DateTimeFormat("en-CA", {
+        timeZone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23",
+      })
+        .formatToParts(new Date(t))
+        .map((part) => [part.type, Number(part.value)]),
+    );
+    return Date.UTC(p.year!, p.month! - 1, p.day!, p.hour!, p.minute!) - t;
+  };
+  // guess with the offset at the wall-clock time, then correct once in case
+  // a daylight-saving change sits between the guess and the answer
+  const guess = wanted - offset(wanted);
+  return new Date(wanted - offset(guess)).toISOString();
+}

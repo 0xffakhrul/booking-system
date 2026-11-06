@@ -37,3 +37,33 @@ export type CreateBookingInput = z.infer<typeof createBookingSchema>;
 export const listBookingsQuery = z.object({
   date: z.string().refine(isCalendarDate, "a date like 2026-11-02"),
 });
+
+export const bookingIdParams = z.object({ id: id("booking") });
+
+/**
+ * PATCH /api/bookings/:id takes one of two bodies:
+ *   { status: "cancelled" }         cancel it
+ *   { start, staffId? }             move it, keeping its length (and its staff member if left out)
+ */
+export const updateBookingSchema = z
+  .object({
+    status: z.literal("cancelled").optional(),
+    start: z.string().datetime({ offset: true }).optional(),
+    staffId: id("staff").optional(),
+  })
+  .strict()
+  .refine(
+    (b) => (b.status === undefined) !== (b.start === undefined),
+    'send either { status: "cancelled" } or { start, staffId? }',
+  )
+  .refine((b) => !(b.status && b.staffId), {
+    message: "staffId only goes with start",
+    path: ["staffId"],
+  })
+  .transform((b) =>
+    b.status
+      ? { kind: "cancel" as const }
+      : { kind: "move" as const, start: b.start!, staffId: b.staffId },
+  );
+
+export type UpdateBookingInput = z.infer<typeof updateBookingSchema>;
