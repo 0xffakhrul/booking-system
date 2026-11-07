@@ -19,10 +19,18 @@ type Props = {
   now?: number;
   /** tapping a booking opens it */
   onSelect: (booking: Booking) => void;
+  /** tapping an empty spot: who, and minutes into the day, snapped to 15 */
+  onPickSlot: (staffId: string, minutes: number) => void;
 };
 
 /** One column per staff member, bookings placed by start time and sized by length */
-export function DayTimeline({ timeline, timezone, now, onSelect }: Props) {
+export function DayTimeline({
+  timeline,
+  timezone,
+  now,
+  onSelect,
+  onPickSlot,
+}: Props) {
   const height = px(timeline.end - timeline.start);
   const top = (span: Span) => px(span.start - timeline.start);
   const grid = {
@@ -68,7 +76,20 @@ export function DayTimeline({ timeline, timezone, now, onSelect }: Props) {
               key={c.staff.id}
               role="group"
               aria-label={`${c.staff.name}'s bookings`}
-              className="relative overflow-hidden rounded-lg"
+              className={cn(
+                "relative overflow-hidden rounded-lg",
+                // removed staff can't take new bookings
+                !c.removed && "cursor-copy",
+              )}
+              // A shortcut for mouse and touch. Keyboard users have the "New booking" button.
+              onClick={(e) => {
+                if (c.removed) return;
+                const y =
+                  e.clientY - e.currentTarget.getBoundingClientRect().top;
+                const minutes =
+                  timeline.start + Math.floor((y / HOUR_PX) * 4) * 15;
+                onPickSlot(c.staff.id, Math.min(minutes, timeline.end - 15));
+              }}
               style={{
                 height,
                 // a hairline every hour, like the mockup
@@ -91,7 +112,10 @@ export function DayTimeline({ timeline, timezone, now, onSelect }: Props) {
                   <button
                     key={b.id}
                     type="button"
-                    onClick={() => onSelect(b)}
+                    onClick={(e) => {
+                      e.stopPropagation(); // not also a tap on the empty column behind it
+                      onSelect(b);
+                    }}
                     title={`${b.customerName} · ${b.service.name} · ${time} · ${b.ref}`}
                     className={cn(
                       "absolute inset-x-1 flex flex-col justify-center overflow-hidden rounded-md border-l-[3px] px-2 text-left leading-tight transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",

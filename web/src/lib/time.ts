@@ -118,7 +118,11 @@ export function weekdayOf(date: string): number {
 
 /** An API instant as "HH:MM" in the business's timezone, for a time input: 06:45Z in KL → "14:45" */
 export function timeOfDay(iso: string, timeZone: string): string {
-  const minutes = minutesIntoDay(iso, timeZone);
+  return minutesToTime(minutesIntoDay(iso, timeZone));
+}
+
+/** 870 → "14:30", the value a time input wants */
+export function minutesToTime(minutes: number): string {
   const pad = (n: number) => String(n).padStart(2, "0");
   return `${pad(Math.floor(minutes / 60))}:${pad(minutes % 60)}`;
 }

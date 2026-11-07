@@ -5,10 +5,11 @@ import { findTenantById } from "../tenants/tenants.repository.js";
 import { listBookingsForDay } from "./bookings.repository.js";
 import {
   bookingIdParams,
+  createBookingSchema,
   listBookingsQuery,
   updateBookingSchema,
 } from "./bookings.schemas.js";
-import { changeBooking } from "./bookings.service.js";
+import { changeBooking, createBooking } from "./bookings.service.js";
 
 const router = express.Router();
 
@@ -24,6 +25,21 @@ router.get("/", async (req, res) => {
   res.json({
     bookings: await listBookingsForDay(tenant.id, date, tenant.timezone),
   });
+});
+
+// A walk-in or phone booking. Same rules and same constraint as online bookings, except
+// the notice and window limits (PRD section 8), so a walk-in can be recorded after it started.
+router.post("/", async (req, res) => {
+  const input = createBookingSchema.parse(req.body);
+  const tenant = await findTenantById(currentTenantId(req));
+  if (!tenant) throw new NotFoundError("business not found");
+
+  const booking = await createBooking(tenant, input, "manual");
+  req.log.info(
+    { tenantId: tenant.id, ref: booking.ref, source: "manual" },
+    "booking created",
+  );
+  res.status(201).json({ booking });
 });
 
 // Cancel ({ status: "cancelled" }) or move ({ start, staffId? }) one booking

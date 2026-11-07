@@ -4,6 +4,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   LinkIcon,
+  PlusIcon,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
@@ -19,11 +20,13 @@ import {
   describeDate,
   isCalendarDate,
   minutesIntoDay,
+  minutesToTime,
   todayIn,
   weekdayOf,
 } from "@/lib/time";
 import { BookingDialog } from "./BookingDialog";
 import { DayTimeline } from "./DayTimeline";
+import { NewBookingDialog, type NewBookingPrefill } from "./NewBookingDialog";
 import { SetupChecklist } from "./SetupChecklist";
 import { buildTimeline, formatDuration, summarizeDay } from "./timeline";
 import { useBookings } from "./useBookings";
@@ -58,7 +61,18 @@ export function DashboardPage() {
   const [openId, setOpenId] = useState<string | null>(null);
   const openBooking = bookings.data?.find((b) => b.id === openId) ?? null;
 
+  const [newBooking, setNewBooking] = useState<NewBookingPrefill | null>(null);
+
   const setupDone = !!services.data?.length && !!staff.data?.length;
+  // The button starts at the next quarter hour today, or at 10:00 on other days
+  const startNewBooking = () => {
+    const next =
+      Math.ceil(minutesIntoDay(now.toISOString(), timezone) / 15) * 15;
+    setNewBooking({
+      date,
+      time: date === today && next < 24 * 60 ? minutesToTime(next) : "10:00",
+    });
+  };
   const summary = summarizeDay(bookings.data ?? []);
 
   return (
@@ -70,7 +84,7 @@ export function DashboardPage() {
           </p>
           <h1 className="text-xl font-semibold">{describeDate(date).long}</h1>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-1.5">
           <Button
             variant="outline"
             size="icon"
@@ -95,6 +109,10 @@ export function DashboardPage() {
             <ChevronRightIcon />
           </Button>
           <CopyLinkButton slug={tenant.slug} />
+          <Button disabled={!setupDone} onClick={startNewBooking}>
+            <PlusIcon />
+            New booking
+          </Button>
         </div>
       </div>
 
@@ -156,10 +174,25 @@ export function DashboardPage() {
                 bookings: bookings.data,
               })}
               onSelect={(b) => setOpenId(b.id)}
+              onPickSlot={(staffId, minutes) =>
+                setNewBooking({ date, time: minutesToTime(minutes), staffId })
+              }
             />
           </>
         )}
       </section>
+
+      <NewBookingDialog
+        prefill={newBooking}
+        onClose={() => setNewBooking(null)}
+        timezone={timezone}
+        services={services.data ?? []}
+        staff={staff.data ?? []}
+        onCreated={(createdOn) => {
+          setNewBooking(null);
+          if (createdOn !== date) goTo(createdOn); // show the day it went on
+        }}
+      />
 
       <BookingDialog
         booking={openBooking}
@@ -222,13 +255,16 @@ function CopyLinkButton({ slug }: { slug: string }) {
   }
 
   return (
-    <Button variant="outline" onClick={copy}>
+    <Button variant="outline" aria-label="Copy booking link" onClick={copy}>
       {state === "copied" ? <CheckIcon /> : <LinkIcon />}
-      {state === "copied"
-        ? "Copied"
-        : state === "failed"
-          ? "Couldn't copy"
-          : "Booking link"}
+      {/* just the icon on a phone, so the row fits */}
+      <span className="hidden sm:inline">
+        {state === "copied"
+          ? "Copied"
+          : state === "failed"
+            ? "Couldn't copy"
+            : "Booking link"}
+      </span>
     </Button>
   );
 }

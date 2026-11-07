@@ -126,7 +126,7 @@ Changing `durationMin` doesn't affect existing bookings, because each booking st
 | Method | Path | Request | Success | Errors |
 | --- | --- | --- | --- | --- |
 | GET | `/api/bookings?date=YYYY-MM-DD` | none | `200 { bookings: Booking[] }`, sorted by start time, cancelled included | 400 |
-| POST | `/api/bookings` | `{ serviceId, staffId, start, customerName, customerPhone }` | `201 { booking }` with `source: "manual"` | 409 `SLOT_TAKEN`, 400, 422 |
+| POST | `/api/bookings` | `{ serviceId, staffId?, start, customerName, customerPhone }` (same body as the public one) | `201 { booking }` with `source: "manual"` | 404, 409 `SLOT_TAKEN`, 400, 422 |
 | PATCH | `/api/bookings/:id` | `{ status: "cancelled" }` or `{ start, staffId? }` | `200 { booking }` | 404, 409 `SLOT_TAKEN`, 400, 422 |
 
 `PATCH` either cancels or moves:
