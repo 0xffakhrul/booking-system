@@ -8,6 +8,7 @@ import { pool } from "../src/db/pool.js";
 import { asTenant, currentDb } from "../src/db/tenant.js";
 import { withTransaction } from "../src/db/transaction.js";
 import { ConflictError } from "../src/lib/errors.js";
+import { generateRef } from "../src/modules/bookings/refs.js";
 import { errorHandler } from "../src/middleware/error-handler.js";
 import { tenantTransaction } from "../src/middleware/tenant-transaction.js";
 import { admin } from "./db.js";
@@ -121,6 +122,92 @@ describe("services, with Row-Level Security", () => {
       "Hair colour",
       "Manicure",
     ]);
+  });
+});
+
+describe("every tenant table", () => {
+  // read before the tenant is known (ADR-0003); everything else with a tenant_id needs a policy
+  const GLOBAL = ["users"];
+
+  const tenantTables = async () =>
+    (
+      await admin.query<{ table: string; rls: boolean; policies: number }>(
+        `SELECT c.relname AS table, c.relrowsecurity AS rls,
+                (SELECT count(*)::int FROM pg_policy p WHERE p.polrelid = c.oid) AS policies
+           FROM pg_class c
+           JOIN pg_namespace n ON n.oid = c.relnamespace
+           JOIN pg_attribute a ON a.attrelid = c.oid AND a.attname = 'tenant_id'
+          WHERE n.nspname = 'public' AND c.relkind = 'r'
+          ORDER BY c.relname`,
+      )
+    ).rows.filter((t) => !GLOBAL.includes(t.table));
+
+  it("has Row-Level Security and a policy, so a new table can't forget them", async () => {
+    const tables = await tenantTables();
+    expect(tables.map((t) => t.table)).toEqual([
+      "bookings",
+      "services",
+      "staff",
+      "working_hours",
+    ]);
+    for (const t of tables)
+      expect(t, t.table).toMatchObject({ rls: true, policies: 1 });
+  });
+
+  it("fails closed when no tenant is set", async () => {
+    for (const { table } of await tenantTables())
+      await expect(
+        pool.query(`SELECT 1 FROM ${table} LIMIT 1`),
+        table,
+      ).rejects.toThrow(NO_TENANT);
+  });
+
+  it("shows each tenant only its own staff, hours and bookings", async () => {
+    // two staff, hours and a booking for each shop, written as admin
+    for (const tenantId of [ali, mei]) {
+      const { rows } = await admin.query<{ staff: string; service: string }>(
+        `WITH st AS (
+           INSERT INTO staff (tenant_id, name) VALUES ($1, 'A'), ($1, 'B') RETURNING id
+         )
+         SELECT (SELECT min(id) FROM st)::text AS staff,
+                (SELECT min(id) FROM services WHERE tenant_id = $1)::text AS service`,
+        [tenantId],
+      );
+      const { staff, service } = rows[0]!;
+      await admin.query(
+        "INSERT INTO working_hours (tenant_id, staff_id, weekday, start_time, end_time) VALUES ($1, $2, 1, '09:00', '17:00')",
+        [tenantId, staff],
+      );
+      await admin.query(
+        `INSERT INTO bookings (tenant_id, ref, staff_id, service_id, customer_name, customer_phone, during, source)
+         VALUES ($1, $2, $3, $4, 'Amir', '+60123456789',
+                 tstzrange('2030-01-07 02:00Z', '2030-01-07 02:30Z'), 'online')`,
+        [tenantId, generateRef(), staff, service],
+      );
+    }
+
+    const counts = (tenantId: string) =>
+      asTenant(tenantId, async () => {
+        const n = async (table: string) =>
+          (
+            await currentDb().query<{ n: number }>(
+              `SELECT count(*)::int AS n, bool_and(tenant_id = $1) AS mine FROM ${table}`,
+              [tenantId],
+            )
+          ).rows[0]!;
+        return {
+          staff: await n("staff"),
+          working_hours: await n("working_hours"),
+          bookings: await n("bookings"),
+        };
+      });
+    const own = (n: number) => ({ n, mine: true });
+    for (const tenantId of [ali, mei])
+      expect(await counts(tenantId)).toEqual({
+        staff: own(2),
+        working_hours: own(1),
+        bookings: own(1),
+      });
   });
 });
 

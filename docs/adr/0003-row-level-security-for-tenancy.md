@@ -1,6 +1,6 @@
 # ADR-0003: Shared tables with Row-Level Security for multi-tenancy
 
-- **Status:** Accepted. Being implemented in Phase 5: the roles and per-request transactions are in, and `services` has its policy. The other tables follow.
+- **Status:** Accepted and implemented. Every table with a `tenant_id` has the policy below, except the global ones listed further down. A test fails if a new tenant table doesn't (`row-level-security.test.ts`).
 - **Date:** 2026-10-23
 
 ## Context
