@@ -1,8 +1,12 @@
 import { createApp } from "./app.js";
 import { env } from "./config/env.js";
+import { checkAppRole } from "./db/app-role.js";
 import { pool } from "./db/pool.js";
 import { logger } from "./lib/logger.js";
 import { deleteExpiredSessions } from "./modules/sessions/sessions.js";
+
+// Refuse to start as a user that skips Row-Level Security: every tenant's data would be visible
+await checkAppRole(pool);
 
 const app = createApp();
 

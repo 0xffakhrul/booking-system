@@ -1,5 +1,6 @@
 import pg from "pg";
 import { pool, type Queryable } from "../../db/pool.js";
+import { currentDb } from "../../db/tenant.js";
 import { ConflictError } from "../../lib/errors.js";
 
 export interface User {
@@ -13,7 +14,7 @@ export const USER_COLUMNS = `id, email, role, tenant_id AS "tenantId"`;
 
 export async function createUser(
   input: { tenantId: string; email: string; passwordHash: string },
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<User> {
   try {
     const { rows } = await db.query<User>(

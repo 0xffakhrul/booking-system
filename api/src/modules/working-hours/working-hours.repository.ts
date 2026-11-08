@@ -1,4 +1,5 @@
-import { pool, type Queryable } from "../../db/pool.js";
+import type { Queryable } from "../../db/pool.js";
+import { currentDb } from "../../db/tenant.js";
 import type { Range } from "./working-hours.schemas.js";
 
 const COLUMNS = `weekday,
@@ -8,7 +9,7 @@ const COLUMNS = `weekday,
 export async function listHours(
   tenantId: string,
   staffId: string,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Range[]> {
   const { rows } = await db.query<Range>(
     `SELECT ${COLUMNS} FROM working_hours
@@ -22,7 +23,7 @@ export async function listHours(
 export async function deleteHours(
   tenantId: string,
   staffId: string,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<void> {
   await db.query(
     "DELETE FROM working_hours WHERE tenant_id = $1 AND staff_id = $2",
@@ -34,7 +35,7 @@ export async function insertHours(
   tenantId: string,
   staffId: string,
   hours: Range[],
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<void> {
   if (hours.length === 0) return;
   await db.query(

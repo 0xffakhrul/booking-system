@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { pool } from "../src/db/pool.js";
+import { asTenant } from "../src/db/tenant.js";
+import { admin } from "./db.js";
 import { findAvailableSlots } from "../src/modules/availability/availability.repository.js";
 import { generateRef } from "../src/modules/bookings/refs.js";
 
@@ -38,32 +39,36 @@ beforeEach(async () => {
 });
 
 async function insertId(sql: string, params: unknown[] = []) {
-  const { rows } = await pool.query<{ id: string }>(sql, params);
+  const { rows } = await admin.query<{ id: string }>(sql, params);
   return rows[0]!.id;
 }
 
 /** weekday 1 = Monday */
 function hours(staffId: string, start: string, end: string, weekday = 1) {
-  return pool.query(
+  return admin.query(
     "INSERT INTO working_hours (tenant_id, staff_id, weekday, start_time, end_time) VALUES ($1, $2, $3, $4, $5)",
     [tenantId, staffId, weekday, start, end],
   );
 }
 
 function book(staffId: string, from: string, to: string, status = "confirmed") {
-  return pool.query(
+  return admin.query(
     `INSERT INTO bookings (tenant_id, ref, staff_id, service_id, customer_name, customer_phone, during, status, source)
      VALUES ($1, $2, $3, $4, 'Customer', '+60123456789', tstzrange($5, $6), $7, 'online')`,
     [tenantId, generateRef(), staffId, haircut, kl(from), kl(to), status],
   );
 }
 
+/** findAvailableSlots as the tenant, like a request: Row-Level Security refuses queries with no tenant */
+const slotsFor = (args: Parameters<typeof findAvailableSlots>[0]) =>
+  asTenant(args.tenantId, () => findAvailableSlots(args));
+
 /** the free slots as local "HH:MM" start times, which is how a person reads a schedule */
 async function startTimes(
   serviceId: string,
   { earliest = LONG_AGO, staffId }: { earliest?: Date; staffId?: string } = {},
 ) {
-  const slots = await findAvailableSlots({
+  const slots = await slotsFor({
     tenantId,
     serviceId,
     date: MONDAY,
@@ -84,7 +89,7 @@ describe("findAvailableSlots", () => {
   it("steps by the service's length from the start of the range (the PRD example)", async () => {
     await hours(aina, "10:00", "13:00");
 
-    const slots = await findAvailableSlots({
+    const slots = await slotsFor({
       tenantId,
       serviceId: haircut,
       date: MONDAY,
@@ -129,7 +134,7 @@ describe("findAvailableSlots", () => {
     await hours(ben, "10:00", "11:30");
     await book(ben, "10:00", "10:45");
 
-    const slots = await findAvailableSlots({
+    const slots = await slotsFor({
       tenantId,
       serviceId: haircut,
       date: MONDAY,
@@ -145,9 +150,9 @@ describe("findAvailableSlots", () => {
     await hours(aina, "10:00", "13:00");
     await hours(ben, "10:00", "13:00");
     await hours(aina, "14:00", "15:00", 2); // Tuesday: must not show up on a Monday
-    await pool.query("UPDATE staff SET active = false WHERE id = $1", [ben]);
+    await admin.query("UPDATE staff SET active = false WHERE id = $1", [ben]);
 
-    const slots = await findAvailableSlots({
+    const slots = await slotsFor({
       tenantId,
       serviceId: haircut,
       date: MONDAY,

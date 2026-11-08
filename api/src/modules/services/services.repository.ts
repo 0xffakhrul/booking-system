@@ -1,4 +1,5 @@
-import { pool, type Queryable } from "../../db/pool.js";
+import type { Queryable } from "../../db/pool.js";
+import { currentDb } from "../../db/tenant.js";
 import type {
   CreateServiceInput,
   UpdateServiceInput,
@@ -14,18 +15,22 @@ export interface Service {
 
 const COLUMNS = `id, name, duration_min AS "durationMin", price_cents AS "price", active`;
 
-// Every query filters by tenant_id, so one business can never read or change another's services
+// Row-Level Security keeps each business to its own services (ADR-0003). The queries below
+// still filter by tenant_id as a second lock, except listServices.
 
+/**
+ * The current business's services. No tenant_id filter on purpose: Row-Level Security adds it,
+ * and this query proves that it does. Must run in a tenant transaction (asTenant).
+ */
 export async function listServices(
-  tenantId: string,
   includeInactive: boolean,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Service[]> {
   const { rows } = await db.query<Service>(
     `SELECT ${COLUMNS} FROM services
-      WHERE tenant_id = $1 AND (active OR $2)
+      WHERE active OR $1
       ORDER BY name, id`,
-    [tenantId, includeInactive],
+    [includeInactive],
   );
   return rows;
 }
@@ -33,7 +38,7 @@ export async function listServices(
 export async function createService(
   tenantId: string,
   input: CreateServiceInput,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Service> {
   const { rows } = await db.query<Service>(
     `INSERT INTO services (tenant_id, name, duration_min, price_cents)
@@ -49,7 +54,7 @@ export async function updateService(
   tenantId: string,
   id: string,
   patch: UpdateServiceInput,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Service | null> {
   // COALESCE keeps the current value for any field the patch leaves out
   const { rows } = await db.query<Service>(
@@ -74,7 +79,7 @@ export async function updateService(
 export async function deactivateService(
   tenantId: string,
   id: string,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<boolean> {
   const { rowCount } = await db.query(
     "UPDATE services SET active = false WHERE tenant_id = $1 AND id = $2",
@@ -87,7 +92,7 @@ export async function deactivateService(
 export async function findService(
   tenantId: string,
   id: string,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Service | null> {
   const { rows } = await db.query<Service>(
     `SELECT ${COLUMNS} FROM services WHERE tenant_id = $1 AND id = $2`,

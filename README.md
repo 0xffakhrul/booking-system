@@ -26,7 +26,7 @@ Requirements: **Node.js 24** (see `.nvmrc`) and **Docker**.
 ```bash
 cp .env.example .env    # adjust values if you like
 npm install             # installs tooling + API dependencies
-npm run dev             # starts Postgres + the API, runs migrations, hot reload
+npm run dev             # starts Postgres + the API, sets up the database, hot reload
 ```
 
 Then check it's up:

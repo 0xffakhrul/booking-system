@@ -2,7 +2,7 @@ import pg from "pg";
 import request from "supertest";
 import { beforeEach, describe, expect, it } from "vitest";
 import { createApp } from "../src/app.js";
-import { pool } from "../src/db/pool.js";
+import { admin } from "./db.js";
 import { generateRef } from "../src/modules/bookings/refs.js";
 import { loggedInOwner } from "./helpers.js";
 
@@ -62,8 +62,11 @@ describe("booking one slot concurrently", () => {
     );
 
   const countBookings = async () =>
-    (await pool.query<{ n: number }>("SELECT count(*)::int AS n FROM bookings"))
-      .rows[0]!.n;
+    (
+      await admin.query<{ n: number }>(
+        "SELECT count(*)::int AS n FROM bookings",
+      )
+    ).rows[0]!.n;
 
   it(
     `${RACERS} requests for one staff member: exactly 1 succeeds, ${RACERS - 1} get 409`,
@@ -101,7 +104,7 @@ describe("booking one slot concurrently", () => {
     async () => {
       // No API here, so no "is it free?" check first: only the exclusion constraint stands in the way.
       // Every client connects first, so the INSERTs really do arrive together.
-      const { rows } = await pool.query<{ id: string }>(
+      const { rows } = await admin.query<{ id: string }>(
         "SELECT id FROM tenants",
       );
       const tenantId = rows[0]!.id;

@@ -1,6 +1,6 @@
 import { randomInt } from "node:crypto";
 import { beforeEach, describe, expect, it } from "vitest";
-import { pool } from "../src/db/pool.js";
+import { admin } from "./db.js";
 
 // These go straight to the database, not through the API: the point is that Postgres itself
 // refuses a double booking, whatever code (or person in psql) does the INSERT.
@@ -29,7 +29,7 @@ beforeEach(async () => {
 });
 
 async function insertId(sql: string, params: unknown[] = []) {
-  const { rows } = await pool.query<{ id: string }>(sql, params);
+  const { rows } = await admin.query<{ id: string }>(sql, params);
   return rows[0]!.id;
 }
 
@@ -48,7 +48,7 @@ function book(
   { status = "confirmed", tenant = tenantId } = {},
 ) {
   const ref = randomRef();
-  return pool.query(
+  return admin.query(
     `INSERT INTO bookings (tenant_id, ref, staff_id, service_id, customer_name, customer_phone, during, status, source)
      VALUES ($1, $2, $3, $4, 'Customer', '+60123456789', tstzrange($5, $6), $7, 'online')`,
     [tenant, ref, staffId, serviceId, start, end, status],
@@ -75,7 +75,7 @@ describe("bookings_no_overlap", () => {
 
   it("frees the slot when a booking is cancelled", async () => {
     await book(staffA, "2026-11-02T10:00+08", "2026-11-02T10:45+08");
-    await pool.query("UPDATE bookings SET status = 'cancelled'");
+    await admin.query("UPDATE bookings SET status = 'cancelled'");
 
     await book(staffA, "2026-11-02T10:00+08", "2026-11-02T10:45+08");
   });
