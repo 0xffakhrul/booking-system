@@ -7,6 +7,7 @@
 | [API contract](api.md) | Which routes exist, and what do they accept and return? |
 | [Conventions](conventions.md) | How is work done here: branches, commits, Definition of Done? |
 | [Architecture decisions](adr/) | Why was it built this way? |
+| [RLS lab](learning/rls-by-hand.sql) | How does Row-Level Security behave? A psql walkthrough |
 
 ## Decisions
 
