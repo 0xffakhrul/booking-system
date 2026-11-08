@@ -114,6 +114,10 @@ describe("booking one slot concurrently", () => {
             connectionString: process.env.DATABASE_URL,
           });
           await client.connect();
+          // these connections are only used here, so the whole session can be this tenant's
+          await client.query("SELECT set_config('app.tenant_id', $1, false)", [
+            tenantId,
+          ]);
           return client;
         }),
       );
