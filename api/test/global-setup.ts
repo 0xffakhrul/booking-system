@@ -1,28 +1,24 @@
 import pg from "pg";
-import { runner } from "node-pg-migrate";
+import { setUpDatabase } from "../src/db/setup.js";
 
-// Runs once before all tests: make sure the test database exists and is fully migrated
+// Runs once before all tests: make sure the test database exists, is fully migrated, and that
+// tempah_app (the API's user) exists with its grants
 export default async function setup() {
-  const url = new URL(process.env.DATABASE_URL!);
+  const adminUrl = process.env.MIGRATION_DATABASE_URL!;
+  const url = new URL(adminUrl);
   const dbName = url.pathname.slice(1);
 
   // connect to the built-in "postgres" database to create the test database if needed
-  const adminUrl = new URL(url);
-  adminUrl.pathname = "/postgres";
-  const admin = new pg.Client({ connectionString: adminUrl.toString() });
-  await admin.connect();
-  const { rowCount } = await admin.query(
+  const serverUrl = new URL(url);
+  serverUrl.pathname = "/postgres";
+  const server = new pg.Client({ connectionString: serverUrl.toString() });
+  await server.connect();
+  const { rowCount } = await server.query(
     "SELECT 1 FROM pg_database WHERE datname = $1",
     [dbName],
   );
-  if (!rowCount) await admin.query(`CREATE DATABASE "${dbName}"`);
-  await admin.end();
+  if (!rowCount) await server.query(`CREATE DATABASE "${dbName}"`);
+  await server.end();
 
-  await runner({
-    databaseUrl: url.toString(),
-    dir: "migrations",
-    direction: "up",
-    migrationsTable: "pgmigrations",
-    log: () => {},
-  });
+  await setUpDatabase(adminUrl, process.env.DATABASE_URL!);
 }

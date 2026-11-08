@@ -1,7 +1,7 @@
 import request from "supertest";
 import { beforeEach, describe, expect, it } from "vitest";
 import { createApp } from "../src/app.js";
-import { pool } from "../src/db/pool.js";
+import { admin } from "./db.js";
 import { loggedInOwner } from "./helpers.js";
 
 const app = createApp();
@@ -64,7 +64,7 @@ describe("POST /api/public/:slug/bookings", () => {
       source: "online",
     });
 
-    const { rows } = await pool.query("SELECT customer_phone FROM bookings");
+    const { rows } = await admin.query("SELECT customer_phone FROM bookings");
     expect(rows[0].customer_phone).toBe("+60123456789"); // stored as E.164
   });
 

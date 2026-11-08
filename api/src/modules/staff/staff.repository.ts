@@ -1,4 +1,5 @@
-import { pool, type Queryable } from "../../db/pool.js";
+import type { Queryable } from "../../db/pool.js";
+import { currentDb } from "../../db/tenant.js";
 import type { StaffInput } from "./staff.schemas.js";
 
 export interface Staff {
@@ -14,7 +15,7 @@ const COLUMNS = "id, name, active";
 export async function listStaff(
   tenantId: string,
   includeInactive: boolean,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Staff[]> {
   // oldest first: a stable order for the dashboard's staff columns
   const { rows } = await db.query<Staff>(
@@ -29,7 +30,7 @@ export async function listStaff(
 export async function createStaff(
   tenantId: string,
   input: StaffInput,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Staff> {
   const { rows } = await db.query<Staff>(
     `INSERT INTO staff (tenant_id, name) VALUES ($1, $2) RETURNING ${COLUMNS}`,
@@ -43,7 +44,7 @@ export async function updateStaff(
   tenantId: string,
   id: string,
   input: StaffInput,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Staff | null> {
   const { rows } = await db.query<Staff>(
     `UPDATE staff SET name = $3
@@ -61,7 +62,7 @@ export async function updateStaff(
 export async function staffExists(
   tenantId: string,
   id: string,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
   { lock = false } = {},
 ): Promise<boolean> {
   const { rowCount } = await db.query(
@@ -79,7 +80,7 @@ export async function staffExists(
 export async function deactivateStaff(
   tenantId: string,
   id: string,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<boolean> {
   const { rowCount } = await db.query(
     "UPDATE staff SET active = false WHERE tenant_id = $1 AND id = $2",
@@ -92,7 +93,7 @@ export async function deactivateStaff(
 export async function findStaff(
   tenantId: string,
   id: string,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Staff | null> {
   const { rows } = await db.query<Staff>(
     `SELECT ${COLUMNS} FROM staff WHERE tenant_id = $1 AND id = $2`,

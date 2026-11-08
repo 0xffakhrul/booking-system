@@ -23,7 +23,10 @@ services:
       dockerfile: api/Dockerfile
       target: dev
     environment:
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      # the API's own plain user, so Row-Level Security applies to it (ADR-0003)
+      DATABASE_URL: postgres://tempah_app:${APP_DB_PASSWORD:?add APP_DB_PASSWORD to .env}@postgres:5432/${POSTGRES_DB}
+      # the admin user: runs migrations and creates tempah_app (npm run db:setup)
+      MIGRATION_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
       APP_ORIGIN: http://localhost:5173
       NODE_ENV: development
       PORT: 3009

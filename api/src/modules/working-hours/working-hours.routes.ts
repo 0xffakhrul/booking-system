@@ -1,13 +1,14 @@
 import express from "express";
 import { parseId } from "../../lib/params.js";
 import { currentTenantId, requireRole } from "../../middleware/auth.js";
+import { tenantTransaction } from "../../middleware/tenant-transaction.js";
 import { putHoursSchema } from "./working-hours.schemas.js";
 import * as workingHours from "./working-hours.service.js";
 
 const router = express.Router({ mergeParams: true });
 type Params = { staffId: string };
 
-router.use(requireRole("owner"));
+router.use(requireRole("owner"), tenantTransaction); // RLS sees only their business
 
 router.get<"/", Params>("/", async (req, res) => {
   const staffId = parseId(req.params.staffId, "staff member");

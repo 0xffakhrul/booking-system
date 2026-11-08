@@ -1,4 +1,5 @@
-import { pool, type Queryable } from "../../db/pool.js";
+import type { Queryable } from "../../db/pool.js";
+import { currentDb } from "../../db/tenant.js";
 
 export interface Slot {
   start: Date;
@@ -32,7 +33,7 @@ export async function findAvailableSlots(
     /** only this staff member; leave out for "anyone" */
     staffId?: string;
   },
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Slot[]> {
   const { rows } = await db.query<Slot>(
     `WITH service AS (

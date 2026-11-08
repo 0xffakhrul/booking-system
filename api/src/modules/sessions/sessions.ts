@@ -2,6 +2,7 @@ import { createHash, randomBytes } from "node:crypto";
 import type { CookieOptions, Request } from "express";
 import { env } from "../../config/env.js";
 import { pool, type Queryable } from "../../db/pool.js";
+import { currentDb } from "../../db/tenant.js";
 import { USER_COLUMNS, type User } from "../users/users.repository.js";
 
 export const COOKIE_NAME = "sid";
@@ -24,7 +25,7 @@ function hashToken(token: string) {
 
 export async function createSession(
   userId: string,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<NewSession> {
   const token = randomBytes(32).toString("base64url");
   const expiresAt = new Date(Date.now() + SESSION_TTL_MS);

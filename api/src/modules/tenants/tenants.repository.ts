@@ -1,5 +1,6 @@
 import pg from "pg";
-import { pool, type Queryable } from "../../db/pool.js";
+import type { Queryable } from "../../db/pool.js";
+import { currentDb } from "../../db/tenant.js";
 import { ConflictError } from "../../lib/errors.js";
 
 export interface Tenant {
@@ -13,7 +14,7 @@ const COLUMNS = "id, name, slug, timezone";
 
 export async function createTenant(
   input: { name: string; slug: string; timezone: string },
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Tenant> {
   try {
     const { rows } = await db.query<Tenant>(
@@ -34,7 +35,7 @@ export async function createTenant(
 
 export async function findTenantById(
   id: string,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Tenant | null> {
   const { rows } = await db.query<Tenant>(
     `SELECT ${COLUMNS} FROM tenants WHERE id = $1`,
@@ -47,7 +48,7 @@ export async function findTenantById(
 /** slug is CITEXT, so "Kedai-Ali" finds "kedai-ali" */
 export async function findTenantBySlug(
   slug: string,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Tenant | null> {
   const { rows } = await db.query<Tenant>(
     `SELECT ${COLUMNS} FROM tenants WHERE slug = $1`,

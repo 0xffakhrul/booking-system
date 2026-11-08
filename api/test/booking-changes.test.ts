@@ -1,7 +1,7 @@
 import request from "supertest";
 import { beforeEach, describe, expect, it } from "vitest";
 import { createApp } from "../src/app.js";
-import { pool } from "../src/db/pool.js";
+import { admin } from "./db.js";
 import { generateRef } from "../src/modules/bookings/refs.js";
 import { loggedInOwner } from "./helpers.js";
 
@@ -42,7 +42,7 @@ describe("PATCH /api/bookings/:id", () => {
       }),
     )) as [string, string];
     tenantId = (
-      await pool.query<{ id: string }>(
+      await admin.query<{ id: string }>(
         "SELECT id FROM tenants WHERE slug = 'kedai-ali'",
       )
     ).rows[0]!.id;
@@ -50,7 +50,7 @@ describe("PATCH /api/bookings/:id", () => {
 
   /** a 45-minute booking written straight into the table, returning its id */
   async function book(staffId: string, time: string, status = "confirmed") {
-    const { rows } = await pool.query<{ id: string }>(
+    const { rows } = await admin.query<{ id: string }>(
       `INSERT INTO bookings (tenant_id, ref, staff_id, service_id, customer_name, customer_phone, during, status, source)
        VALUES ($1, $2, $3, $4, 'Amir', '+60123456789',
                tstzrange($5::timestamptz, $5::timestamptz + interval '45 minutes'), $6, 'online')

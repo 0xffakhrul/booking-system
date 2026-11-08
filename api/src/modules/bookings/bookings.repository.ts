@@ -1,4 +1,5 @@
-import { pool, type Queryable } from "../../db/pool.js";
+import type { Queryable } from "../../db/pool.js";
+import { currentDb } from "../../db/tenant.js";
 
 export interface Booking {
   id: string;
@@ -44,7 +45,7 @@ const BOOKING_JOINS = `
  */
 export async function insertBooking(
   b: NewBooking,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Booking> {
   const { rows } = await db.query<Booking>(
     `WITH b AS (
@@ -102,7 +103,7 @@ export async function findCandidates(
     timezone: string;
     staffId?: string;
   },
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Candidate[]> {
   const { rows } = await db.query<Candidate>(
     `SELECT s.id,
@@ -132,7 +133,7 @@ export async function listBookingsForDay(
   tenantId: string,
   date: string, // "YYYY-MM-DD", the business's calendar
   timezone: string,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Booking[]> {
   const { rows } = await db.query<Booking>(
     `SELECT ${BOOKING_COLUMNS}
@@ -151,7 +152,7 @@ export async function listBookingsForDay(
 export async function findBooking(
   tenantId: string,
   id: string,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Booking | null> {
   const { rows } = await db.query<Booking>(
     `SELECT ${BOOKING_COLUMNS}
@@ -170,7 +171,7 @@ export async function findBooking(
 export async function cancelBooking(
   tenantId: string,
   id: string,
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Booking | null> {
   const { rows } = await db.query<Booking>(
     `WITH b AS (
@@ -192,7 +193,7 @@ export async function cancelBooking(
  */
 export async function moveBooking(
   b: { tenantId: string; id: string; staffId: string; start: Date; end: Date },
-  db: Queryable = pool,
+  db: Queryable = currentDb(),
 ): Promise<Booking | null> {
   const { rows } = await db.query<Booking>(
     `WITH b AS (

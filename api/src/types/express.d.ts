@@ -5,8 +5,8 @@ declare global {
     interface Request {
       user: User | null;
       /**
-       * The business this request acts for. Set from the logged-in owner's session today;
-       * public booking routes will set it from the URL's :slug later.
+       * The business this request acts for: from the logged-in owner's session, or from the
+       * URL's :slug on public routes. tenantTransaction uses it for Row-Level Security.
        */
       tenantId: string | null;
     }

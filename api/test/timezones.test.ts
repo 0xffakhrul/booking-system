@@ -1,7 +1,8 @@
 import request from "supertest";
 import { describe, expect, it } from "vitest";
 import { createApp } from "../src/app.js";
-import { pool } from "../src/db/pool.js";
+import { asTenant } from "../src/db/tenant.js";
+import { admin } from "./db.js";
 import { addDays, localDate } from "../src/lib/time.js";
 import { findAvailableSlots } from "../src/modules/availability/availability.repository.js";
 import { getAvailability } from "../src/modules/availability/availability.service.js";
@@ -16,7 +17,7 @@ const app = createApp();
 
 /** a business in `timezone`: one 60-minute service, one staff member working 09:00–12:00 every day */
 async function business(timezone: string) {
-  const { rows } = await pool.query<Tenant>(
+  const { rows } = await admin.query<Tenant>(
     "INSERT INTO tenants (name, slug, timezone) VALUES ('Shop', 'shop', $1) RETURNING id, name, slug, timezone",
     [timezone],
   );
@@ -30,7 +31,7 @@ async function business(timezone: string) {
     [tenant.id, 60],
   );
   for (const weekday of [0, 1, 2, 3, 4, 5, 6]) {
-    await pool.query(
+    await admin.query(
       "INSERT INTO working_hours (tenant_id, staff_id, weekday, start_time, end_time) VALUES ($1, $2, $3, '09:00', '12:00')",
       [tenant.id, staffId, weekday],
     );
@@ -39,7 +40,7 @@ async function business(timezone: string) {
 }
 
 async function insertId(sql: string, params: unknown[]) {
-  const { rows } = await pool.query<{ id: string }>(sql, params);
+  const { rows } = await admin.query<{ id: string }>(sql, params);
   return rows[0]!.id;
 }
 
@@ -72,7 +73,7 @@ describe("timezones", () => {
     expect(res.body.booking.start).toBe(`${day}T01:00:00.000Z`); // sent back in UTC
 
     // what Postgres actually holds: one instant, readable in any timezone
-    const { rows } = await pool.query(
+    const { rows } = await admin.query(
       `SELECT to_char(lower(during) AT TIME ZONE 'UTC', 'HH24:MI') AS utc,
               to_char(lower(during) AT TIME ZONE 'Asia/Kuala_Lumpur', 'HH24:MI') AS kl
          FROM bookings`,
@@ -90,13 +91,15 @@ describe("timezones", () => {
     const { tenant, serviceId } = await business("Europe/London");
     const firstSlot = async (date: string) =>
       (
-        await findAvailableSlots({
-          tenantId: tenant.id,
-          serviceId,
-          date,
-          timezone: tenant.timezone,
-          earliest: new Date(0),
-        })
+        await asTenant(tenant.id, () =>
+          findAvailableSlots({
+            tenantId: tenant.id,
+            serviceId,
+            date,
+            timezone: tenant.timezone,
+            earliest: new Date(0),
+          }),
+        )
       )[0]!.start.toISOString();
 
     expect(await firstSlot("2030-03-29")).toBe("2030-03-29T09:00:00.000Z"); // Friday, GMT
@@ -107,17 +110,19 @@ describe("timezones", () => {
     const { tenant, staffId, serviceId } = await business("Europe/London");
     const now = new Date("2030-03-30T12:00:00Z");
     const bookAt = (start: string) =>
-      createBooking(
-        tenant,
-        {
-          serviceId,
-          staffId,
-          start,
-          customerName: "Amir",
-          customerPhone: "+60123456789",
-        },
-        "online",
-        now,
+      asTenant(tenant.id, () =>
+        createBooking(
+          tenant,
+          {
+            serviceId,
+            staffId,
+            start,
+            customerName: "Amir",
+            customerPhone: "+60123456789",
+          },
+          "online",
+          now,
+        ),
       );
 
     // 08:00Z on Monday 1 April is 09:00 BST: inside 09:00–12:00
@@ -135,7 +140,9 @@ describe("timezones", () => {
     const { tenant, serviceId } = await business("Pacific/Kiritimati");
     const now = new Date("2030-01-07T12:00:00Z");
     const check = (date: string) =>
-      getAvailability(tenant, { serviceId, date }, now);
+      asTenant(tenant.id, () =>
+        getAvailability(tenant, { serviceId, date }, now),
+      );
 
     // still 7 Jan in UTC and in Kuala Lumpur, but yesterday for this business
     await expect(check("2030-01-07")).rejects.toMatchObject({

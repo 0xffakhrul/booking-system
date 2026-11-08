@@ -11,14 +11,21 @@ if (!process.env.TEST_DATABASE_URL && existsSync(rootEnvFile)) {
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_PORT, POSTGRES_DB } =
   process.env;
-const testDatabaseUrl =
+// the admin user: global-setup creates and migrates the database with it, tests inspect with it
+const adminUrl =
   process.env.TEST_DATABASE_URL ??
   `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${POSTGRES_PORT}/${POSTGRES_DB}_test`;
+// the API under test connects as tempah_app, like in production, so Row-Level Security applies.
+// The role is shared with your dev database (roles belong to the server), hence the same password.
+const appUrl = new URL(adminUrl);
+appUrl.username = "tempah_app";
+appUrl.password = process.env.APP_DB_PASSWORD ?? "tempah_app";
 
 // Set before anything imports src/config/env.ts, which reads process.env once
 Object.assign(process.env, {
   NODE_ENV: "test",
-  DATABASE_URL: testDatabaseUrl,
+  DATABASE_URL: appUrl.toString(),
+  MIGRATION_DATABASE_URL: adminUrl,
   APP_ORIGIN: "http://localhost:5173",
   LOG_LEVEL: "silent",
 });
