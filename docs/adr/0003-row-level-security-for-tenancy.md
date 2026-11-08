@@ -59,7 +59,7 @@ Their repository functions always filter explicitly (by slug, email or token has
 
 ## Consequences
 
-- **Good:** isolation is enforced below the application, and an isolation test suite can prove it (tenant A tries every route against tenant B's IDs).
+- **Good:** isolation is enforced below the application, and an isolation test suite proves it: tenant A tries every route in `docs/api.md` against tenant B's IDs (`tenant-isolation.test.ts`). With either RLS or the code's `tenant_id` filters removed it still passes; with both removed it fails.
 - **Good:** another tenant's row returns "not found" naturally, matching the API rule to return `404` for other tenants' IDs.
 - **Good:** it fails closed. A query run outside the tenant transaction errors (`invalid input syntax for type bigint: ""`, or `unrecognized configuration parameter` on a fresh connection) instead of returning every tenant's rows.
 - **Bad:** every request needs a transaction and a `set_config` call, so a request-scoped database client has to be passed around instead of calling the pool directly.
