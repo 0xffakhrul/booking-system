@@ -3,7 +3,7 @@
 // the component only multiplies by pixels per minute.
 
 import type { Range } from "@/features/staff/useWorkingHours";
-import { minutesIntoDay } from "@/lib/time";
+import { minutesIntoDay, minutesToTime } from "@/lib/time";
 import type { Booking } from "./useBookings";
 
 /** [start, end) in minutes since local midnight: 9:00–9:45 AM is { start: 540, end: 585 } */
@@ -188,9 +188,7 @@ function workingTime(window: Span, off: Span[]): Span[] {
   return working;
 }
 
-/** 870 → "2:30 PM", 720 → "12:00 PM", the same shape as formatTime */
+/** 870 → "14:30": the owner's screens use the 24-hour clock */
 export function clockLabel(minutes: number): string {
-  const h = Math.floor(minutes / 60) % 24;
-  const m = String(minutes % 60).padStart(2, "0");
-  return `${((h + 11) % 12) + 1}:${m} ${h < 12 ? "AM" : "PM"}`;
+  return minutesToTime(minutes % (24 * 60));
 }

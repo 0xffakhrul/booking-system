@@ -264,6 +264,56 @@ components:
   timeline-now-line:
     backgroundColor: "{colors.destructive}"
     height: "2px"
+  button-icon-ghost:
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.control}"
+    size: "36px"
+  input-field-owner:
+    backgroundColor: "{colors.card}"
+    textColor: "{colors.foreground}"
+    typography: "{typography.body}"
+    rounded: "{rounded.control}"
+    height: "36px"
+    padding: "0 10px"
+  time-input:
+    backgroundColor: "{colors.card}"
+    textColor: "{colors.foreground}"
+    typography: "{typography.body}"
+    rounded: "{rounded.control}"
+    height: "36px"
+    width: "96px"
+  date-picker-panel:
+    backgroundColor: "{colors.card}"
+    rounded: "{rounded.panel}"
+    padding: "12px"
+    width: "288px"
+  date-picker-day:
+    textColor: "{colors.foreground}"
+    typography: "{typography.body}"
+    rounded: "{rounded.control}"
+    height: "36px"
+  date-picker-day-selected:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.primary-foreground}"
+  settings-list:
+    backgroundColor: "{colors.card}"
+    rounded: "{rounded.panel}"
+  settings-list-header:
+    backgroundColor: "{colors.background}"
+    textColor: "{colors.muted-foreground}"
+    typography: "{typography.caption}"
+    padding: "10px 16px"
+  settings-row:
+    backgroundColor: "{colors.card}"
+    textColor: "{colors.foreground}"
+    typography: "{typography.body}"
+    padding: "12px 16px"
+    height: "56px"
+  save-bar:
+    backgroundColor: "{colors.background}"
+    textColor: "{colors.muted-foreground}"
+    typography: "{typography.body}"
+    padding: "12px 0"
 ---
 
 # Design System: Tempah
@@ -283,6 +333,7 @@ Confirmed rejections: purple or violet anywhere, the shadcn-default stacked-card
 - Status colour is single-purpose: red means a slot was taken (or marks "now" on the owner timeline), green means booked.
 - Borders are inset shadows, so a 2px selected edge never moves a pixel of content.
 - Every public-page target is at least 44px tall.
+- Owner screens tell time on the 24-hour clock; the customer's booking page keeps 12-hour.
 - Motion is nearly absent: 150ms colour and edge fades, one slide-in, a quick fade-and-zoom on menus and dialogs.
 
 ## Colors
@@ -323,18 +374,20 @@ A neutral grey field with a single blue voice and two single-purpose status colo
 **Character:** One friendly geometric sans carries every role through weight (400/500/600) and small size steps; the mono appears once, so the ref reads as a code you can read down a phone line.
 
 ### Hierarchy
-- **Display** (600, 24px, -0.02em): the outcome headline, "You're booked in", and the owner app's page date heading ("Monday 9 November", with "Tomorrow"/"Yesterday" inline at 16px regular in Slate Text). One per screen at most.
+- **Display** (600, 24px, -0.02em): the outcome headline, "You're booked in", and the owner app's page date heading ("Monday 9 November", with "Tomorrow"/"Yesterday" inline at 16px regular in Slate Text), and the settings page titles ("Services", "Staff", "Ali's hours"). One per screen at most.
 - **Headline** (600, 17px, -0.01em): the shop name in the public header, and every dialog title app-wide.
 - **Title** (600, 16px): pane titles such as the calendar month and "Your details".
 - **Option** (600, 15px): service names, prices, big-button labels, the desktop day heading, the shop name in the owner top bar.
 - **Section label** (600, 14px): the plain section headings "Service", "With", "Date", "Time".
-- **Body** (400-500, 14px): summary rows, notes, alert copy, time-slot labels, app tabs (500), menu items, staff names on status cards and timeline column heads (600).
-- **Meta** (400, 13px): durations, "29 free", the bottom-bar summary, hints, segment labels, the owner totals sentence, status-card detail lines, booking names on the timeline (600).
-- **Caption** (500, 12px): the Tempah credit and weekday labels; calendar weekday column heads are uppercase with 0.04em tracking. In the owner app: timeline hour labels, the now-line time (600, red), booking service lines, monogram and avatar initials (600).
+- **Body** (400-500, 14px): summary rows, notes, alert copy, time-slot labels, app tabs (500), menu items, staff names on status cards and timeline column heads (600), settings page descriptions in Slate Text, row names in settings lists and day names in the hours editor (600).
+- **Meta** (400, 13px): durations, "29 free", the bottom-bar summary, hints, segment labels, the owner totals sentence, status-card detail lines, booking names on the timeline (600), the staff week summary on phones (14px from 768px).
+- **Caption** (500, 12px): the Tempah credit and weekday labels; calendar weekday column heads are uppercase with 0.04em tracking. In the owner app: timeline hour labels, the now-line time (600, red), booking service lines, monogram and avatar initials (600), settings list column headings (500, Slate Text), date picker weekday heads (uppercase, 0.04em).
 - **Ref mono** (500, 15px, 0.08em): the booking ref, nowhere else.
 
 ### Named Rules
 **The Proportional Figures Rule.** Times, prices and dates use Onest's default proportional figures. Do not turn on tabular figures: Onest's tabular "1" reads badly. (The direction contract asked for tabular figures; the build overruled it.)
+
+**The Two Clocks Rule.** Every time the owner app shows or takes is on the 24-hour clock ("14:30", "13:00–19:00"): the timeline gutter, booking blocks, the now label, status cards, dialogs, the staff week summary and every time field. The customer's booking page keeps the 12-hour clock ("2:00 PM"). Typed dates read dd/mm/yyyy. Neither follows the computer's locale.
 
 **The Plain Heading Rule.** Sections are headed by a plain sentence-case word at the section-label size. No kicker, eyebrow or overline above a heading.
 
@@ -349,9 +402,11 @@ Short screens (details, taken, confirmed) narrow the card: details is a two-pane
 
 Rhythm: 8px between list items, 6px between days, 10px between summary rows, 20px between form fields, 24px pane padding.
 
-Owner app (signed-in pages): a 56px white top bar with a bottom hairline spans the page; its content and the schedule share a 1280px max width with 16px side padding on phones and 32px from 768px. Settings pages (services, staff, hours) narrow to 768px (max-w-3xl). Content sits 20px below the bar on phones, 24px from 768px, with 20px between dashboard blocks. On a phone the tabs drop to their own full-bleed row (44px tall) under the shop name and scroll sideways; the Copy booking link button collapses to its icon. Status cards auto-fit at a 240px minimum with 12px gaps, so three staff share a row on a tablet and stack on a phone. The day timeline scrolls sideways rather than squeezing: a 3.5rem sticky hour gutter, staff columns at least 10rem wide, 10px column gap, 64px per hour.
+Owner app (signed-in pages): a 56px white top bar with a bottom hairline spans the page; its content and the schedule share a 1280px max width with 16px side padding on phones and 32px from 768px. Settings pages (services, staff, hours) are at most 880px wide and stay left-aligned inside the 1280px frame, so their left edge lines up with the shop name above; they never centre a narrow column. Content sits 20px below the bar on phones, 24px from 768px, with 20px between dashboard blocks. On a phone the tabs drop to their own full-bleed row (44px tall) under the shop name and scroll sideways; the Copy booking link button collapses to its icon. Status cards auto-fit at a 240px minimum with 12px gaps, so three staff share a row on a tablet and stack on a phone. The day timeline scrolls sideways rather than squeezing: a 3.5rem sticky hour gutter, staff columns at least 10rem wide, 10px column gap, 64px per hour.
 
-Owner controls are denser than public ones: toolbar buttons and the New booking button are 36px, menu items 36px; the Thumb Rule below governs public pages.
+Owner controls are denser than public ones: every owner button, icon button, input, time field, date field and menu item is 36px (the default control size of the shared Button and Input); the public booking page overrides to 46px inputs and 48px buttons, and the Thumb Rule below governs it.
+
+Settings pages: the page header sits 20px above one bordered list. From 768px the list shows a column header and its rows share one grid with it; on a phone each row stacks its data in a column beside the actions. The staff Hours button drops its label below 640px. The hours editor puts each day's switch and name in a 10rem column beside its times from 640px and stacks them on a phone; its save bar sticks to the bottom of the screen.
 
 **The Thumb Rule.** On public pages every tappable target is at least 44px tall; the main action is 48px and lives at the bottom of a phone screen.
 
@@ -361,12 +416,12 @@ Nearly flat. Depth comes from white surfaces on a paper-grey field and 1px hairl
 
 ### Shadow Vocabulary
 - **Panel lift** (`box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.05)`): the booker card from tablet up and the confirmation ticket.
-- **Button weight** (`box-shadow: 0 1px 2px rgba(13,58,158,0.25)`): under primary buttons only (the 48px public button and the 36px New booking).
+- **Button weight** (`box-shadow: 0 1px 2px rgba(13,58,158,0.25)`): under primary buttons only (the 48px public button, and the owner's 36px New booking, settings page actions and Save hours).
 - **Segment lift** (`box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04)`): the selected segment inside a segmented control.
 - **Inset edge** (`box-shadow: inset 0 0 0 1px var(--border)`; hover `var(--input)`; selected `inset 0 0 0 2px var(--primary)`): the drawn border of tiles, slots, date chips.
 - **Focus ring** (`box-shadow: 0 0 0 3px rgb(21 86 224 / 0.4)`): keyboard focus on every custom control.
-- **Card rest** (`box-shadow: 0 1px 2px rgba(0,0,0,0.04)`): the owner schedule panel. Status cards carry the hairline alone.
-- **Menu lift** (`box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08)`): dropdown menus.
+- **Card rest** (`box-shadow: 0 1px 2px rgba(0,0,0,0.04)`): the owner schedule panel, settings lists and the hours editor card. Status cards carry the hairline alone.
+- **Menu lift** (`box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08)`): dropdown menus and the date picker popover.
 - **Block hover** (`box-shadow: 0 2px 8px rgba(0,0,0,0.08)`): a timeline booking under the pointer.
 
 ### Named Rules
@@ -381,10 +436,10 @@ Gently squared corners, two steps: 6px on every control (buttons, tiles, slots, 
 ### Buttons
 Confident and plain.
 - **Shape:** gently squared (6px).
-- **Primary:** Booking Blue fill, white 15px semibold label, 48px tall and full width on public pages, with Button weight shadow. Hover moves to Pressed Blue.
-- **Disabled Continue:** goes grey (Mist fill, Slate Text label, no shadow), never pale blue.
+- **Primary:** Booking Blue fill, white 15px semibold label, 48px tall and full width on public pages, with Button weight shadow. Hover moves to Pressed Blue. In the owner app it is 36px with a 14px semibold label and 14px side padding (New booking, "Add service", "Add staff", "Save hours").
+- **Disabled Continue:** goes grey (Mist fill, Slate Text label, no shadow), never pale blue. "Save hours" with nothing to save does the same.
 - **Secondary ("Book another"):** white fill with a 1px Field Edge inset edge, same 48px size.
-- **Ghost / link:** ghost for "Change time" (44px, Mist on hover); link with a Sky Edge underline that turns blue on hover.
+- **Ghost / link:** ghost for "Change time" (44px, Mist on hover); link with a Sky Edge underline that turns blue on hover. Owner row actions (edit, remove) are 36px square ghost icon buttons with a 16px icon.
 - **Focus:** 3px blue ring at 40-50%.
 
 ### Option tiles (service, nearest times)
@@ -407,6 +462,9 @@ Confident and plain.
 - **Style:** white, 46px tall, 6px corners, 1px Field Edge border, 16px text on phones (prevents iOS zoom), 15px from tablet up. Labels above, a 13px hint below.
 - **Focus:** border turns blue with a 3px blue ring at 50%; the caret is blue.
 - **Error:** red border and ring at 20%, message replaces the hint.
+- **Owner fields:** the same look at 36px with 10px side padding (16px text on phones, 14px from 768px).
+- **Time field:** a typed 24-hour "HH:MM" box, never the browser's time input, with "09:00" as placeholder; on blur it tidies what was typed ("930" becomes "09:30", "9" becomes "09:00"). 96px wide in the hours editor; also in the New booking and booking dialogs.
+- **Date field:** a 36px button that reads dd/mm/yyyy (placeholder "dd/mm/yyyy") with a 16px Slate Text calendar icon at the right; it opens a 288px popover (white, ~8px corners, Hairline border, Menu lift, 12px padding) holding a Monday-first month: month name at 14px semibold, two 32px outlined arrow squares, uppercase 12px weekday heads, 36px days with 6px corners that go Mist on hover; the picked day is solid Booking Blue and semibold, today carries a small dot. Used in the New booking and booking dialogs.
 
 ### Cards / Containers
 - **Booker panel:** white, ~8px corners, 1px Hairline border, Panel lift, panes split by hairlines. On a phone the panel dissolves into the page.
@@ -437,16 +495,16 @@ The owner app's chrome: quiet, white, one blue mark for where you are.
 ### Status cards
 One card per working staff member, today only, answering "busy or free, and until when".
 - **Card:** white, ~8px corners, 1px Hairline border, 12px by 16px padding, no shadow.
-- **Row 1:** an 8px status dot, the staff name at 14px semibold, and an aside at 13px medium pushed right ("until 11:15 AM", "16m free").
+- **Row 1:** an 8px status dot, the staff name at 14px semibold, and an aside at 13px medium pushed right ("until 11:15", "16m free").
 - **Row 2:** 13px Slate Text detail indented to the name, parts joined by " · " and each kept on one line ("With Lim Wei Ming · Cut + wash").
 - **Dot:** filled Booking Blue = busy; a hollow 2px Booking Blue ring on white = free; Field Edge grey = starts later, on a break, done or off.
 
 ### Day timeline
 The day as a grid: one column per staff member, bookings placed by time.
-- **Frame:** sits in the schedule panel (white, ~8px corners, Hairline border, Card rest). Column heads at 14px semibold with a Slate Text note (" · from 1 PM", " · off", " (removed)").
-- **Grid:** 64px per hour; hour labels at 12px Slate Text in a sticky 3.5rem gutter; a 1px Hairline at every hour. Empty space is tappable to start a booking at that quarter hour.
+- **Frame:** sits in the schedule panel (white, ~8px corners, Hairline border, Card rest). Column heads at 14px semibold with a Slate Text note (" · from 13:00", " · off", " (removed)").
+- **Grid:** 64px per hour; hour labels ("09:00", "10:00") at 12px Slate Text in a sticky 3.5rem gutter; a 1px Hairline at every hour. Empty space is tappable to start a booking at that quarter hour.
 - **Off-hours:** a light diagonal hatch (135deg, Mist and Hatch Light alternating every 6px) over hours a staff member isn't working.
-- **Bookings:** 4.8px-corner blocks inset 4px from the column sides, 10px side padding. Online bookings are Clear Sky Tint with a Sky Edge inset edge and Deep Ink Blue text; walk-in and phone bookings are Mist with a Field Edge inset edge and Ink text. Bookings already over today go quiet: white, Hairline inset edge, Slate Text. Name at 13px semibold, then service and time at 12px; under 40px tall the service moves beside the name. No coloured side stripe. Hover adds Block hover; focus shows the blue ring.
+- **Bookings:** 4.8px-corner blocks inset 4px from the column sides, 10px side padding. Online bookings are Clear Sky Tint with a Sky Edge inset edge and Deep Ink Blue text; walk-in and phone bookings are Mist with a Field Edge inset edge and Ink text. Bookings already over today go quiet: white, Hairline inset edge, Slate Text. Name at 13px semibold, then service and time at 12px ("Cut + wash · 11:00 – 11:45"); under 40px tall the service moves beside the name. No coloured side stripe. Hover adds Block hover; focus shows the blue ring.
 - **Now line:** today only, a 2px Taken Red line across the columns with an 8px red dot at its left end and the time ("10:44", 12px semibold red on white) over the hour gutter. It is drawn under the booking blocks so an appointment in progress never looks struck through.
 
 ### Dropdown menu
@@ -455,6 +513,31 @@ The day as a grid: one column per staff member, bookings placed by time.
 
 ### Dialogs
 Titles are headline size (17px semibold, -0.01em) everywhere in the app.
+
+### Page header
+The title row of every settings page.
+- **Text:** the title at display size (24px semibold, -0.02em) over one 14px Slate Text line saying what the page is for, 4px apart.
+- **Action:** one 36px blue primary with a plus icon and Button weight ("Add service", "Add staff"), pinned right and bottom-aligned with the text. Only the text wraps; the action never drops below it. When the list is empty the action moves into the empty state instead.
+
+### Settings list
+One list per settings page, never a card per row.
+- **Frame:** one white card, ~8px corners, 1px Hairline border, Card rest.
+- **Column header (768px+):** on Paper Grey with a bottom hairline, 12px medium Slate Text names, 10px by 16px padding, sharing the rows' grid so columns line up.
+- **Rows:** split by hairlines, 12px by 16px padding, at least 56px tall from 768px. The name is 14px semibold and truncates; details are 14px in their columns. On a phone the details fold into one 13px Slate Text line under the name ("45 min · RM 35.00"), with the actions kept to the right.
+- **Loading:** three placeholder rows of rounded Mist bars that pulse, and hold still under reduced motion.
+- **Empty:** a white bordered card with an icon, a title, one sentence and the page's blue action.
+
+### Staff week summary
+A staff member's week, readable at a glance in the list.
+- **Lines:** one line per run of neighbouring days with the same hours, Monday first ("Mon–Fri", "Sat"); ranges that touch are joined, so 09:00–16:00 plus 16:00–18:00 reads 09:00–18:00; days off are left out; "Every day" when all seven match; "No hours set" in Slate Text when empty.
+- **Type:** days in Slate Text in their own 4.5rem column, ranges in Ink, 13px on phones and 14px from 768px. Each range stays whole on one line; a long day wraps between ranges.
+- **Action:** a 36px outline "Hours" button with a clock icon beside the edit and remove icons; below 640px it shows the icon alone.
+
+### Hours editor
+One staff member's week as seven rows in a white card (~8px corners, Hairline border, Card rest), split by hairlines.
+- **Day row:** a switch (blue when the day is open) and the day name at 14px semibold in a 10rem column; a closed day shows "Closed" in Slate Text.
+- **Ranges:** two 96px time fields joined by a Slate Text en dash, then a 36px ghost icon button to remove the range; field errors sit under the pair. A ghost "Add hours" button with a plus icon sits under the last range, its icon lined up with the fields' left edge.
+- **Save bar:** sticks to the bottom of the screen on a solid Paper Grey ground with a top hairline and safe-area bottom padding. Left, a 14px Slate Text note ("Unsaved changes", then "Saved"); right, a ghost Discard (only while there are changes) and the 36px "Save hours" primary, grey while there is nothing to save.
 
 ## Do's and Don'ts
 
@@ -466,6 +549,8 @@ Titles are headline size (17px semibold, -0.01em) everywhere in the app.
 - **Do** limit motion to 150ms background/edge colour transitions, the one Continue slide-in, and the quick fade-and-zoom of menus and dialogs, and turn the slide-in off under reduced motion.
 - **Do** let the business lead: shop name and monogram at the top, "Bookings by Tempah" as a small credit at the foot.
 - **Do** keep the ref in JetBrains Mono and everything else in Onest with default proportional figures.
+- **Do** show and take every owner-app time on the 24-hour clock ("14:30") and every typed date as dd/mm/yyyy; keep "2:00 PM" for the customer's booking page.
+- **Do** keep owner controls at 36px and settings pages left-aligned on the frame, at most 880px wide.
 
 ### Don't:
 - **Don't** use purple or violet anywhere.
@@ -475,3 +560,5 @@ Titles are headline size (17px semibold, -0.01em) everywhere in the app.
 - **Don't** enable tabular figures in Onest.
 - **Don't** show a disabled primary button in pale blue; it goes grey.
 - **Don't** promote Tempah's own name into the page header or hero.
+- **Don't** use the browser's own time or date inputs, or format times and dates by the computer's locale.
+- **Don't** give each settings row its own card, or centre a settings page off the frame's left edge.

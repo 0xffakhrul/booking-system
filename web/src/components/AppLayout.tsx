@@ -20,7 +20,8 @@ const links = [
  */
 export function AppLayout() {
   const { data: account } = useMe(); // RequireAuth already made sure this exists
-  // the schedule needs the width for its columns; the settings pages read better narrow
+  // the schedule needs the width for its columns; settings pages read better narrower,
+  // but stay on the frame's left edge
   const wide = useMatch({ path: "/app", end: true });
 
   return (
@@ -68,13 +69,10 @@ export function AppLayout() {
           </div>
         </div>
       </header>
-      <main
-        className={cn(
-          "mx-auto px-4 py-5 md:px-8 md:py-6",
-          wide ? "max-w-[1280px]" : "max-w-3xl",
-        )}
-      >
-        <Outlet />
+      <main className="mx-auto max-w-[1280px] px-4 py-5 md:px-8 md:py-6">
+        <div className={cn(!wide && "max-w-[880px]")}>
+          <Outlet />
+        </div>
       </main>
     </div>
   );

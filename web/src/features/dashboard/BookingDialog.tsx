@@ -4,6 +4,7 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { RemoveDialog } from "@/components/RemoveDialog";
 import { DatePicker } from "@/components/DatePicker";
+import { TimeInput } from "@/components/TimeInput";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,15 +22,15 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import type { Staff } from "@/features/staff/useStaff";
 import { setServerErrors } from "@/lib/form-errors";
 import {
   dateOf,
   describeDate,
-  formatTimeRange,
+  formatTimeRange24,
   isCalendarDate,
+  normalizeTime,
   timeOfDay,
   todayIn,
   toInstant,
@@ -86,7 +87,7 @@ function BookingPanel({
   const cancel = useCancelBooking();
 
   const date = describeDate(dateOf(b.start, timezone)).long;
-  const time = formatTimeRange(b.start, b.end, timezone);
+  const time = formatTimeRange24(b.start, b.end, timezone);
 
   return (
     <>
@@ -243,12 +244,11 @@ function MoveForm({
           </Field>
           <Field data-invalid={!!errors.time}>
             <FieldLabel htmlFor="move-time">Start</FieldLabel>
-            <Input
+            <TimeInput
               id="move-time"
-              type="time"
               step={300}
               aria-invalid={!!errors.time}
-              {...register("time")}
+              {...register("time", { setValueAs: normalizeTime })}
             />
             <FieldError errors={[errors.time]} />
           </Field>
