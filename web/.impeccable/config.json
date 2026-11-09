@@ -1,0 +1,116 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/assigned.html"
+        ],
+        "createdAt": "2026-11-09T01:46:36.712Z",
+        "reason": "agent: throwaway decision-round sketch drawn as skeleton, not shipping UI; build sets its own type scale"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/model-pick.html"
+        ],
+        "createdAt": "2026-11-09T01:46:36.728Z",
+        "reason": "agent: throwaway decision-round sketch drawn as skeleton, not shipping UI; build sets its own type scale"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/challenger-boarding.html"
+        ],
+        "createdAt": "2026-11-09T01:46:36.744Z",
+        "reason": "agent: throwaway decision-round sketch drawn as skeleton, not shipping UI; build sets its own type scale"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/challenger-warm.html"
+        ],
+        "createdAt": "2026-11-09T01:46:36.759Z",
+        "reason": "agent: throwaway decision-round sketch drawn as skeleton, not shipping UI; build sets its own type scale"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/canon.html"
+        ],
+        "createdAt": "2026-11-09T01:46:36.775Z",
+        "reason": "agent: throwaway decision-round sketch drawn as skeleton, not shipping UI; build sets its own type scale"
+      },
+      {
+        "rule": "nested-cards",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/booking-mock.html"
+        ],
+        "createdAt": "2026-11-09T01:51:56.558Z",
+        "reason": "agent: mockup device frames (.phone/.desk) wrap the product cards; presentation chrome, not shipping UI"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/booking-mock.html"
+        ],
+        "createdAt": "2026-11-09T02:14:16.054Z",
+        "reason": "agent: spent mockup/decision sketch predating DESIGN.md, not shipping UI; fonts there were options under comparison"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/assigned.html"
+        ],
+        "createdAt": "2026-11-09T02:14:16.071Z",
+        "reason": "agent: spent mockup/decision sketch predating DESIGN.md, not shipping UI; fonts there were options under comparison"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/model-pick.html"
+        ],
+        "createdAt": "2026-11-09T02:14:16.091Z",
+        "reason": "agent: spent mockup/decision sketch predating DESIGN.md, not shipping UI; fonts there were options under comparison"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/challenger-boarding.html"
+        ],
+        "createdAt": "2026-11-09T02:14:16.107Z",
+        "reason": "agent: spent mockup/decision sketch predating DESIGN.md, not shipping UI; fonts there were options under comparison"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/challenger-warm.html"
+        ],
+        "createdAt": "2026-11-09T02:14:16.127Z",
+        "reason": "agent: spent mockup/decision sketch predating DESIGN.md, not shipping UI; fonts there were options under comparison"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/canon.html"
+        ],
+        "createdAt": "2026-11-09T02:14:16.158Z",
+        "reason": "agent: spent mockup/decision sketch predating DESIGN.md, not shipping UI; fonts there were options under comparison"
+      }
+    ]
+  }
+}
