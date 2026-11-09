@@ -75,6 +75,7 @@ rounded:
   control: "6px"
   panel: "8.4px"
   full: "9999px"
+  phone-frame: "20px"
 spacing:
   hairline-gap: "2px"
   day-gap: "6px"
@@ -314,6 +315,36 @@ components:
     textColor: "{colors.muted-foreground}"
     typography: "{typography.body}"
     padding: "12px 0"
+  auth-preview-pane:
+    backgroundColor: "{colors.accent}"
+  tempah-mark:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.primary-foreground}"
+    rounded: "{rounded.control}"
+    size: "28px"
+  input-field-auth:
+    backgroundColor: "{colors.card}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.control}"
+    height: "44px"
+    padding: "0 12px"
+  prefixed-field:
+    backgroundColor: "{colors.card}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.control}"
+    height: "44px"
+    padding: "0 12px"
+  button-primary-auth:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.primary-foreground}"
+    typography: "{typography.option}"
+    rounded: "{rounded.control}"
+    height: "44px"
+    width: "100%"
+  preview-phone:
+    backgroundColor: "{colors.card}"
+    rounded: "{rounded.phone-frame}"
+    width: "248px"
 ---
 
 # Design System: Tempah
@@ -324,7 +355,7 @@ components:
 
 Tempah looks like the booking tool you already trust: neutral greys, white surfaces, hairline edges, and one confident blue that marks what you can press and what you've chosen. It refuses ornament on purpose. The quality is in the craft (exact radii, borders that never shift layout, thumb-sized targets, a calm loss screen) rather than in any brand flourish. The bar is Cal.com and Stripe.
 
-The business leads; Tempah does not. A shop's page opens on the shop's name and initials, and Tempah appears only as a small "Bookings by Tempah" credit at the foot of the page. Density is moderate and phone-first: one column at the thumb on a phone, a bordered booker card from tablet up.
+The business leads; Tempah does not. A shop's page opens on the shop's name and initials, and Tempah appears only as a small "Bookings by Tempah" credit at the foot of the page. Tempah's own mark (a blue tile with a "T") belongs to Tempah's own pages, login and register, and never to a shop's. Density is moderate and phone-first: one column at the thumb on a phone, a bordered booker card from tablet up.
 
 Confirmed rejections: purple or violet anywhere, the shadcn-default stacked-card look with a tinted brand, and the generic AI-generated aesthetic (gradients as decoration, glass, glow).
 
@@ -334,16 +365,16 @@ Confirmed rejections: purple or violet anywhere, the shadcn-default stacked-card
 - Borders are inset shadows, so a 2px selected edge never moves a pixel of content.
 - Every public-page target is at least 44px tall.
 - Owner screens tell time on the 24-hour clock; the customer's booking page keeps 12-hour.
-- Motion is nearly absent: 150ms colour and edge fades, one slide-in, a quick fade-and-zoom on menus and dialogs.
+- Motion is nearly absent: 150ms colour and edge fades, one slide-in, a quick fade-and-zoom on menus and dialogs, and one played-once moment in the auth preview.
 
 ## Colors
 
 A neutral grey field with a single blue voice and two single-purpose status colours.
 
 ### Primary
-- **Booking Blue** (primary): the one colour that means "act" or "chosen". Fills the main button, the selected date, the selected time on a phone, the 2px edge of a chosen option, the 2px underline of the active app tab, the text caret, and every focus ring. In the owner app it also fills the "busy" status dot, rings the "free" one, and ticks finished setup steps.
+- **Booking Blue** (primary): the one colour that means "act" or "chosen". Fills the main button, the selected date, the selected time on a phone, the 2px edge of a chosen option, the 2px underline of the active app tab, the text caret, and every focus ring. In the owner app it also fills the "busy" status dot, rings the "free" one, and ticks finished setup steps. On login and register it also fills the Tempah mark tile.
 - **Pressed Blue** (primary-hover): the hover fill of primary buttons. Never used at rest.
-- **Clear Sky Tint** (accent) with **Sky Edge** (accent-border) and **Deep Ink Blue** (accent-foreground): the quiet form of the blue. Fills chosen option tiles, bookable calendar days, the picked time in the desktop list, the shop monogram, and online bookings on the owner timeline (tint fill, Sky Edge inset, Deep Ink Blue text). Sky Edge is also the text-selection highlight and the resting underline of text links.
+- **Clear Sky Tint** (accent) with **Sky Edge** (accent-border) and **Deep Ink Blue** (accent-foreground): the quiet form of the blue. Fills chosen option tiles, bookable calendar days, the picked time in the desktop list, the shop monogram, online bookings on the owner timeline (tint fill, Sky Edge inset, Deep Ink Blue text), and the preview half of login and register (tint ground with a 1px Sky Edge hairline on its left edge). Sky Edge is also the text-selection highlight and the resting underline of text links.
 
 ### Secondary
 - **Taken Red** (destructive) on **Taken Tint** (destructive-tint) with **Taken Edge** (destructive-border): only the "slot was just booked" alert, form/server errors, and the owner timeline's 2px now line with its dot and time label.
@@ -360,7 +391,7 @@ A neutral grey field with a single blue voice and two single-purpose status colo
 - **Hatch Light** (hatch-light): the pale stripe of the off-hours hatch, alternating 6px with Mist at 135deg. Used nowhere else.
 
 ### Named Rules
-**The One Blue Rule.** Blue means "press this", "you chose this" or "you are here" (the active tab), nothing else, with one owner-side extension: in the owner app it also marks the shop's own online bookings (the quiet tint), a staff member working right now (the status dots) and a finished setup step. No blue decoration, no blue headings, no second accent hue.
+**The One Blue Rule.** Blue means "press this", "you chose this" or "you are here" (the active tab), nothing else, with one owner-side extension: in the owner app it also marks the shop's own online bookings (the quiet tint), a staff member working right now (the status dots) and a finished setup step. Tempah's own login and register pages add two more: the Tempah mark tile is solid blue, and the preview half sits on the quiet tint. No blue decoration, no blue headings, no second accent hue.
 
 **The Single-Purpose Status Rule.** Red appears only when something was lost or rejected (slot taken, error) and as the owner timeline's now line, the one place red marks time rather than loss. Green appears only when a booking succeeded; done setup steps tick in blue, not green. Neither is borrowed for emphasis.
 
@@ -374,20 +405,20 @@ A neutral grey field with a single blue voice and two single-purpose status colo
 **Character:** One friendly geometric sans carries every role through weight (400/500/600) and small size steps; the mono appears once, so the ref reads as a code you can read down a phone line.
 
 ### Hierarchy
-- **Display** (600, 24px, -0.02em): the outcome headline, "You're booked in", and the owner app's page date heading ("Monday 9 November", with "Tomorrow"/"Yesterday" inline at 16px regular in Slate Text), and the settings page titles ("Services", "Staff", "Ali's hours"). One per screen at most.
-- **Headline** (600, 17px, -0.01em): the shop name in the public header, and every dialog title app-wide.
-- **Title** (600, 16px): pane titles such as the calendar month and "Your details".
+- **Display** (600, 24px, -0.02em): the outcome headline, "You're booked in", and the owner app's page date heading ("Monday 9 November", with "Tomorrow"/"Yesterday" inline at 16px regular in Slate Text), and the settings page titles ("Services", "Staff", "Ali's hours"), and the login and register headings ("Log in", "Create your shop") over a 15px regular Slate Text help line. One per screen at most.
+- **Headline** (600, 17px, -0.01em): the shop name in the public header, every dialog title app-wide, and the auth preview's one-line headline in Ink.
+- **Title** (600, 16px): pane titles such as the calendar month and "Your details"; the "Tempah" name beside its mark.
 - **Option** (600, 15px): service names, prices, big-button labels, the desktop day heading, the shop name in the owner top bar.
 - **Section label** (600, 14px): the plain section headings "Service", "With", "Date", "Time".
 - **Body** (400-500, 14px): summary rows, notes, alert copy, time-slot labels, app tabs (500), menu items, staff names on status cards and timeline column heads (600), settings page descriptions in Slate Text, row names in settings lists and day names in the hours editor (600).
-- **Meta** (400, 13px): durations, "29 free", the bottom-bar summary, hints, segment labels, the owner totals sentence, status-card detail lines, booking names on the timeline (600), the staff week summary on phones (14px from 768px).
+- **Meta** (400, 13px): durations, "29 free", the bottom-bar summary, hints, segment labels, the owner totals sentence, status-card detail lines, booking names on the timeline (600), the staff week summary on phones (14px from 768px), the auth preview's sample-data caption.
 - **Caption** (500, 12px): the Tempah credit and weekday labels; calendar weekday column heads are uppercase with 0.04em tracking. In the owner app: timeline hour labels, the now-line time (600, red), booking service lines, monogram and avatar initials (600), settings list column headings (500, Slate Text), date picker weekday heads (uppercase, 0.04em).
 - **Ref mono** (500, 15px, 0.08em): the booking ref, nowhere else.
 
 ### Named Rules
 **The Proportional Figures Rule.** Times, prices and dates use Onest's default proportional figures. Do not turn on tabular figures: Onest's tabular "1" reads badly. (The direction contract asked for tabular figures; the build overruled it.)
 
-**The Two Clocks Rule.** Every time the owner app shows or takes is on the 24-hour clock ("14:30", "13:00–19:00"): the timeline gutter, booking blocks, the now label, status cards, dialogs, the staff week summary and every time field. The customer's booking page keeps the 12-hour clock ("2:00 PM"). Typed dates read dd/mm/yyyy. Neither follows the computer's locale.
+**The Two Clocks Rule.** Every time the owner app shows or takes is on the 24-hour clock ("14:30", "13:00–19:00"): the timeline gutter, booking blocks, the now label, status cards, dialogs, the staff week summary and every time field. The customer's booking page keeps the 12-hour clock ("2:00 PM"). The auth preview keeps both: its phone reads "1:00 PM", its sample schedule "13:00". Typed dates read dd/mm/yyyy. Neither follows the computer's locale.
 
 **The Plain Heading Rule.** Sections are headed by a plain sentence-case word at the section-label size. No kicker, eyebrow or overline above a heading.
 
@@ -408,6 +439,8 @@ Owner controls are denser than public ones: every owner button, icon button, inp
 
 Settings pages: the page header sits 20px above one bordered list. From 768px the list shows a column header and its rows share one grid with it; on a phone each row stacks its data in a column beside the actions. The staff Hours button drops its label below 640px. The hours editor puts each day's switch and name in a 10rem column beside its times from 640px and stacks them on a phone; its save bar sticks to the bottom of the screen.
 
+Login and register: one white page split in two equal halves from 1024px. The form half pads 20px on phones, 40px from 640px and 64px from 1024px; the Tempah mark sits top-left and the form is one column at most 380px wide with 20px between fields, vertically centred from 1024px. The other half is the product preview on Clear Sky Tint behind a 1px Sky Edge hairline. On a phone the preview is dropped and the form sits top-aligned, so fields stay above the keyboard. Auth controls: fields are 44px on phones (thumb targets) and 40px from 1024px, with a 44px submit.
+
 **The Thumb Rule.** On public pages every tappable target is at least 44px tall; the main action is 48px and lives at the bottom of a phone screen.
 
 ## Elevation & Depth
@@ -416,20 +449,21 @@ Nearly flat. Depth comes from white surfaces on a paper-grey field and 1px hairl
 
 ### Shadow Vocabulary
 - **Panel lift** (`box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.05)`): the booker card from tablet up and the confirmation ticket.
-- **Button weight** (`box-shadow: 0 1px 2px rgba(13,58,158,0.25)`): under primary buttons only (the 48px public button, and the owner's 36px New booking, settings page actions and Save hours).
+- **Button weight** (`box-shadow: 0 1px 2px rgba(13,58,158,0.25)`): under primary buttons only (the 48px public button, the 44px auth submit, and the owner's 36px New booking, settings page actions and Save hours).
 - **Segment lift** (`box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04)`): the selected segment inside a segmented control.
 - **Inset edge** (`box-shadow: inset 0 0 0 1px var(--border)`; hover `var(--input)`; selected `inset 0 0 0 2px var(--primary)`): the drawn border of tiles, slots, date chips.
 - **Focus ring** (`box-shadow: 0 0 0 3px rgb(21 86 224 / 0.4)`): keyboard focus on every custom control.
 - **Card rest** (`box-shadow: 0 1px 2px rgba(0,0,0,0.04)`): the owner schedule panel, settings lists and the hours editor card. Status cards carry the hairline alone.
-- **Menu lift** (`box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08)`): dropdown menus and the date picker popover.
+- **Menu lift** (`box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08)`): dropdown menus, the date picker popover, and the auth preview's sample schedule card.
 - **Block hover** (`box-shadow: 0 2px 8px rgba(0,0,0,0.08)`): a timeline booking under the pointer.
+- **Phone lift** (`box-shadow: 0 2px 4px rgba(0,0,0,0.05), 0 20px 48px rgba(13,58,158,0.18)`): the auth preview's sample phone only, the one object that sits in front of another. Deeper and blue-tinted so it reads above the Menu lift card on the tint ground. Not for panels, menus or dialogs.
 
 ### Named Rules
 **The Inset Edge Rule.** Selectable tiles draw their border as an inset box-shadow, never a CSS border, so the 2px selected edge does not shift text.
 
 ## Shapes
 
-Gently squared corners, two steps: 6px on every control (buttons, tiles, slots, inputs, days, monogram, menu items, timeline columns) and about 8px on containers (booker card, ticket, alerts, status cards, schedule panel, dropdown menus, dialogs). Inner segments of the segmented control step down to 4px to nest inside the 3px-padded track; timeline booking blocks step down to 4.8px to sit inside their 6px column. Circles appear only for the success badge, the today dot, the account avatar and the status dots. The off-hours hatch (135deg stripes, 6px each) is the one patterned fill and means "not working". Dashed edges mean "not content": the empty-state note and the ticket's perforation under the booking ref.
+Gently squared corners, two steps: 6px on every control (buttons, tiles, slots, inputs, days, monogram, menu items, timeline columns) and about 8px on containers (booker card, ticket, alerts, status cards, schedule panel, dropdown menus, dialogs). Inner segments of the segmented control step down to 4px to nest inside the 3px-padded track; timeline booking blocks step down to 4.8px to sit inside their 6px column. One exception, in the auth preview only: the sample phone takes 20px corners and a 5px white frame so it reads as a device; the Tempah mark tile keeps the 6px control corner. Circles appear only for the success badge, the today dot, the account avatar, the status dots and the now-line dot. The off-hours hatch (135deg stripes, 6px each) is the one patterned fill and means "not working". Dashed edges mean "not content": the empty-state note and the ticket's perforation under the booking ref.
 
 ## Components
 
@@ -440,6 +474,7 @@ Confident and plain.
 - **Disabled Continue:** goes grey (Mist fill, Slate Text label, no shadow), never pale blue. "Save hours" with nothing to save does the same.
 - **Secondary ("Book another"):** white fill with a 1px Field Edge inset edge, same 48px size.
 - **Ghost / link:** ghost for "Change time" (44px, Mist on hover); link with a Sky Edge underline that turns blue on hover. Owner row actions (edit, remove) are 36px square ghost icon buttons with a 16px icon.
+- **Auth submit:** on login and register the primary is 44px, full width, 15px semibold, with Button weight; a spinner joins the label while submitting.
 - **Focus:** 3px blue ring at 40-50%.
 
 ### Option tiles (service, nearest times)
@@ -462,6 +497,8 @@ Confident and plain.
 - **Style:** white, 46px tall, 6px corners, 1px Field Edge border, 16px text on phones (prevents iOS zoom), 15px from tablet up. Labels above, a 13px hint below.
 - **Focus:** border turns blue with a 3px blue ring at 50%; the caret is blue.
 - **Error:** red border and ring at 20%, message replaces the hint.
+- **Auth fields:** the same look at 44px on phones and 40px from 1024px, with 12px side padding (16px text on phones, 15px from 768px), 20px apart.
+- **Prefixed field:** the register booking link. The fixed "host/book/" sits inside the field in Slate Text, unselectable, and the typed slug follows in Ink, so the owner sees the whole link. 44px on phones and 40px from 1024px, 6px corners, Field Edge border; focus lands on the whole box (blue border, 3px ring at 50%), errors turn the box red with a 20% ring.
 - **Owner fields:** the same look at 36px with 10px side padding (16px text on phones, 14px from 768px).
 - **Time field:** a typed 24-hour "HH:MM" box, never the browser's time input, with "09:00" as placeholder; on blur it tidies what was typed ("930" becomes "09:30", "9" becomes "09:00"). 96px wide in the hours editor; also in the New booking and booking dialogs.
 - **Date field:** a 36px button that reads dd/mm/yyyy (placeholder "dd/mm/yyyy") with a 16px Slate Text calendar icon at the right; it opens a 288px popover (white, ~8px corners, Hairline border, Menu lift, 12px padding) holding a Monday-first month: month name at 14px semibold, two 32px outlined arrow squares, uppercase 12px weekday heads, 36px days with 6px corners that go Mist on hover; the picked day is solid Booking Blue and semibold, today carries a small dot. Used in the New booking and booking dialogs.
@@ -479,6 +516,21 @@ A centred 56px Booked Tint circle with a green check, the display headline, then
 
 ### Shop header
 A 40px monogram (initials in Deep Ink Blue on Clear Sky Tint with a Sky Edge inset ring) beside the shop name at headline size and "Book an appointment" in meta.
+
+### Tempah mark
+Tempah's own mark, distinct from a shop's monogram: a 28px Booking Blue tile, 6px corners, with a bold white "T" (13px), beside "Tempah" at 16px semibold, 10px apart. Only on Tempah's own pages (login, register), top-left of the form half; never on a shop's page, where the tinted monogram and the credit stand instead.
+
+### Auth layout
+- **Split:** white form half; from 1024px a Clear Sky Tint preview half with a 1px Sky Edge hairline on its left edge. Phone: the form alone, top-aligned.
+- **Heading:** display size (24px semibold, -0.02em) over one 15px Slate Text help line, 8px apart, 28px above the first field.
+- **Form:** 40px auth fields, a 44px full-width primary, and a 14px Slate Text switch line under it ("New here? Create your shop").
+
+### Product preview
+The right half of login and register: the two sides of Tempah meeting, real component language at small scale, all sample data.
+- **Headline:** one 17px semibold Ink line above, a 13px Slate Text caption below saying it is sample data and what blue and grey mean.
+- **Schedule card:** white, ~8px corners, Hairline border, Menu lift, 16px padding: the date at 14px semibold with a small Mist "Sample" tag, two mini status cards, and a two-column mini timeline (24-hour gutter, hourly hairlines, online and walk-in blocks, the red now line with its dot drawn under the blocks).
+- **Phone card:** 248px wide, in front of the schedule's lower-right corner, covering only empty rows: 20px corners, a 5px white frame, Phone lift; scaled to 85% below 1280px. It shows the shop's booking page in miniature (Mist address bar, monogram and name, a chosen service tile, 12-hour time slots with the picked one solid blue, a blue Book button). On register it mirrors the typed shop name, initials and link.
+- **The one moment:** played once on load. The phone's Book button is pressed (scale to 0.96 and Pressed Blue, 0.4s ease-out, at 0.6s), then the empty dashed Sky Edge slot on the schedule fills left to right with the new online booking (clip-path inset, 0.7s cubic-bezier(0.16,1,0.3,1), 1.1s delay, fill-mode both). Both run only without reduced motion; with reduced motion the slot is simply shown filled.
 
 ### App frame
 The owner app's chrome: quiet, white, one blue mark for where you are.
@@ -546,8 +598,8 @@ One staff member's week as seven rows in a white card (~8px corners, Hairline bo
 - **Do** mark chosen options with Clear Sky Tint (#eef4ff) plus a 2px blue inset edge, and bookable days with the tint alone.
 - **Do** draw selectable borders as inset box-shadows so selection never shifts layout.
 - **Do** keep every public-page target at least 44px tall and the main action 48px at the bottom of the phone screen.
-- **Do** limit motion to 150ms background/edge colour transitions, the one Continue slide-in, and the quick fade-and-zoom of menus and dialogs, and turn the slide-in off under reduced motion.
-- **Do** let the business lead: shop name and monogram at the top, "Bookings by Tempah" as a small credit at the foot.
+- **Do** limit motion to 150ms background/edge colour transitions, the one Continue slide-in, the quick fade-and-zoom of menus and dialogs, and the auth preview's one played-once press-and-fill, and turn the slide-in and the auth moment off under reduced motion.
+- **Do** let the business lead: shop name and monogram at the top, "Bookings by Tempah" as a small credit at the foot. The Tempah mark appears only on Tempah's own login and register pages.
 - **Do** keep the ref in JetBrains Mono and everything else in Onest with default proportional figures.
 - **Do** show and take every owner-app time on the 24-hour clock ("14:30") and every typed date as dd/mm/yyyy; keep "2:00 PM" for the customer's booking page.
 - **Do** keep owner controls at 36px and settings pages left-aligned on the frame, at most 880px wide.
@@ -559,6 +611,6 @@ One staff member's week as seven rows in a white card (~8px corners, Hairline bo
 - **Don't** use gradients, glass, glow or tinted-brand card stacks as decoration. Gradients are allowed only where they do a job: the edge fade mask on the scrolling time list, the off-hours hatch on the timeline, and the timeline's hourly 1px hairlines.
 - **Don't** enable tabular figures in Onest.
 - **Don't** show a disabled primary button in pale blue; it goes grey.
-- **Don't** promote Tempah's own name into the page header or hero.
+- **Don't** promote Tempah's own name into a shop's page header or hero.
 - **Don't** use the browser's own time or date inputs, or format times and dates by the computer's locale.
 - **Don't** give each settings row its own card, or centre a settings page off the frame's left edge.
