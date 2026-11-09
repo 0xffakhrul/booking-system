@@ -137,3 +137,60 @@ export function formatDuration(minutes: number): string {
   if (!h) return `${m}m`;
   return m ? `${h}h ${m}m` : `${h}h`;
 }
+
+/** What one staff member is doing at `now` (minutes into today), for the status strip */
+export type StaffStatus =
+  | { kind: "busy"; booking: Booking; until: number }
+  | { kind: "free"; until: number; next: (Span & { booking: Booking }) | null }
+  | { kind: "starts"; at: number } // before their first hours today
+  | { kind: "break"; until: number } // between two of today's ranges
+  | { kind: "done" } // their last range today has ended
+  | { kind: "off" }; // no hours today
+
+export function staffStatus(
+  timeline: Timeline,
+  column: Column,
+  now: number,
+): StaffStatus {
+  const live = [...column.bookings].sort((a, b) => a.start - b.start);
+  const current = live.find((b) => b.start <= now && now < b.end);
+  // a booking outside working hours (a manual one, say) still makes them busy
+  if (current)
+    return { kind: "busy", booking: current.booking, until: current.end };
+
+  const working = workingTime(timeline, column.off);
+  if (working.length === 0) return { kind: "off" };
+  const range = working.find((w) => w.start <= now && now < w.end);
+  if (!range) {
+    const later = working.find((w) => w.start > now);
+    if (!later) return { kind: "done" };
+    return now < working[0]!.start
+      ? { kind: "starts", at: later.start }
+      : { kind: "break", until: later.start };
+  }
+  const next = live.find((b) => b.start >= now) ?? null;
+  return {
+    kind: "free",
+    until: Math.min(next?.start ?? range.end, range.end),
+    next,
+  };
+}
+
+/** The window minus the off spans: when this person works on the timeline's day */
+function workingTime(window: Span, off: Span[]): Span[] {
+  const working: Span[] = [];
+  let cursor = window.start;
+  for (const o of off) {
+    if (o.start > cursor) working.push({ start: cursor, end: o.start });
+    cursor = Math.max(cursor, o.end);
+  }
+  if (cursor < window.end) working.push({ start: cursor, end: window.end });
+  return working;
+}
+
+/** 870 → "2:30 PM", 720 → "12:00 PM", the same shape as formatTime */
+export function clockLabel(minutes: number): string {
+  const h = Math.floor(minutes / 60) % 24;
+  const m = String(minutes % 60).padStart(2, "0");
+  return `${((h + 11) % 12) + 1}:${m} ${h < 12 ? "AM" : "PM"}`;
+}

@@ -20,6 +20,7 @@ colors:
   destructive-border: "#f6cfca"
   success: "#0f7b55"
   success-tint: "#ecfaf3"
+  hatch-light: "#f7f7f7"
 typography:
   display:
     fontFamily: "Onest Variable, system-ui, sans-serif"
@@ -70,6 +71,7 @@ typography:
     letterSpacing: "0.08em"
 rounded:
   segment: "4px"
+  block: "4.8px"
   control: "6px"
   panel: "8.4px"
   full: "9999px"
@@ -171,6 +173,97 @@ components:
     textColor: "{colors.accent-foreground}"
     rounded: "{rounded.control}"
     size: "40px"
+  app-bar:
+    backgroundColor: "{colors.card}"
+    height: "56px"
+  app-monogram:
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.accent-foreground}"
+    typography: "{typography.caption}"
+    rounded: "{rounded.control}"
+    size: "32px"
+  app-tab:
+    textColor: "{colors.muted-foreground}"
+    typography: "{typography.body}"
+    padding: "0 12px"
+    height: "56px"
+  app-tab-active:
+    textColor: "{colors.foreground}"
+  account-avatar:
+    backgroundColor: "{colors.muted}"
+    textColor: "{colors.foreground}"
+    typography: "{typography.caption}"
+    rounded: "{rounded.full}"
+    size: "36px"
+  button-toolbar:
+    backgroundColor: "{colors.card}"
+    textColor: "{colors.foreground}"
+    typography: "{typography.body}"
+    rounded: "{rounded.control}"
+    height: "36px"
+    padding: "0 12px"
+  button-primary-compact:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.primary-foreground}"
+    typography: "{typography.section-label}"
+    rounded: "{rounded.control}"
+    height: "36px"
+    padding: "0 14px"
+  dropdown-menu:
+    backgroundColor: "{colors.card}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.panel}"
+    padding: "4px"
+    width: "224px"
+  dropdown-item:
+    textColor: "{colors.foreground}"
+    typography: "{typography.body}"
+    rounded: "{rounded.control}"
+    height: "36px"
+    padding: "0 10px"
+  dropdown-item-highlighted:
+    backgroundColor: "{colors.muted}"
+  status-card:
+    backgroundColor: "{colors.card}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.panel}"
+    padding: "12px 16px"
+  status-dot-busy:
+    backgroundColor: "{colors.primary}"
+    rounded: "{rounded.full}"
+    size: "8px"
+  status-dot-free:
+    backgroundColor: "{colors.card}"
+    rounded: "{rounded.full}"
+    size: "8px"
+  status-dot-idle:
+    backgroundColor: "{colors.input}"
+    rounded: "{rounded.full}"
+    size: "8px"
+  schedule-panel:
+    backgroundColor: "{colors.card}"
+    rounded: "{rounded.panel}"
+    padding: "16px 20px"
+  timeline-block-online:
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.accent-foreground}"
+    typography: "{typography.meta}"
+    rounded: "{rounded.block}"
+    padding: "0 10px"
+  timeline-block-walk-in:
+    backgroundColor: "{colors.muted}"
+    textColor: "{colors.foreground}"
+    typography: "{typography.meta}"
+    rounded: "{rounded.block}"
+    padding: "0 10px"
+  timeline-block-past:
+    backgroundColor: "{colors.card}"
+    textColor: "{colors.muted-foreground}"
+  timeline-off-hours:
+    backgroundColor: "{colors.hatch-light}"
+  timeline-now-line:
+    backgroundColor: "{colors.destructive}"
+    height: "2px"
 ---
 
 # Design System: Tempah
@@ -187,22 +280,22 @@ Confirmed rejections: purple or violet anywhere, the shadcn-default stacked-card
 
 **Key Characteristics:**
 - One blue for action, selection and focus; everything else neutral.
-- Status colour is single-purpose: red means a slot was taken, green means booked.
+- Status colour is single-purpose: red means a slot was taken (or marks "now" on the owner timeline), green means booked.
 - Borders are inset shadows, so a 2px selected edge never moves a pixel of content.
 - Every public-page target is at least 44px tall.
-- Motion is nearly absent: 150ms colour and edge fades, one slide-in.
+- Motion is nearly absent: 150ms colour and edge fades, one slide-in, a quick fade-and-zoom on menus and dialogs.
 
 ## Colors
 
 A neutral grey field with a single blue voice and two single-purpose status colours.
 
 ### Primary
-- **Booking Blue** (primary): the one colour that means "act" or "chosen". Fills the main button, the selected date, the selected time on a phone, the 2px edge of a chosen option, the text caret, and every focus ring.
+- **Booking Blue** (primary): the one colour that means "act" or "chosen". Fills the main button, the selected date, the selected time on a phone, the 2px edge of a chosen option, the 2px underline of the active app tab, the text caret, and every focus ring. In the owner app it also fills the "busy" status dot, rings the "free" one, and ticks finished setup steps.
 - **Pressed Blue** (primary-hover): the hover fill of primary buttons. Never used at rest.
-- **Clear Sky Tint** (accent) with **Sky Edge** (accent-border) and **Deep Ink Blue** (accent-foreground): the quiet form of the blue. Fills chosen option tiles, bookable calendar days, the picked time in the desktop list and the shop monogram. Sky Edge is also the text-selection highlight and the resting underline of text links.
+- **Clear Sky Tint** (accent) with **Sky Edge** (accent-border) and **Deep Ink Blue** (accent-foreground): the quiet form of the blue. Fills chosen option tiles, bookable calendar days, the picked time in the desktop list, the shop monogram, and online bookings on the owner timeline (tint fill, Sky Edge inset, Deep Ink Blue text). Sky Edge is also the text-selection highlight and the resting underline of text links.
 
 ### Secondary
-- **Taken Red** (destructive) on **Taken Tint** (destructive-tint) with **Taken Edge** (destructive-border): only the "slot was just booked" alert and form/server errors.
+- **Taken Red** (destructive) on **Taken Tint** (destructive-tint) with **Taken Edge** (destructive-border): only the "slot was just booked" alert, form/server errors, and the owner timeline's 2px now line with its dot and time label.
 - **Booked Green** (success) on **Booked Tint** (success-tint): only the confirmation check mark.
 
 ### Neutral
@@ -212,12 +305,13 @@ A neutral grey field with a single blue voice and two single-purpose status colo
 - **Mist** (muted): segmented-control track, disabled Continue, skeletons, ghost hovers.
 - **Slate Text** (muted-foreground): secondary text, metadata, labels in summary rows, the credit.
 - **Hairline** (border): 1px panel and tile edges, dividers.
-- **Field Edge** (input): input borders, hover edge on tiles, dashed note and ticket perforation.
+- **Field Edge** (input): input borders, hover edge on tiles, dashed note and ticket perforation, the inset edge of walk-in and phone bookings, and the grey "not working now" status dot.
+- **Hatch Light** (hatch-light): the pale stripe of the off-hours hatch, alternating 6px with Mist at 135deg. Used nowhere else.
 
 ### Named Rules
-**The One Blue Rule.** Blue means "press this" or "you chose this", nothing else. No blue decoration, no blue headings, no second accent hue.
+**The One Blue Rule.** Blue means "press this", "you chose this" or "you are here" (the active tab), nothing else, with one owner-side extension: in the owner app it also marks the shop's own online bookings (the quiet tint), a staff member working right now (the status dots) and a finished setup step. No blue decoration, no blue headings, no second accent hue.
 
-**The Single-Purpose Status Rule.** Red appears only when something was lost or rejected (slot taken, error). Green appears only when a booking succeeded. Neither is borrowed for emphasis.
+**The Single-Purpose Status Rule.** Red appears only when something was lost or rejected (slot taken, error) and as the owner timeline's now line, the one place red marks time rather than loss. Green appears only when a booking succeeded; done setup steps tick in blue, not green. Neither is borrowed for emphasis.
 
 **The No-Purple Rule.** No purple or violet in any token, illustration, chart or state. This is a standing brand commitment.
 
@@ -229,14 +323,14 @@ A neutral grey field with a single blue voice and two single-purpose status colo
 **Character:** One friendly geometric sans carries every role through weight (400/500/600) and small size steps; the mono appears once, so the ref reads as a code you can read down a phone line.
 
 ### Hierarchy
-- **Display** (600, 24px, -0.02em): the outcome headline, "You're booked in". One per screen at most.
-- **Headline** (600, 17px, -0.01em): the shop name in the header.
+- **Display** (600, 24px, -0.02em): the outcome headline, "You're booked in", and the owner app's page date heading ("Monday 9 November", with "Tomorrow"/"Yesterday" inline at 16px regular in Slate Text). One per screen at most.
+- **Headline** (600, 17px, -0.01em): the shop name in the public header, and every dialog title app-wide.
 - **Title** (600, 16px): pane titles such as the calendar month and "Your details".
-- **Option** (600, 15px): service names, prices, big-button labels, the desktop day heading.
+- **Option** (600, 15px): service names, prices, big-button labels, the desktop day heading, the shop name in the owner top bar.
 - **Section label** (600, 14px): the plain section headings "Service", "With", "Date", "Time".
-- **Body** (400-500, 14px): summary rows, notes, alert copy, time-slot labels.
-- **Meta** (400, 13px): durations, "29 free", the bottom-bar summary, hints, segment labels.
-- **Caption** (500, 12px): the Tempah credit and weekday labels; calendar weekday column heads are uppercase with 0.04em tracking.
+- **Body** (400-500, 14px): summary rows, notes, alert copy, time-slot labels, app tabs (500), menu items, staff names on status cards and timeline column heads (600).
+- **Meta** (400, 13px): durations, "29 free", the bottom-bar summary, hints, segment labels, the owner totals sentence, status-card detail lines, booking names on the timeline (600).
+- **Caption** (500, 12px): the Tempah credit and weekday labels; calendar weekday column heads are uppercase with 0.04em tracking. In the owner app: timeline hour labels, the now-line time (600, red), booking service lines, monogram and avatar initials (600).
 - **Ref mono** (500, 15px, 0.08em): the booking ref, nowhere else.
 
 ### Named Rules
@@ -255,6 +349,10 @@ Short screens (details, taken, confirmed) narrow the card: details is a two-pane
 
 Rhythm: 8px between list items, 6px between days, 10px between summary rows, 20px between form fields, 24px pane padding.
 
+Owner app (signed-in pages): a 56px white top bar with a bottom hairline spans the page; its content and the schedule share a 1280px max width with 16px side padding on phones and 32px from 768px. Settings pages (services, staff, hours) narrow to 768px (max-w-3xl). Content sits 20px below the bar on phones, 24px from 768px, with 20px between dashboard blocks. On a phone the tabs drop to their own full-bleed row (44px tall) under the shop name and scroll sideways; the Copy booking link button collapses to its icon. Status cards auto-fit at a 240px minimum with 12px gaps, so three staff share a row on a tablet and stack on a phone. The day timeline scrolls sideways rather than squeezing: a 3.5rem sticky hour gutter, staff columns at least 10rem wide, 10px column gap, 64px per hour.
+
+Owner controls are denser than public ones: toolbar buttons and the New booking button are 36px, menu items 36px; the Thumb Rule below governs public pages.
+
 **The Thumb Rule.** On public pages every tappable target is at least 44px tall; the main action is 48px and lives at the bottom of a phone screen.
 
 ## Elevation & Depth
@@ -263,17 +361,20 @@ Nearly flat. Depth comes from white surfaces on a paper-grey field and 1px hairl
 
 ### Shadow Vocabulary
 - **Panel lift** (`box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.05)`): the booker card from tablet up and the confirmation ticket.
-- **Button weight** (`box-shadow: 0 1px 2px rgba(13,58,158,0.25)`): under the 48px primary button only.
+- **Button weight** (`box-shadow: 0 1px 2px rgba(13,58,158,0.25)`): under primary buttons only (the 48px public button and the 36px New booking).
 - **Segment lift** (`box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04)`): the selected segment inside a segmented control.
 - **Inset edge** (`box-shadow: inset 0 0 0 1px var(--border)`; hover `var(--input)`; selected `inset 0 0 0 2px var(--primary)`): the drawn border of tiles, slots, date chips.
 - **Focus ring** (`box-shadow: 0 0 0 3px rgb(21 86 224 / 0.4)`): keyboard focus on every custom control.
+- **Card rest** (`box-shadow: 0 1px 2px rgba(0,0,0,0.04)`): the owner schedule panel. Status cards carry the hairline alone.
+- **Menu lift** (`box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08)`): dropdown menus.
+- **Block hover** (`box-shadow: 0 2px 8px rgba(0,0,0,0.08)`): a timeline booking under the pointer.
 
 ### Named Rules
 **The Inset Edge Rule.** Selectable tiles draw their border as an inset box-shadow, never a CSS border, so the 2px selected edge does not shift text.
 
 ## Shapes
 
-Gently squared corners, two steps: 6px on every control (buttons, tiles, slots, inputs, days, monogram) and about 8px on containers (booker card, ticket, alerts). Inner segments of the segmented control step down to 4px to nest inside the 3px-padded track. Circles appear only for the success badge and the today dot. Dashed edges mean "not content": the empty-state note and the ticket's perforation under the booking ref.
+Gently squared corners, two steps: 6px on every control (buttons, tiles, slots, inputs, days, monogram, menu items, timeline columns) and about 8px on containers (booker card, ticket, alerts, status cards, schedule panel, dropdown menus, dialogs). Inner segments of the segmented control step down to 4px to nest inside the 3px-padded track; timeline booking blocks step down to 4.8px to sit inside their 6px column. Circles appear only for the success badge, the today dot, the account avatar and the status dots. The off-hours hatch (135deg stripes, 6px each) is the one patterned fill and means "not working". Dashed edges mean "not content": the empty-state note and the ticket's perforation under the booking ref.
 
 ## Components
 
@@ -321,22 +422,56 @@ A centred 56px Booked Tint circle with a green check, the display headline, then
 ### Shop header
 A 40px monogram (initials in Deep Ink Blue on Clear Sky Tint with a Sky Edge inset ring) beside the shop name at headline size and "Book an appointment" in meta.
 
+### App frame
+The owner app's chrome: quiet, white, one blue mark for where you are.
+- **Top bar:** 56px, white, bottom Hairline. Left: a 32px monogram (initials at 12px semibold in Deep Ink Blue on Clear Sky Tint, Sky Edge inset ring, 6px corners) beside the shop name at 15px semibold, truncating.
+- **Tabs:** Schedule / Services / Staff, 14px medium, 12px side padding, full bar height. Resting tabs are Slate Text and darken to Ink on hover; the active tab is Ink with a 2px Booking Blue underline flush with the bar's bottom edge. On a phone the tabs take their own 44px row under the shop name.
+- **Right side:** a 36px outline "Copy booking link" button (link icon, swaps to a check and "Copied" for 2s; icon-only on phones), then the account avatar: a 36px Mist circle with two uppercase initials at 12px semibold that opens the account dropdown.
+
+### Day header
+- **Date:** display size (24px semibold, -0.02em); "Tomorrow" or "Yesterday" sits inline at 16px regular in Slate Text. Today needs no label because the Today button beside it is disabled.
+- **Day controls:** previous / Today / next as 36px outline buttons, 6px apart.
+- **Totals sentence:** one 13px Slate Text line ("9 bookings · 5h booked · 5 online · 1 cancelled") with each number in Ink semibold; parts never break inside and are joined by " · ". It wraps under the date on narrower screens. No metric tiles.
+- **New booking:** a 36px primary button with a plus icon and Button weight, pushed to the far right.
+
+### Status cards
+One card per working staff member, today only, answering "busy or free, and until when".
+- **Card:** white, ~8px corners, 1px Hairline border, 12px by 16px padding, no shadow.
+- **Row 1:** an 8px status dot, the staff name at 14px semibold, and an aside at 13px medium pushed right ("until 11:15 AM", "16m free").
+- **Row 2:** 13px Slate Text detail indented to the name, parts joined by " · " and each kept on one line ("With Lim Wei Ming · Cut + wash").
+- **Dot:** filled Booking Blue = busy; a hollow 2px Booking Blue ring on white = free; Field Edge grey = starts later, on a break, done or off.
+
+### Day timeline
+The day as a grid: one column per staff member, bookings placed by time.
+- **Frame:** sits in the schedule panel (white, ~8px corners, Hairline border, Card rest). Column heads at 14px semibold with a Slate Text note (" · from 1 PM", " · off", " (removed)").
+- **Grid:** 64px per hour; hour labels at 12px Slate Text in a sticky 3.5rem gutter; a 1px Hairline at every hour. Empty space is tappable to start a booking at that quarter hour.
+- **Off-hours:** a light diagonal hatch (135deg, Mist and Hatch Light alternating every 6px) over hours a staff member isn't working.
+- **Bookings:** 4.8px-corner blocks inset 4px from the column sides, 10px side padding. Online bookings are Clear Sky Tint with a Sky Edge inset edge and Deep Ink Blue text; walk-in and phone bookings are Mist with a Field Edge inset edge and Ink text. Bookings already over today go quiet: white, Hairline inset edge, Slate Text. Name at 13px semibold, then service and time at 12px; under 40px tall the service moves beside the name. No coloured side stripe. Hover adds Block hover; focus shows the blue ring.
+- **Now line:** today only, a 2px Taken Red line across the columns with an 8px red dot at its left end and the time ("10:44", 12px semibold red on white) over the hour gutter. It is drawn under the booking blocks so an appointment in progress never looks struck through.
+
+### Dropdown menu
+- **Panel:** white, ~8px corners, 1px Hairline border, Menu lift, 4px padding, at least 224px wide, aligned to the trigger's end 6px below it; fades and zooms in from 95%.
+- **Content:** an optional 13px Slate Text label (the account email), a Hairline separator, then 36px items at 14px with a 16px Slate Text icon, 6px corners, Mist when highlighted, half opacity when disabled.
+
+### Dialogs
+Titles are headline size (17px semibold, -0.01em) everywhere in the app.
+
 ## Do's and Don'ts
 
 ### Do:
-- **Do** use Booking Blue (#1556e0) for exactly three jobs: the primary action, the chosen state, and focus.
+- **Do** use Booking Blue (#1556e0) for the primary action, the chosen state (including the active tab underline) and focus; in the owner app also for online bookings (as the tint), the working-now status dots and finished setup steps.
 - **Do** mark chosen options with Clear Sky Tint (#eef4ff) plus a 2px blue inset edge, and bookable days with the tint alone.
 - **Do** draw selectable borders as inset box-shadows so selection never shifts layout.
 - **Do** keep every public-page target at least 44px tall and the main action 48px at the bottom of the phone screen.
-- **Do** limit motion to 150ms background/edge colour transitions and the one Continue slide-in, and turn the slide-in off under reduced motion.
+- **Do** limit motion to 150ms background/edge colour transitions, the one Continue slide-in, and the quick fade-and-zoom of menus and dialogs, and turn the slide-in off under reduced motion.
 - **Do** let the business lead: shop name and monogram at the top, "Bookings by Tempah" as a small credit at the foot.
 - **Do** keep the ref in JetBrains Mono and everything else in Onest with default proportional figures.
 
 ### Don't:
 - **Don't** use purple or violet anywhere.
-- **Don't** use red for anything but a lost slot or an error, or green for anything but a completed booking.
+- **Don't** use red for anything but a lost slot, an error or the owner timeline's now line, or green for anything but a completed booking.
 - **Don't** add kicker, eyebrow or overline labels above headings.
-- **Don't** use gradients, glass, glow or tinted-brand card stacks as decoration (the functional edge fade on the scrolling time list is the only gradient, and it is a mask, not a colour).
+- **Don't** use gradients, glass, glow or tinted-brand card stacks as decoration. Gradients are allowed only where they do a job: the edge fade mask on the scrolling time list, the off-hours hatch on the timeline, and the timeline's hourly 1px hairlines.
 - **Don't** enable tabular figures in Onest.
 - **Don't** show a disabled primary button in pale blue; it goes grey.
 - **Don't** promote Tempah's own name into the page header or hero.

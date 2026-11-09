@@ -1,11 +1,5 @@
 import { useQueries } from "@tanstack/react-query";
-import {
-  CheckIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  LinkIcon,
-  PlusIcon,
-} from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -28,6 +22,7 @@ import { BookingDialog } from "./BookingDialog";
 import { DayTimeline } from "./DayTimeline";
 import { NewBookingDialog, type NewBookingPrefill } from "./NewBookingDialog";
 import { SetupChecklist } from "./SetupChecklist";
+import { StatusStrip } from "./StatusStrip";
 import { buildTimeline, formatDuration, summarizeDay } from "./timeline";
 import { useBookings } from "./useBookings";
 
@@ -74,20 +69,35 @@ export function DashboardPage() {
     });
   };
   const summary = summarizeDay(bookings.data ?? []);
+  const isToday = date === today;
+  const nowMinutes = minutesIntoDay(now.toISOString(), timezone);
+  const timeline =
+    staff.data && bookings.data
+      ? buildTimeline({
+          weekday: weekdayOf(date),
+          timezone,
+          staff: staff.data,
+          hours,
+          bookings: bookings.data,
+        })
+      : null;
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <p className="text-sm text-muted-foreground">
-            {relativeDay(date, today)}
-          </p>
-          <h1 className="text-xl font-semibold">{describeDate(date).long}</h1>
-        </div>
-        <div className="flex flex-wrap items-center gap-1.5">
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-wrap items-end gap-x-4 gap-y-3">
+        <h1 className="w-full text-2xl leading-tight font-semibold tracking-[-0.02em] sm:w-auto">
+          {describeDate(date).long}
+          {relativeDay(date, today) && (
+            <span className="ml-2 text-base font-normal tracking-normal text-muted-foreground">
+              {relativeDay(date, today)}
+            </span>
+          )}
+        </h1>
+        <div className="flex items-center gap-1.5 md:mb-0.5">
           <Button
             variant="outline"
             size="icon"
+            className="size-9"
             aria-label="Previous day"
             onClick={() => goTo(addDays(date, -1))}
           >
@@ -95,7 +105,8 @@ export function DashboardPage() {
           </Button>
           <Button
             variant="outline"
-            disabled={date === today}
+            className="h-9 px-3"
+            disabled={isToday}
             onClick={() => goTo(today)}
           >
             Today
@@ -103,17 +114,45 @@ export function DashboardPage() {
           <Button
             variant="outline"
             size="icon"
+            className="size-9"
             aria-label="Next day"
             onClick={() => goTo(addDays(date, 1))}
           >
             <ChevronRightIcon />
           </Button>
-          <CopyLinkButton slug={tenant.slug} />
-          <Button disabled={!setupDone} onClick={startNewBooking}>
-            <PlusIcon />
-            New booking
-          </Button>
         </div>
+        {bookings.data && (
+          <p className="order-last w-full text-[13px] text-muted-foreground lg:order-none lg:mb-2 lg:w-auto">
+            {summary.count === 0 ? (
+              "No bookings"
+            ) : (
+              <>
+                <Total value={summary.count} label="bookings" />
+                {" · "}
+                <Total
+                  value={formatDuration(summary.bookedMinutes)}
+                  label="booked"
+                />
+                {" · "}
+                <Total value={summary.online} label="online" />
+              </>
+            )}
+            {summary.cancelled > 0 && (
+              <>
+                {" · "}
+                <Total value={summary.cancelled} label="cancelled" />
+              </>
+            )}
+          </p>
+        )}
+        <Button
+          className="h-9 px-3.5 font-semibold shadow-[0_1px_2px_rgba(13,58,158,0.25)] ml-auto md:mb-0.5"
+          disabled={!setupDone}
+          onClick={startNewBooking}
+        >
+          <PlusIcon />
+          New booking
+        </Button>
       </div>
 
       {!setupDone && (
@@ -123,56 +162,39 @@ export function DashboardPage() {
         />
       )}
 
-      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-        <Stat label="Bookings" value={summary.count} />
-        <Stat
-          label="Booked time"
-          value={formatDuration(summary.bookedMinutes)}
-        />
-        <Stat
-          label="Booked online"
-          value={`${summary.online} of ${summary.count}`}
-        />
-        <Stat label="Cancelled" value={summary.cancelled} />
-      </div>
+      {isToday && timeline && timeline.columns.length > 0 && (
+        <StatusStrip timeline={timeline} now={nowMinutes} />
+      )}
 
-      <section className="rounded-xl border bg-card p-4">
-        <h2 className="mb-3 font-bold">Schedule</h2>
+      <section
+        aria-label="Schedule"
+        className="rounded-xl border bg-card p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] md:px-5"
+      >
         {bookings.isError || staff.isError ? (
           <Alert variant="destructive">
             <AlertDescription>
               {(bookings.error ?? staff.error)?.message}
             </AlertDescription>
           </Alert>
-        ) : bookings.isPending || staff.isPending ? (
+        ) : !timeline ? (
           <div className="flex justify-center py-16">
             <Spinner className="size-6 text-muted-foreground" />
           </div>
-        ) : staff.data.length === 0 && bookings.data.length === 0 ? (
-          <p className="py-8 text-center text-sm text-muted-foreground">
+        ) : timeline.columns.length === 0 ? (
+          <p className="py-10 text-center text-sm text-muted-foreground">
             Add your staff to see their day here.
           </p>
         ) : (
           <>
             {summary.count === 0 && (
               <p className="mb-3 text-sm text-muted-foreground">
-                No bookings on this day yet.
+                Pick an empty slot to add one.
               </p>
             )}
             <DayTimeline
               timezone={timezone}
-              now={
-                date === today
-                  ? minutesIntoDay(now.toISOString(), timezone)
-                  : undefined
-              }
-              timeline={buildTimeline({
-                weekday: weekdayOf(date),
-                timezone,
-                staff: staff.data,
-                hours,
-                bookings: bookings.data,
-              })}
+              now={isToday ? nowMinutes : undefined}
+              timeline={timeline}
               onSelect={(b) => setOpenId(b.id)}
               onPickSlot={(staffId, minutes) =>
                 setNewBooking({ date, time: minutesToTime(minutes), staffId })
@@ -208,21 +230,21 @@ export function DashboardPage() {
   );
 }
 
-function Stat({ label, value }: { label: string; value: string | number }) {
+/** "8 bookings", with the number in the text colour */
+function Total({ value, label }: { value: string | number; label: string }) {
   return (
-    <div className="flex flex-col gap-1 rounded-xl border bg-card p-3">
-      <div className="text-xs text-muted-foreground">{label}</div>
-      <div className="text-xl font-bold">{value}</div>
-    </div>
+    <span className="whitespace-nowrap">
+      <span className="font-semibold text-foreground">{value}</span> {label}
+    </span>
   );
 }
 
-/** "Today", "Tomorrow", "Yesterday", or the weekday */
+/** "Tomorrow" or "Yesterday" beside the date; other days need nothing extra */
 function relativeDay(date: string, today: string) {
-  if (date === today) return "Today";
+  // today needs no label: the Today button beside it is already pressed
   if (date === addDays(today, 1)) return "Tomorrow";
   if (date === addDays(today, -1)) return "Yesterday";
-  return describeDate(date).weekday;
+  return null;
 }
 
 /** The current time, updated every minute, for the "now" line and for "today" itself */
@@ -233,38 +255,4 @@ function useNow() {
     return () => clearInterval(timer);
   }, []);
   return now;
-}
-
-function CopyLinkButton({ slug }: { slug: string }) {
-  const [state, setState] = useState<"idle" | "copied" | "failed">("idle");
-
-  useEffect(() => {
-    if (state === "idle") return;
-    const timer = setTimeout(() => setState("idle"), 2000);
-    return () => clearTimeout(timer);
-  }, [state]);
-
-  async function copy() {
-    try {
-      // the clipboard API only works on https or localhost, not http://192.168.x.x
-      await navigator.clipboard.writeText(`${location.origin}/book/${slug}`);
-      setState("copied");
-    } catch {
-      setState("failed");
-    }
-  }
-
-  return (
-    <Button variant="outline" aria-label="Copy booking link" onClick={copy}>
-      {state === "copied" ? <CheckIcon /> : <LinkIcon />}
-      {/* just the icon on a phone, so the row fits */}
-      <span className="hidden sm:inline">
-        {state === "copied"
-          ? "Copied"
-          : state === "failed"
-            ? "Couldn't copy"
-            : "Booking link"}
-      </span>
-    </Button>
-  );
 }

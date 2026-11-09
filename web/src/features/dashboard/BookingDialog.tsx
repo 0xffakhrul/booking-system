@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { RemoveDialog } from "@/components/RemoveDialog";
+import { DatePicker } from "@/components/DatePicker";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,6 +31,7 @@ import {
   formatTimeRange,
   isCalendarDate,
   timeOfDay,
+  todayIn,
   toInstant,
 } from "@/lib/time";
 import { useCancelBooking, useMoveBooking, type Booking } from "./useBookings";
@@ -223,11 +225,19 @@ function MoveForm({
         <div className="grid grid-cols-2 gap-4">
           <Field data-invalid={!!errors.date}>
             <FieldLabel htmlFor="move-date">Date</FieldLabel>
-            <Input
-              id="move-date"
-              type="date"
-              aria-invalid={!!errors.date}
-              {...register("date")}
+            <Controller
+              control={control}
+              name="date"
+              render={({ field }) => (
+                <DatePicker
+                  id="move-date"
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  today={todayIn(timezone)}
+                  invalid={!!errors.date}
+                />
+              )}
             />
             <FieldError errors={[errors.date]} />
           </Field>

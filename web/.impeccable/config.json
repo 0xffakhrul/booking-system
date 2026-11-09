@@ -110,6 +110,30 @@
         ],
         "createdAt": "2026-11-09T02:14:16.158Z",
         "reason": "agent: spent mockup/decision sketch predating DESIGN.md, not shipping UI; fonts there were options under comparison"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "onest",
+        "createdAt": "2026-11-09T02:26:15.873Z",
+        "reason": "agent: DESIGN.md declares 'Onest Variable' (fontsource name); 'Onest' is the same face as loaded from Google Fonts in mocks"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/now-next.html"
+        ],
+        "createdAt": "2026-11-09T02:39:15.401Z",
+        "reason": "agent: spent decision sketch, not shipping UI; built timeline uses its own padding"
+      },
+      {
+        "rule": "skipped-heading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/calendar-sidebar.html"
+        ],
+        "createdAt": "2026-11-09T02:39:15.432Z",
+        "reason": "agent: unchosen decision sketch, not shipping UI"
       }
     ]
   }
