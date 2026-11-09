@@ -155,3 +155,26 @@
     color: var(--foreground);
   }
 }
+
+/* Auth preview, played once: the phone's Book button is pressed, then the empty slot on the
+   schedule fills with the new booking. The dashed slot is visible from the first frame;
+   with reduced motion the booking is simply there. */
+@keyframes slot-fill {
+  from {
+    clip-path: inset(0 100% 0 0 round 5px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 5px);
+  }
+}
+
+@keyframes book-press {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.96);
+    background-color: var(--primary-hover);
+  }
+}
