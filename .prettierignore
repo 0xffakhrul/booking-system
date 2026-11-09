@@ -4,3 +4,6 @@ package-lock.json
 
 # hand-formatted markdown tables; Prettier would re-pad every table
 docs/
+
+# design-tool state and mockups (Impeccable), written by the tool, not by hand
+**/.impeccable/

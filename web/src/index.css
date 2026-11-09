@@ -1,13 +1,21 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/plus-jakarta-sans";
+@import "@fontsource-variable/onest";
+@import "@fontsource-variable/jetbrains-mono";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --font-heading: var(--font-sans);
-  --font-sans: "Plus Jakarta Sans Variable", system-ui, sans-serif;
+  --font-sans: "Onest Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+  --color-primary-hover: var(--primary-hover);
+  --color-accent-border: var(--accent-border);
+  --color-destructive-tint: var(--destructive-tint);
+  --color-destructive-border: var(--destructive-border);
+  --color-success: var(--success);
+  --color-success-tint: var(--success-tint);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -48,41 +56,49 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Tempah brand, from the mockup: teal on a warm off-white. Only :root is themed;
-   the .dark block below is shadcn's untouched default (dark mode isn't used yet). */
+/* Tempah: the category standard at Cal.com / Stripe craft. Neutral greys, one blue for
+   actions, selection and focus; red only for "slot taken", green only for "booked".
+   No purple anywhere (a standing brand rule). Only :root is themed; the .dark block
+   below is shadcn's untouched default (dark mode isn't used yet). */
 :root {
-  --background: #f6f6f3;
-  --foreground: #16181d;
+  --background: #fafafa;
+  --foreground: #0a0a0a;
   --card: #ffffff;
-  --card-foreground: #16181d;
+  --card-foreground: #0a0a0a;
   --popover: #ffffff;
-  --popover-foreground: #16181d;
-  --primary: #0f766e;
+  --popover-foreground: #0a0a0a;
+  --primary: #1556e0;
+  --primary-hover: #0f47bf;
   --primary-foreground: #ffffff;
-  --secondary: #eeeeea;
-  --secondary-foreground: #16181d;
-  --muted: #eeeeea;
-  --muted-foreground: #5b606b;
-  --accent: #e6f2f0; /* teal tint: selected cards, hover */
-  --accent-foreground: #115e59;
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: #e3e3de;
-  --input: #e3e3de;
-  --ring: #0f766e;
+  --secondary: #f1f1f1;
+  --secondary-foreground: #0a0a0a;
+  --muted: #f1f1f1;
+  --muted-foreground: #5c5c5c;
+  --accent: #eef4ff; /* blue tint: chosen options, bookable days */
+  --accent-foreground: #0d3a9e;
+  --accent-border: #c9daff;
+  --destructive: #b42318;
+  --destructive-tint: #fef3f2;
+  --destructive-border: #f6cfca;
+  --success: #0f7b55;
+  --success-tint: #ecfaf3;
+  --border: #e8e8e8;
+  --input: #d6d6d6;
+  --ring: #1556e0;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.75rem;
+  --radius: 0.375rem; /* rounded-lg = 6px for controls, rounded-xl ≈ 8px for panels */
   --sidebar: #ffffff;
-  --sidebar-foreground: #16181d;
-  --sidebar-primary: #0f766e;
+  --sidebar-foreground: #0a0a0a;
+  --sidebar-primary: #1556e0;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e6f2f0;
-  --sidebar-accent-foreground: #115e59;
-  --sidebar-border: #e3e3de;
-  --sidebar-ring: #0f766e;
+  --sidebar-accent: #eef4ff;
+  --sidebar-accent-foreground: #0d3a9e;
+  --sidebar-border: #e8e8e8;
+  --sidebar-ring: #1556e0;
 }
 
 .dark {
@@ -128,5 +144,14 @@
   }
   html {
     @apply font-sans;
+    -webkit-font-smoothing: antialiased;
+  }
+  input,
+  textarea {
+    caret-color: var(--primary);
+  }
+  ::selection {
+    background: var(--accent-border);
+    color: var(--foreground);
   }
 }
