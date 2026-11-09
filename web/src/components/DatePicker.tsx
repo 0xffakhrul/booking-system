@@ -52,7 +52,7 @@ export function DatePicker({
       <Popover.Trigger
         id={id}
         aria-invalid={invalid}
-        className="flex h-8 w-full items-center justify-between gap-2 rounded-lg border border-input bg-transparent px-2.5 text-left text-base outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm"
+        className="flex h-9 w-full items-center justify-between gap-2 rounded-lg border border-input bg-transparent px-2.5 text-left text-base outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm"
       >
         <span className={cn(!value && "text-muted-foreground")}>
           {value ? dayMonthYear(value) : "dd/mm/yyyy"}
@@ -151,7 +151,7 @@ function MonthButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="flex size-8 items-center justify-center rounded-[5px] shadow-[inset_0_0_0_1px_var(--border)] transition-colors outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/40 [&_svg]:size-4"
+      className="flex size-8 items-center justify-center rounded-lg shadow-[inset_0_0_0_1px_var(--border)] transition-colors outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/40 [&_svg]:size-4"
     >
       {children}
     </button>

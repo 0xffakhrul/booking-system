@@ -232,10 +232,10 @@ describe("staffStatus", () => {
 });
 
 describe("clockLabel", () => {
-  it("formats minutes into the day like formatTime", () => {
-    expect(clockLabel(0)).toBe("12:00 AM");
-    expect(clockLabel(9 * 60 + 5)).toBe("9:05 AM");
-    expect(clockLabel(12 * 60)).toBe("12:00 PM");
-    expect(clockLabel(14 * 60 + 30)).toBe("2:30 PM");
+  it("formats minutes into the day on the 24-hour clock", () => {
+    expect(clockLabel(0)).toBe("00:00");
+    expect(clockLabel(9 * 60 + 5)).toBe("09:05");
+    expect(clockLabel(12 * 60)).toBe("12:00");
+    expect(clockLabel(14 * 60 + 30)).toBe("14:30");
   });
 });

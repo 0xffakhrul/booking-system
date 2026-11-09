@@ -1,16 +1,10 @@
-import { formatTimeRange } from "@/lib/time";
+import { formatTimeRange24 } from "@/lib/time";
 import { cn } from "@/lib/utils";
 import { clockLabel, type Span, type Timeline } from "./timeline";
 import type { Booking } from "./useBookings";
 
 const HOUR_PX = 64; // same scale as the mockup: a 45-minute haircut is 48px tall
 const px = (minutes: number) => (minutes / 60) * HOUR_PX;
-
-/** "9 AM", "12 PM", "6 PM" */
-function hourLabel(minutes: number) {
-  const h = minutes / 60;
-  return `${((h + 11) % 12) + 1} ${h < 12 || h === 24 ? "AM" : "PM"}`;
-}
 
 type Props = {
   timeline: Timeline;
@@ -69,7 +63,7 @@ export function DayTimeline({
                 className="absolute right-0 text-xs whitespace-nowrap text-muted-foreground"
                 style={{ top: Math.max(0, px(m - timeline.start) - 8) }}
               >
-                {hourLabel(m)}
+                {clockLabel(m)}
               </div>
             ))}
           </div>
@@ -111,7 +105,7 @@ export function DayTimeline({
 
               {c.bookings.map(({ booking: b, ...span }) => {
                 const h = px(span.end - span.start);
-                const time = formatTimeRange(b.start, b.end, timezone);
+                const time = formatTimeRange24(b.start, b.end, timezone);
                 const past = now !== undefined && span.end <= now;
                 return (
                   <button
@@ -175,7 +169,7 @@ export function DayTimeline({
                 className="pointer-events-none absolute right-[calc(100%-3.5rem+6px)] z-30 -translate-y-1/2 rounded-sm bg-card px-1 text-xs font-semibold whitespace-nowrap text-destructive"
                 style={{ top: px(now - timeline.start) + 1 }}
               >
-                {clockLabel(now).slice(0, -3) /* "10:35": no room for AM/PM */}
+                {clockLabel(now)}
               </span>
             </>
           )}
@@ -185,10 +179,10 @@ export function DayTimeline({
   );
 }
 
-/** " · from 1 PM" for someone who starts after the grid does, " · off" for a day off */
+/** " · from 13:00" for someone who starts after the grid does, " · off" for a day off */
 function startNote(off: Span[], timeline: Timeline) {
   const first = off[0];
   if (!first || first.start > timeline.start) return "";
   if (first.end >= timeline.end) return " · off";
-  return ` · from ${clockLabel(first.end).replace(":00", "")}`;
+  return ` · from ${clockLabel(first.end)}`;
 }

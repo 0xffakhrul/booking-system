@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { DatePicker } from "@/components/DatePicker";
+import { TimeInput } from "@/components/TimeInput";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,7 +25,7 @@ import { Spinner } from "@/components/ui/spinner";
 import type { Service } from "@/features/services/useServices";
 import type { Staff } from "@/features/staff/useStaff";
 import { setServerErrors } from "@/lib/form-errors";
-import { isCalendarDate, todayIn, toInstant } from "@/lib/time";
+import { isCalendarDate, normalizeTime, todayIn, toInstant } from "@/lib/time";
 import { useCreateBooking } from "./useBookings";
 
 /** What the form starts with: the day on screen, and maybe a tapped spot's person and time */
@@ -197,12 +198,11 @@ function NewBookingForm({
           </Field>
           <Field data-invalid={!!errors.time}>
             <FieldLabel htmlFor="nb-time">Start</FieldLabel>
-            <Input
+            <TimeInput
               id="nb-time"
-              type="time"
               step={300}
               aria-invalid={!!errors.time}
-              {...register("time")}
+              {...register("time", { setValueAs: normalizeTime })}
             />
             <FieldError errors={[errors.time]} />
           </Field>
