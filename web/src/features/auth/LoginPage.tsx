@@ -4,13 +4,6 @@ import { Link } from "react-router";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Field,
   FieldDescription,
   FieldError,
@@ -21,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { setServerErrors } from "@/lib/form-errors";
 import { loginSchema, type LoginInput } from "./auth.schemas";
+import { AuthHeading, AuthLayout, authButton, authInput } from "./AuthLayout";
+import { ProductPreview } from "./ProductPreview";
 import { useLogin } from "./useAuth";
 
 export function LoginPage() {
@@ -44,60 +39,63 @@ export function LoginPage() {
   });
 
   return (
-    <main className="flex min-h-svh items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-sm">
-        <CardHeader>
-          <CardTitle>Log in</CardTitle>
-          <CardDescription>Manage your shop's bookings.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={onSubmit} noValidate>
-            <FieldGroup>
-              <Field data-invalid={!!errors.email}>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  autoComplete="email"
-                  aria-invalid={!!errors.email}
-                  {...register("email")}
-                />
-                <FieldError errors={[errors.email]} />
-              </Field>
+    <AuthLayout
+      preview={
+        <ProductPreview shopName="Kedai Gunting Ali" slug="kedai-gunting-ali" />
+      }
+    >
+      <AuthHeading title="Log in">
+        Your shop's schedule, bookings and booking link.
+      </AuthHeading>
+      <form onSubmit={onSubmit} noValidate>
+        <FieldGroup className="gap-5">
+          <Field data-invalid={!!errors.email}>
+            <FieldLabel htmlFor="email">Email</FieldLabel>
+            <Input
+              id="email"
+              type="email"
+              autoComplete="email"
+              className={authInput}
+              aria-invalid={!!errors.email}
+              {...register("email")}
+            />
+            <FieldError errors={[errors.email]} />
+          </Field>
 
-              <Field data-invalid={!!errors.password}>
-                <FieldLabel htmlFor="password">Password</FieldLabel>
-                <Input
-                  id="password"
-                  type="password"
-                  autoComplete="current-password"
-                  aria-invalid={!!errors.password}
-                  {...register("password")}
-                />
-                <FieldError errors={[errors.password]} />
-              </Field>
+          <Field data-invalid={!!errors.password}>
+            <FieldLabel htmlFor="password">Password</FieldLabel>
+            <Input
+              id="password"
+              type="password"
+              autoComplete="current-password"
+              className={authInput}
+              aria-invalid={!!errors.password}
+              {...register("password")}
+            />
+            <FieldError errors={[errors.password]} />
+          </Field>
 
-              {errors.root?.server && (
-                <Alert variant="destructive">
-                  <AlertDescription>
-                    {errors.root.server.message}
-                  </AlertDescription>
-                </Alert>
-              )}
+          {errors.root?.server && (
+            <Alert variant="destructive">
+              <AlertDescription>{errors.root.server.message}</AlertDescription>
+            </Alert>
+          )}
 
-              <Field>
-                <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting && <Spinner />}
-                  Log in
-                </Button>
-                <FieldDescription className="text-center">
-                  New here? <Link to="/register">Create your shop</Link>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
-    </main>
+          <Field className="gap-4 pt-1">
+            <Button
+              type="submit"
+              className={authButton}
+              disabled={isSubmitting}
+            >
+              {isSubmitting && <Spinner />}
+              Log in
+            </Button>
+            <FieldDescription className="text-sm">
+              New here? <Link to="/register">Create your shop</Link>
+            </FieldDescription>
+          </Field>
+        </FieldGroup>
+      </form>
+    </AuthLayout>
   );
 }

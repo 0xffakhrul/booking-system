@@ -2,16 +2,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftIcon, PlusIcon, XIcon } from "lucide-react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { Link, useParams } from "react-router";
-import { PageHeader } from "@/components/PageHeader";
+import { PageHeader, pageAction } from "@/components/PageHeader";
+import { TimeInput } from "@/components/TimeInput";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { FieldError } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { Switch } from "@/components/ui/switch";
 import { useMe } from "@/features/auth/useMe";
 import { setServerErrors } from "@/lib/form-errors";
+import { normalizeTime } from "@/lib/time";
+import { cn } from "@/lib/utils";
 import { useStaff } from "./useStaff";
 import {
   useSaveWorkingHours,
@@ -29,7 +31,11 @@ export function WorkingHoursPage() {
 
   return (
     <>
-      <Button variant="ghost" size="sm" className="mb-2 -ml-2" asChild>
+      <Button
+        variant="ghost"
+        className="mb-2 -ml-2 h-9 px-2 text-foreground/80"
+        asChild
+      >
         <Link to="/app/staff">
           <ArrowLeftIcon />
           Staff
@@ -37,11 +43,31 @@ export function WorkingHoursPage() {
       </Button>
       <PageHeader
         title={member ? `${member.name}'s hours` : "Working hours"}
-        description={`When customers can book them. Times are in ${account?.tenant.timezone}.`}
+        description={`When customers can book them. Times are ${city(account?.tenant.timezone)} time, 24-hour.`}
       />
 
       {hours.isPending ? (
-        <Spinner className="mx-auto mt-8 size-6 text-muted-foreground" />
+        // placeholder day rows: a switch and name, then a pair of time fields
+        <div
+          aria-hidden
+          className="divide-y rounded-xl border bg-card px-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] md:px-5"
+        >
+          {Array.from({ length: 7 }, (_, i) => (
+            <div
+              key={i}
+              className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center"
+            >
+              <div className="flex items-center gap-3 sm:w-40">
+                <span className="h-5 w-8 animate-pulse rounded-full bg-muted motion-reduce:animate-none" />
+                <span className="h-3.5 w-20 animate-pulse rounded bg-muted motion-reduce:animate-none" />
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-9 w-24 animate-pulse rounded-lg bg-muted motion-reduce:animate-none" />
+                <span className="h-9 w-24 animate-pulse rounded-lg bg-muted motion-reduce:animate-none" />
+              </div>
+            </div>
+          ))}
+        </div>
       ) : hours.error ? (
         <Alert variant="destructive">
           <AlertDescription>{hours.error.message}</AlertDescription>
@@ -83,7 +109,7 @@ function WeekEditor({ staffId, saved }: { staffId: string; saved: Range[] }) {
 
   return (
     <form onSubmit={onSubmit} noValidate>
-      <div className="divide-y rounded-xl border bg-card px-4">
+      <div className="divide-y rounded-xl border bg-card px-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] md:px-5">
         {WEEK.map((day) => {
           const ranges = fields
             .map((field, index) => ({ field, index }))
@@ -105,7 +131,7 @@ function WeekEditor({ staffId, saved }: { staffId: string; saved: Range[] }) {
               key={day.weekday}
               className="flex flex-col gap-3 py-4 sm:flex-row sm:items-start"
             >
-              <div className="flex shrink-0 items-center gap-3 sm:w-40 sm:pt-1.5">
+              <div className="flex shrink-0 items-center gap-3 sm:w-40 sm:pt-1">
                 <Switch
                   id={`day-${day.weekday}`}
                   checked={open}
@@ -113,12 +139,17 @@ function WeekEditor({ staffId, saved }: { staffId: string; saved: Range[] }) {
                     on ? addRange() : remove(ranges.map((r) => r.index))
                   }
                 />
-                <Label htmlFor={`day-${day.weekday}`}>{day.label}</Label>
+                <Label
+                  htmlFor={`day-${day.weekday}`}
+                  className="text-sm font-semibold"
+                >
+                  {day.label}
+                </Label>
               </div>
 
               <div className="flex flex-1 flex-col gap-2">
                 {!open && (
-                  <p className="text-sm text-muted-foreground sm:pt-1.5">
+                  <p className="text-sm text-muted-foreground sm:pt-1">
                     Closed
                   </p>
                 )}
@@ -127,30 +158,30 @@ function WeekEditor({ staffId, saved }: { staffId: string; saved: Range[] }) {
                   return (
                     <div key={field.id}>
                       <div className="flex items-center gap-2">
-                        <Input
-                          type="time"
-                          step={300}
-                          className="min-w-0 flex-1 sm:w-36 sm:flex-none"
+                        <TimeInput
+                          className="w-24"
                           aria-label={`${day.label} start ${i + 1}`}
                           aria-invalid={!!error?.start}
-                          {...register(`hours.${index}.start`)}
+                          {...register(`hours.${index}.start`, {
+                            setValueAs: normalizeTime,
+                          })}
                         />
                         <span className="shrink-0 text-muted-foreground">
                           –
                         </span>
-                        <Input
-                          type="time"
-                          step={300}
-                          className="min-w-0 flex-1 sm:w-36 sm:flex-none"
+                        <TimeInput
+                          className="w-24"
                           aria-label={`${day.label} end ${i + 1}`}
                           aria-invalid={!!error?.end}
-                          {...register(`hours.${index}.end`)}
+                          {...register(`hours.${index}.end`, {
+                            setValueAs: normalizeTime,
+                          })}
                         />
                         <Button
                           type="button"
                           variant="ghost"
-                          size="icon-sm"
-                          className="shrink-0"
+                          size="icon"
+                          className="size-9 shrink-0"
                           aria-label={`Remove ${day.label} hours ${i + 1}`}
                           onClick={() => remove(index)}
                         >
@@ -165,8 +196,7 @@ function WeekEditor({ staffId, saved }: { staffId: string; saved: Range[] }) {
                   <Button
                     type="button"
                     variant="ghost"
-                    size="sm"
-                    className="self-start"
+                    className="-ml-2 h-9 self-start px-2 text-foreground/80"
                     onClick={addRange}
                   >
                     <PlusIcon />
@@ -185,7 +215,7 @@ function WeekEditor({ staffId, saved }: { staffId: string; saved: Range[] }) {
         </Alert>
       )}
 
-      <div className="sticky bottom-0 mt-4 flex items-center justify-end gap-3 border-t bg-background/95 py-3 backdrop-blur">
+      <div className="sticky bottom-0 mt-4 flex items-center justify-end gap-3 border-t bg-background pt-3 pb-[max(12px,env(safe-area-inset-bottom))]">
         <span className="mr-auto text-sm text-muted-foreground">
           {isDirty ? "Unsaved changes" : isSubmitSuccessful ? "Saved" : ""}
         </span>
@@ -194,11 +224,24 @@ function WeekEditor({ staffId, saved }: { staffId: string; saved: Range[] }) {
             Discard
           </Button>
         )}
-        <Button type="submit" disabled={!isDirty || isSubmitting}>
+        <Button
+          type="submit"
+          // nothing to save yet: grey, not pale blue, like Continue on the booking page
+          className={cn(
+            pageAction,
+            "disabled:bg-muted disabled:text-muted-foreground disabled:opacity-100 disabled:shadow-none",
+          )}
+          disabled={!isDirty || isSubmitting}
+        >
           {isSubmitting && <Spinner />}
           Save hours
         </Button>
       </div>
     </form>
   );
+}
+
+/** "Asia/Kuala_Lumpur" → "Kuala Lumpur" */
+function city(timeZone = "") {
+  return timeZone.split("/").pop()!.replace(/_/g, " ");
 }

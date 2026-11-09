@@ -7,12 +7,14 @@ import {
   describeGap,
   formatTime,
   formatTimeRange,
+  formatTimeRange24,
   isCalendarDate,
   minutesIntoDay,
   minutesToTime,
+  normalizeTime,
   timeOfDay,
-  todayIn,
   toInstant,
+  todayIn,
   weekdayOf,
 } from "./time";
 
@@ -126,5 +128,35 @@ describe("wall-clock times in the business's timezone", () => {
     expect(timeOfDay("2026-11-05T16:05:00Z", "Asia/Kuala_Lumpur")).toBe(
       "00:05",
     );
+  });
+});
+
+describe("normalizeTime", () => {
+  it("tidies what people type into HH:MM", () => {
+    expect(normalizeTime("930")).toBe("09:30");
+    expect(normalizeTime("0930")).toBe("09:30");
+    expect(normalizeTime("9")).toBe("09:00");
+    expect(normalizeTime("9:5")).toBe("09:05");
+    expect(normalizeTime("18.00")).toBe("18:00");
+    expect(normalizeTime(" 14:30 ")).toBe("14:30");
+  });
+
+  it("leaves anything that isn't a time alone, for the form to reject", () => {
+    expect(normalizeTime("2500")).toBe("2500");
+    expect(normalizeTime("9:75")).toBe("9:75");
+    expect(normalizeTime("noon")).toBe("noon");
+    expect(normalizeTime("")).toBe("");
+  });
+});
+
+describe("formatTimeRange24", () => {
+  it("shows the owner a booking on the 24-hour clock, in the business's timezone", () => {
+    expect(
+      formatTimeRange24(
+        "2026-11-06T06:00:00Z",
+        "2026-11-06T06:45:00Z",
+        "Asia/Kuala_Lumpur",
+      ),
+    ).toBe("14:00 – 14:45");
   });
 });

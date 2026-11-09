@@ -5,6 +5,7 @@ import { availabilityKey } from "./useAvailability";
 export type BookingRequest = {
   serviceId: string;
   start: string;
+  staffId?: string; // left out for "anyone": the server picks whoever is free
   customerName: string;
   customerPhone: string;
 };
@@ -21,7 +22,7 @@ export type Booking = {
   source: "online" | "manual";
 };
 
-/** POST /api/public/:slug/bookings with no staffId: the server picks whoever is free */
+/** POST /api/public/:slug/bookings; without a staffId the server picks whoever is free */
 export function useCreateBooking(slug: string) {
   const queryClient = useQueryClient();
   return useMutation({

@@ -160,3 +160,33 @@ export function toInstant(
   const guess = wanted - offset(wanted);
   return new Date(wanted - offset(guess)).toISOString();
 }
+
+/**
+ * What someone typed into a 24-hour time field, tidied to "HH:MM" when it reads as a time:
+ * "930" → "09:30", "9" → "09:00", "9:5" → "09:05", "1800" → "18:00". Anything else comes
+ * back as typed, so the form's own check can say what's wrong.
+ */
+export function normalizeTime(text: string): string {
+  const raw = text.trim();
+  const match =
+    raw.match(/^(\d{1,2})[:.](\d{1,2})$/) ?? // "9:30", "9.30"
+    raw.match(/^(\d{1,2})(\d{2})$/) ?? // "930", "0930"
+    raw.match(/^(\d{1,2})$/); // "9"
+  if (!match) return text;
+  const h = Number(match[1]);
+  const m = Number(match[2] ?? 0);
+  if (h > 23 || m > 59) return text;
+  return minutesToTime(h * 60 + m);
+}
+
+/**
+ * A booking's time range on the 24-hour clock, for the owner's screens:
+ * "14:00 – 14:45". The customer's booking page keeps formatTimeRange's 2:00 PM style.
+ */
+export function formatTimeRange24(
+  startIso: string,
+  endIso: string,
+  timeZone: string,
+): string {
+  return `${timeOfDay(startIso, timeZone)} – ${timeOfDay(endIso, timeZone)}`;
+}
