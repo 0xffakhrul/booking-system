@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-09T02:13:36+00:00",
+  "generatedAt": "2026-11-09T02:49:44+00:00",
   "title": "Design System: Tempah",
   "extensions": {
     "colorMeta": {
@@ -273,16 +273,31 @@
           "#d8f3e6",
           "#ecfaf3"
         ]
+      },
+      "hatch-light": {
+        "role": "neutral",
+        "displayName": "Hatch Light",
+        "canonical": "#f7f7f7",
+        "tonalRamp": [
+          "#0a0a0a",
+          "#2b2b2b",
+          "#5c5c5c",
+          "#8a8a8a",
+          "#d6d6d6",
+          "#e8e8e8",
+          "#f1f1f1",
+          "#fafafa"
+        ]
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Outcome headline (\"You're booked in\"); one per screen at most."
+        "purpose": "Outcome headline (\"You're booked in\") and the owner app's page date heading; one per screen at most."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "The shop name in the header."
+        "purpose": "The shop name in the public header and every dialog title."
       },
       "title": {
         "displayName": "Title",
@@ -290,7 +305,7 @@
       },
       "option": {
         "displayName": "Option",
-        "purpose": "Service names, prices, big-button labels, desktop day heading."
+        "purpose": "Service names, prices, big-button labels, desktop day heading, the shop name in the owner top bar."
       },
       "section-label": {
         "displayName": "Section label",
@@ -298,15 +313,15 @@
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Summary rows, notes, alert copy, time-slot labels."
+        "purpose": "Summary rows, notes, alert copy, time-slot labels, app tabs, menu items, staff names."
       },
       "meta": {
         "displayName": "Meta",
-        "purpose": "Durations, counts, bottom-bar summary, hints, segment labels."
+        "purpose": "Durations, counts, bottom-bar summary, hints, segment labels, owner totals sentence, status-card details, timeline booking names."
       },
       "caption": {
         "displayName": "Caption",
-        "purpose": "The Tempah credit and calendar weekday heads."
+        "purpose": "The Tempah credit, calendar weekday heads, timeline hour labels and now-line time, monogram and avatar initials."
       },
       "ref-mono": {
         "displayName": "Ref mono",
@@ -322,7 +337,7 @@
       {
         "name": "button-weight",
         "value": "0 1px 2px rgba(13,58,158,0.25)",
-        "purpose": "Under the 48px primary button only."
+        "purpose": "Under primary buttons only (48px public button, 36px New booking)."
       },
       {
         "name": "segment-lift",
@@ -348,6 +363,21 @@
         "name": "focus-ring",
         "value": "0 0 0 3px rgb(21 86 224 / 0.4)",
         "purpose": "Keyboard focus on custom controls (shadcn primitives use 50%)."
+      },
+      {
+        "name": "card-rest",
+        "value": "0 1px 2px rgba(0,0,0,0.04)",
+        "purpose": "The owner schedule panel."
+      },
+      {
+        "name": "menu-lift",
+        "value": "0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08)",
+        "purpose": "Dropdown menus."
+      },
+      {
+        "name": "block-hover",
+        "value": "0 2px 8px rgba(0,0,0,0.08)",
+        "purpose": "A timeline booking under the pointer."
       }
     ],
     "motion": [
@@ -365,6 +395,11 @@
         "name": "press-nudge",
         "value": "translateY(1px) on :active",
         "purpose": "Button press feedback (shadcn primitive)."
+      },
+      {
+        "name": "overlay-in",
+        "value": "fade-in + zoom-in from 95% (100-150ms)",
+        "purpose": "Dropdown menus and dialogs opening."
       }
     ],
     "breakpoints": [
@@ -382,6 +417,18 @@
         "name": "lg",
         "value": "1024px",
         "purpose": "Three-pane booker with month calendar and time list."
+      }
+    ],
+    "patterns": [
+      {
+        "name": "off-hours-hatch",
+        "value": "repeating-linear-gradient(135deg, var(--muted) 0 6px, #f7f7f7 6px 12px)",
+        "purpose": "Timeline hours a staff member isn't working."
+      },
+      {
+        "name": "hour-hairlines",
+        "value": "repeating-linear-gradient(to bottom, var(--border) 0 1px, transparent 1px 64px)",
+        "purpose": "A 1px hairline every hour on timeline columns."
       }
     ]
   },
@@ -465,6 +512,46 @@
       "description": "Booked ticket: mono ref over a dashed perforation, then receipt rows.",
       "html": "<div class=\"ds-ticket\"><div class=\"ref\"><span>Booking ref</span><code>TMP-7K2Q</code></div><dl><div><dt>When</dt><dd>Fri 13 Nov, 2:00 to 2:30 PM</dd></div><div><dt>With</dt><dd>Ali</dd></div><div><dt>Price</dt><dd>RM 28 · pay at the shop</dd></div></dl></div>",
       "css": ".ds-ticket{width:360px;overflow:hidden;border:1px solid var(--border,#e8e8e8);border-radius:8.4px;background:var(--card,#fff);box-shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);font-family:'Onest Variable',system-ui,sans-serif}.ds-ticket .ref{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px dashed var(--input,#d6d6d6)}.ds-ticket .ref span{font-size:13px;color:var(--muted-foreground,#5c5c5c)}.ds-ticket code{font-family:'JetBrains Mono Variable',ui-monospace,monospace;font-size:15px;font-weight:500;letter-spacing:.08em}.ds-ticket dl{display:flex;flex-direction:column;gap:10px;margin:0;padding:14px 16px;font-size:14px}.ds-ticket dl div{display:flex;justify-content:space-between;gap:16px}.ds-ticket dl div:last-child{border-top:1px solid var(--border,#e8e8e8);padding-top:10px}.ds-ticket dt{color:var(--muted-foreground,#5c5c5c)}.ds-ticket dd{margin:0;font-weight:500;text-align:right}"
+    },
+    {
+      "name": "App Frame",
+      "kind": "nav",
+      "refersTo": "app-bar",
+      "description": "Owner top bar: monogram and shop name, tabs with a blue underline on the active one, copy-link button, account avatar.",
+      "html": "<header class=\"ds-appbar\"><div class=\"ds-appbar-shop\"><span class=\"ds-appbar-mono\">KG</span><span>Kedai Gunting Ali</span></div><nav class=\"ds-appbar-tabs\"><a href=\"#\" aria-current=\"page\">Schedule</a><a href=\"#\">Services</a><a href=\"#\">Staff</a></nav><div class=\"ds-appbar-end\"><button class=\"ds-appbar-link\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71\"/><path d=\"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71\"/></svg>Copy booking link</button><button class=\"ds-appbar-avatar\" aria-label=\"Account\">DE</button></div></header>",
+      "css": ".ds-appbar{display:flex;align-items:center;gap:24px;height:56px;width:860px;padding:0 32px;background:var(--card,#fff);border-bottom:1px solid var(--border,#e8e8e8);font-family:'Onest Variable',system-ui,sans-serif}.ds-appbar-shop{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;color:var(--foreground,#0a0a0a);white-space:nowrap}.ds-appbar-mono{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px;background:var(--accent,#eef4ff);color:var(--accent-foreground,#0d3a9e);font-size:12px;font-weight:600;box-shadow:inset 0 0 0 1px var(--accent-border,#c9daff)}.ds-appbar-tabs{display:flex;gap:4px;height:100%}.ds-appbar-tabs a{display:flex;align-items:center;padding:0 12px;border-bottom:2px solid transparent;font-size:14px;font-weight:500;color:var(--muted-foreground,#5c5c5c);text-decoration:none;transition:color 150ms}.ds-appbar-tabs a:hover{color:var(--foreground,#0a0a0a)}.ds-appbar-tabs a[aria-current=page]{border-bottom-color:var(--primary,#1556e0);color:var(--foreground,#0a0a0a)}.ds-appbar-tabs a:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}.ds-appbar-end{display:flex;align-items:center;gap:8px;margin-left:auto}.ds-appbar-link{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border:1px solid var(--border,#e8e8e8);border-radius:6px;background:var(--card,#fff);font:inherit;font-size:14px;font-weight:500;color:var(--foreground,#0a0a0a);cursor:pointer;transition:background-color 150ms}.ds-appbar-link:hover{background:var(--muted,#f1f1f1)}.ds-appbar-avatar{width:36px;height:36px;border:0;border-radius:9999px;background:var(--muted,#f1f1f1);font:inherit;font-size:12px;font-weight:600;color:var(--foreground,#0a0a0a);cursor:pointer}.ds-appbar-avatar:hover{background:#e7e7e7}.ds-appbar-link:focus-visible,.ds-appbar-avatar:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}"
+    },
+    {
+      "name": "Day Header",
+      "kind": "custom",
+      "refersTo": "button-toolbar",
+      "description": "Owner date heading, prev/Today/next controls, one-line totals sentence and the New booking button.",
+      "html": "<div class=\"ds-dayhead\"><h1>Monday 10 November<span>Tomorrow</span></h1><div class=\"ds-dayhead-nav\"><button aria-label=\"Previous day\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m15 18-6-6 6-6\"/></svg></button><button>Today</button><button aria-label=\"Next day\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 18 6-6-6-6\"/></svg></button></div><p><span><b>9</b> bookings</span> · <span><b>5h</b> booked</span> · <span><b>5</b> online</span></p><button class=\"ds-dayhead-new\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg>New booking</button></div>",
+      "css": ".ds-dayhead{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 16px;width:880px;font-family:'Onest Variable',system-ui,sans-serif}.ds-dayhead h1{margin:0;font-size:24px;line-height:1.25;font-weight:600;letter-spacing:-.02em;color:var(--foreground,#0a0a0a)}.ds-dayhead h1 span{margin-left:8px;font-size:16px;font-weight:400;letter-spacing:0;color:var(--muted-foreground,#5c5c5c)}.ds-dayhead-nav{display:flex;gap:6px}.ds-dayhead-nav button{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;padding:0 10px;border:1px solid var(--border,#e8e8e8);border-radius:6px;background:var(--card,#fff);font:inherit;font-size:14px;font-weight:500;color:var(--foreground,#0a0a0a);cursor:pointer;transition:background-color 150ms}.ds-dayhead-nav button:hover{background:var(--muted,#f1f1f1)}.ds-dayhead p{margin:0 0 8px;font-size:13px;color:var(--muted-foreground,#5c5c5c)}.ds-dayhead p span{white-space:nowrap}.ds-dayhead p b{font-weight:600;color:var(--foreground,#0a0a0a)}.ds-dayhead-new{display:inline-flex;align-items:center;gap:6px;height:36px;margin-left:auto;padding:0 14px;border:0;border-radius:6px;background:var(--primary,#1556e0);color:var(--primary-foreground,#fff);font:inherit;font-size:14px;font-weight:600;box-shadow:0 1px 2px rgba(13,58,158,.25);cursor:pointer;transition:background-color 150ms}.ds-dayhead-new:hover{background:var(--primary-hover,#0f47bf)}.ds-dayhead button:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}"
+    },
+    {
+      "name": "Status Cards",
+      "kind": "card",
+      "refersTo": "status-card",
+      "description": "Today only: one card per staff member, busy or free and until when; dot filled blue = busy, blue ring = free, grey = not working now.",
+      "html": "<div class=\"ds-status\"><div class=\"ds-status-card\"><div class=\"r1\"><i class=\"free\"></i><b>Ali</b><span>16m free</span></div><p><span>Free</span><span> · next: Daniel Tan at 11:00 AM</span></p></div><div class=\"ds-status-card\"><div class=\"r1\"><i class=\"busy\"></i><b>Hafiz</b><span>until 11:15 AM</span></div><p><span>With Lim Wei Ming</span><span> · Cut + wash</span></p></div><div class=\"ds-status-card\"><div class=\"r1\"><i></i><b>Wei Jie</b></div><p><span>Starts at 1:00 PM</span></p></div></div>",
+      "css": ".ds-status{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;width:780px;font-family:'Onest Variable',system-ui,sans-serif}.ds-status-card{display:flex;flex-direction:column;gap:4px;padding:12px 16px;border:1px solid var(--border,#e8e8e8);border-radius:8.4px;background:var(--card,#fff)}.ds-status-card .r1{display:flex;align-items:center;gap:10px}.ds-status-card i{width:8px;height:8px;flex-shrink:0;border-radius:9999px;background:var(--input,#d6d6d6)}.ds-status-card i.busy{background:var(--primary,#1556e0)}.ds-status-card i.free{background:var(--card,#fff);box-shadow:inset 0 0 0 2px var(--primary,#1556e0)}.ds-status-card b{font-size:14px;font-weight:600;color:var(--foreground,#0a0a0a)}.ds-status-card .r1 span{margin-left:auto;font-size:13px;font-weight:500;white-space:nowrap;color:var(--foreground,#0a0a0a)}.ds-status-card p{margin:0;padding-left:18px;font-size:13px;color:var(--muted-foreground,#5c5c5c)}.ds-status-card p span{white-space:nowrap}"
+    },
+    {
+      "name": "Day Timeline",
+      "kind": "custom",
+      "refersTo": "timeline-block-online",
+      "description": "Staff columns at 64px per hour: hourly hairlines, hatched off-hours, online (tint) / walk-in (grey) / past (white) blocks, red now line drawn under the blocks.",
+      "html": "<div class=\"ds-tl\"><div class=\"ds-tl-gutter\"><span style=\"top:0\">10 AM</span><span style=\"top:56px\">11 AM</span><span style=\"top:120px\">12 PM</span><span style=\"top:184px\">1 PM</span><b style=\"top:47px\">10:44</b></div><div class=\"ds-tl-col\"><button class=\"past\" style=\"top:1px;height:30px\"><strong>Faiz Rahman <em>· Haircut</em></strong></button><button class=\"walkin\" style=\"top:65px;height:46px\"><strong>Daniel Tan</strong><small>Cut + wash · 11:00 – 11:45 AM</small></button><div class=\"off\" style=\"top:192px;height:64px\"></div></div><div class=\"ds-tl-col\"><button class=\"online\" style=\"top:129px;height:30px\"><strong>Adam <em>· Kids haircut</em></strong></button><div class=\"off\" style=\"top:0;height:64px\"></div></div><div class=\"ds-tl-now\" style=\"top:47px\"><i></i></div></div>",
+      "css": ".ds-tl{position:relative;display:grid;grid-template-columns:3.5rem repeat(2,minmax(10rem,1fr));gap:10px;width:520px;font-family:'Onest Variable',system-ui,sans-serif}.ds-tl-gutter{position:relative;height:256px}.ds-tl-gutter span{position:absolute;right:0;font-size:12px;color:var(--muted-foreground,#5c5c5c);white-space:nowrap}.ds-tl-gutter b{position:absolute;right:6px;z-index:3;transform:translateY(-50%);padding:0 4px;border-radius:2px;background:var(--card,#fff);font-size:12px;font-weight:600;color:var(--destructive,#b42318)}.ds-tl-col{position:relative;height:256px;overflow:hidden;border-radius:6px;background-image:repeating-linear-gradient(to bottom,var(--border,#e8e8e8) 0 1px,transparent 1px 64px)}.ds-tl-col .off{position:absolute;left:0;right:0;background:repeating-linear-gradient(135deg,var(--muted,#f1f1f1) 0 6px,#f7f7f7 6px 12px)}.ds-tl-col button{position:absolute;left:4px;right:4px;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:0 10px;border:0;border-radius:4.8px;text-align:left;line-height:1.25;font:inherit;cursor:pointer;transition:box-shadow 150ms}.ds-tl-col button strong{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-tl-col button em{font-style:normal;font-weight:400}.ds-tl-col button small{font-size:12px}.ds-tl-col .online{background:var(--accent,#eef4ff);color:var(--accent-foreground,#0d3a9e);box-shadow:inset 0 0 0 1px var(--accent-border,#c9daff)}.ds-tl-col .walkin{background:var(--muted,#f1f1f1);color:var(--foreground,#0a0a0a);box-shadow:inset 0 0 0 1px var(--input,#d6d6d6)}.ds-tl-col .past{background:var(--card,#fff);color:var(--muted-foreground,#5c5c5c);box-shadow:inset 0 0 0 1px var(--border,#e8e8e8)}.ds-tl-col button:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}.ds-tl-col button:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}.ds-tl-now{position:absolute;left:56px;right:0;z-index:1;border-top:2px solid var(--destructive,#b42318);pointer-events:none}.ds-tl-now i{position:absolute;top:-5px;left:0;width:8px;height:8px;border-radius:9999px;background:var(--destructive,#b42318)}"
+    },
+    {
+      "name": "Dropdown Menu",
+      "kind": "custom",
+      "refersTo": "dropdown-menu",
+      "description": "The account menu: email label, hairline separator, 36px items with a muted highlight.",
+      "html": "<div class=\"ds-menu\" role=\"menu\"><div class=\"ds-menu-label\">ali@kedaigunting.my</div><div class=\"ds-menu-sep\"></div><button class=\"ds-menu-item\" role=\"menuitem\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"/><polyline points=\"16 17 21 12 16 7\"/><line x1=\"21\" x2=\"9\" y1=\"12\" y2=\"12\"/></svg>Log out</button></div>",
+      "css": ".ds-menu{min-width:224px;padding:4px;border:1px solid var(--border,#e8e8e8);border-radius:8.4px;background:var(--popover,#fff);color:var(--foreground,#0a0a0a);box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.08);font-family:'Onest Variable',system-ui,sans-serif;animation:ds-menu-in 150ms ease-out}.ds-menu-label{padding:8px 10px;font-size:13px;color:var(--muted-foreground,#5c5c5c);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ds-menu-sep{height:1px;margin:4px 0;background:var(--border,#e8e8e8)}.ds-menu-item{display:flex;align-items:center;gap:8px;width:100%;height:36px;padding:0 10px;border:0;border-radius:6px;background:transparent;font:inherit;font-size:14px;color:inherit;text-align:left;cursor:default}.ds-menu-item svg{color:var(--muted-foreground,#5c5c5c)}.ds-menu-item:hover,.ds-menu-item:focus-visible{outline:none;background:var(--muted,#f1f1f1)}.ds-menu-item:disabled{opacity:.5}@keyframes ds-menu-in{from{opacity:0;transform:scale(.95)}}"
     }
   ],
   "narrative": {
@@ -472,20 +559,20 @@
     "overview": "**Creative North Star: \"The Category Standard, Played Straight\"**\n\nTempah looks like the booking tool you already trust: neutral greys, white surfaces, hairline edges, and one confident blue that marks what you can press and what you've chosen. It refuses ornament on purpose. The quality is in the craft (exact radii, borders that never shift layout, thumb-sized targets, a calm loss screen) rather than in any brand flourish. The bar is Cal.com and Stripe.\n\nThe business leads; Tempah does not. A shop's page opens on the shop's name and initials, and Tempah appears only as a small \"Bookings by Tempah\" credit at the foot of the page. Density is moderate and phone-first: one column at the thumb on a phone, a bordered booker card from tablet up.\n\nConfirmed rejections: purple or violet anywhere, the shadcn-default stacked-card look with a tinted brand, and the generic AI-generated aesthetic (gradients as decoration, glass, glow).",
     "keyCharacteristics": [
       "One blue for action, selection and focus; everything else neutral.",
-      "Status colour is single-purpose: red means a slot was taken, green means booked.",
+      "Status colour is single-purpose: red means a slot was taken (or marks \"now\" on the owner timeline), green means booked.",
       "Borders are inset shadows, so a 2px selected edge never moves a pixel of content.",
       "Every public-page target is at least 44px tall.",
-      "Motion is nearly absent: 150ms colour and edge fades, one slide-in."
+      "Motion is nearly absent: 150ms colour and edge fades, one slide-in, a quick fade-and-zoom on menus and dialogs."
     ],
     "rules": [
       {
         "name": "The One Blue Rule",
-        "body": "Blue means \"press this\" or \"you chose this\", nothing else. No blue decoration, no blue headings, no second accent hue.",
+        "body": "Blue means \"press this\", \"you chose this\" or \"you are here\" (the active tab), nothing else, with one owner-side extension: in the owner app it also marks the shop's own online bookings (the quiet tint), a staff member working right now (the status dots) and a finished setup step. No blue decoration, no blue headings, no second accent hue.",
         "section": "colors"
       },
       {
         "name": "The Single-Purpose Status Rule",
-        "body": "Red appears only when something was lost or rejected (slot taken, error). Green appears only when a booking succeeded. Neither is borrowed for emphasis.",
+        "body": "Red appears only when something was lost or rejected (slot taken, error) and as the owner timeline's now line, the one place red marks time rather than loss. Green appears only when a booking succeeded; done setup steps tick in blue, not green. Neither is borrowed for emphasis.",
         "section": "colors"
       },
       {
@@ -515,19 +602,19 @@
       }
     ],
     "dos": [
-      "Do use Booking Blue (#1556e0) for exactly three jobs: the primary action, the chosen state, and focus.",
+      "Do use Booking Blue (#1556e0) for the primary action, the chosen state (including the active tab underline) and focus; in the owner app also for online bookings (as the tint), the working-now status dots and finished setup steps.",
       "Do mark chosen options with Clear Sky Tint (#eef4ff) plus a 2px blue inset edge, and bookable days with the tint alone.",
       "Do draw selectable borders as inset box-shadows so selection never shifts layout.",
       "Do keep every public-page target at least 44px tall and the main action 48px at the bottom of the phone screen.",
-      "Do limit motion to 150ms background/edge colour transitions and the one Continue slide-in, and turn the slide-in off under reduced motion.",
+      "Do limit motion to 150ms background/edge colour transitions, the one Continue slide-in, and the quick fade-and-zoom of menus and dialogs, and turn the slide-in off under reduced motion.",
       "Do let the business lead: shop name and monogram at the top, \"Bookings by Tempah\" as a small credit at the foot.",
       "Do keep the ref in JetBrains Mono and everything else in Onest with default proportional figures."
     ],
     "donts": [
       "Don't use purple or violet anywhere.",
-      "Don't use red for anything but a lost slot or an error, or green for anything but a completed booking.",
+      "Don't use red for anything but a lost slot, an error or the owner timeline's now line, or green for anything but a completed booking.",
       "Don't add kicker, eyebrow or overline labels above headings.",
-      "Don't use gradients, glass, glow or tinted-brand card stacks as decoration (the functional edge fade on the scrolling time list is the only gradient, and it is a mask, not a colour).",
+      "Don't use gradients, glass, glow or tinted-brand card stacks as decoration. Gradients are allowed only where they do a job: the edge fade mask on the scrolling time list, the off-hours hatch on the timeline, and the timeline's hourly 1px hairlines.",
       "Don't enable tabular figures in Onest.",
       "Don't show a disabled primary button in pale blue; it goes grey.",
       "Don't promote Tempah's own name into the page header or hero."

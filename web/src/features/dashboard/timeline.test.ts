@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import type { Booking } from "./useBookings";
-import { buildTimeline, formatDuration, summarizeDay } from "./timeline";
+import {
+  buildTimeline,
+  clockLabel,
+  formatDuration,
+  staffStatus,
+  summarizeDay,
+} from "./timeline";
 
 const KL = "Asia/Kuala_Lumpur"; // UTC+8, so 10:00 AM local is 02:00Z
 const ali = { id: "1", name: "Ali" };
@@ -164,5 +170,72 @@ describe("formatDuration", () => {
     expect(formatDuration(45)).toBe("45m");
     expect(formatDuration(120)).toBe("2h");
     expect(formatDuration(0)).toBe("0m");
+  });
+});
+
+describe("staffStatus", () => {
+  // Thursday as above: Ali works 10–1 and 2–6, Farid 11:30–5, Siti not at all
+  const siti = { id: "3", name: "Siti" };
+  const haircut = booking(ali, "06:15", 45); // 2:15–3:00 PM local
+  const t = buildTimeline({
+    weekday: 4,
+    timezone: KL,
+    staff: [ali, farid, siti],
+    hours: { ...hours, "3": [] },
+    bookings: [haircut],
+  });
+  const [aliCol, faridCol, sitiCol] = t.columns as [
+    (typeof t.columns)[0],
+    (typeof t.columns)[0],
+    (typeof t.columns)[0],
+  ];
+
+  it("is busy during a booking, until it ends", () => {
+    expect(staffStatus(t, aliCol, 14 * 60 + 30)).toEqual({
+      kind: "busy",
+      booking: haircut,
+      until: 900,
+    });
+  });
+
+  it("is free until the next booking, and names it", () => {
+    expect(staffStatus(t, aliCol, 14 * 60)).toMatchObject({
+      kind: "free",
+      until: 855,
+      next: { booking: haircut },
+    });
+  });
+
+  it("is free until the end of the range when nothing else is booked", () => {
+    expect(staffStatus(t, aliCol, 15 * 60)).toEqual({
+      kind: "free",
+      until: 18 * 60,
+      next: null,
+    });
+  });
+
+  it("tells a break from not having started yet", () => {
+    expect(staffStatus(t, aliCol, 13 * 60 + 15)).toEqual({
+      kind: "break",
+      until: 14 * 60,
+    });
+    expect(staffStatus(t, faridCol, 10 * 60)).toEqual({
+      kind: "starts",
+      at: 11 * 60 + 30,
+    });
+  });
+
+  it("is done after the last range, and off on a day without hours", () => {
+    expect(staffStatus(t, faridCol, 17 * 60 + 30)).toEqual({ kind: "done" });
+    expect(staffStatus(t, sitiCol, 12 * 60)).toEqual({ kind: "off" });
+  });
+});
+
+describe("clockLabel", () => {
+  it("formats minutes into the day like formatTime", () => {
+    expect(clockLabel(0)).toBe("12:00 AM");
+    expect(clockLabel(9 * 60 + 5)).toBe("9:05 AM");
+    expect(clockLabel(12 * 60)).toBe("12:00 PM");
+    expect(clockLabel(14 * 60 + 30)).toBe("2:30 PM");
   });
 });
