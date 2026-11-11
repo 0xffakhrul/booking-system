@@ -20,7 +20,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: api/Dockerfile
+      dockerfile: Dockerfile
       target: dev
     environment:
       # the API's own plain user, so Row-Level Security applies to it (ADR-0003)
