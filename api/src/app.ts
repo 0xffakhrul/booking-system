@@ -13,13 +13,16 @@ import publicRoutes from "./modules/public/public.routes.js";
 import servicesRoutes from "./modules/services/services.routes.js";
 import staffRoutes from "./modules/staff/staff.routes.js";
 import workingHoursRoutes from "./modules/working-hours/working-hours.routes.js";
+import { serveWeb } from "./web.js";
 
-export function createApp() {
+export function createApp({ webDist = env.WEB_DIST_DIR } = {}) {
   const app = express();
 
   app.set("trust proxy", env.TRUST_PROXY); // >0 only behind a proxy that overwrites X-Forwarded-For, else req.ip is spoofable
   app.use(httpLogger); // first, so every request gets logged with an id
   app.use(helmet());
+  // the React app, in production (ADR-0010); before the API's middleware, which pages don't need
+  if (webDist) app.use(serveWeb(webDist));
   app.use(express.json({ limit: "10kb" }));
   app.use(cookieParser());
   app.use(checkOrigin);
