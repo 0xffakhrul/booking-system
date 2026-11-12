@@ -3,7 +3,7 @@
 #
 #   docker build --target prod -t booking-system .      (CI does this on every PR and merge)
 
-FROM node:24-slim AS base
+FROM node:25-slim AS base
 WORKDIR /app
 # Copy only the manifests first, so the `npm ci` layers stay cached until dependencies change
 COPY package.json package-lock.json ./
