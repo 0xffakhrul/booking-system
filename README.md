@@ -8,6 +8,7 @@ A multi-tenant appointment booking app for small businesses such as barbers, sal
 
 - **No double-booking, even under concurrent requests.** A Postgres exclusion constraint rejects overlapping bookings for the same staff member at the database level ([ADR-0002](docs/adr/0002-exclusion-constraint-for-double-booking.md)).
 - **Tenant isolation enforced by Postgres.** Row-Level Security keeps each business's data separate, even if a query forgets a `WHERE` clause ([ADR-0003](docs/adr/0003-row-level-security-for-tenancy.md)).
+- **One scanned image per commit.** CI builds the API and the React app into one image, scans it with Trivy, and pushes it to GHCR tagged with the commit SHA. Actions are pinned to commit SHAs ([ADR-0010](docs/adr/0010-one-image-built-and-scanned-in-ci.md)).
 - **Revocable sessions.** Server-side sessions with hashed tokens, argon2id passwords, Origin checks and rate-limited login ([ADR-0004](docs/adr/0004-server-side-sessions.md)).
 
 ## Stack
