@@ -6,6 +6,10 @@ terraform {
       source  = "tencentcloudstack/tencentcloud"
       version = "~> 1.83"
     }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 5.29"
+    }
   }
 
   backend "cos" {
@@ -18,3 +22,5 @@ terraform {
 provider "tencentcloud" {
   region = var.region
 }
+
+provider "cloudflare" {}
