@@ -8,7 +8,7 @@ resource "tencentcloud_lighthouse_instance" "prod" {
 
   lifecycle {
     prevent_destroy = true
-    ignore_changes = [blueprint_id]
+    ignore_changes  = [blueprint_id]
   }
 }
 
