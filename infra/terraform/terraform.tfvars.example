@@ -1,1 +1,5 @@
+# Copy to terraform.tfvars (gitignored). Find your address with: curl -4 ifconfig.me
 admin_cidr = "203.0.113.7/32"
+
+# Cloudflare dashboard: the domain's Overview page, right sidebar
+cloudflare_zone_id = "023e105f4ecef8ad9ca31a8372d0c353"
