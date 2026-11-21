@@ -21,7 +21,7 @@ export function createApp({ webDist = env.WEB_DIST_DIR } = {}) {
   const app = express();
 
   app.set("trust proxy", env.TRUST_PROXY); // >0 only behind a proxy that overwrites X-Forwarded-For, else req.ip is spoofable
-  app.use(httpMetrics); 
+  app.use(httpMetrics);
   app.use(httpLogger);
   app.use(helmet());
   // the React app, in production (ADR-0010); before the API's middleware, which pages don't need
