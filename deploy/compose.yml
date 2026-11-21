@@ -38,6 +38,9 @@ services:
       # Caddy is the one proxy in front, and it replaces X-Forwarded-For from the client
       TRUST_PROXY: 1
       LOG_LEVEL: info
+      METRICS_PORT: 9464
+    ports:
+      - "127.0.0.1:9464:9464"
     depends_on:
       postgres:
         condition: service_healthy

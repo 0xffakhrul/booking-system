@@ -7,6 +7,8 @@ const EnvSchema = z.object({
     .enum(["development", "production", "test"])
     .default("development"),
   PORT: z.coerce.number().int().positive().default(3009),
+  // /metrics for Prometheus, on a port of its own that's never published
+  METRICS_PORT: z.coerce.number().int().positive().default(9464),
   // number of proxies in front of the app that overwrite X-Forwarded-For; 0 = none
   TRUST_PROXY: z.coerce.number().int().min(0).default(0),
   // the built React app (web/dist) to serve at /; unset in development, where Vite serves it

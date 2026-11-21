@@ -85,6 +85,7 @@ journalctl -u booking-deploy -f        # deploys as they happen
 systemctl list-timers booking-deploy   # when the next check runs
 cat /opt/booking/.deployed             # the image digest that's live
 docker compose logs -f app             # the app's logs (from /opt/booking)
+curl -s localhost:9464/metrics | grep -E '^booking'   # bookings and conflicts so far
 ```
 
 - **A deploy failed and rolled back.** The digest is in `.failed` and won't be
