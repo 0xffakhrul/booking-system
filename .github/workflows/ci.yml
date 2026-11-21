@@ -57,6 +57,12 @@ jobs:
 
       - run: npm ci
 
+      # Trivy's database missed the zod advisory (GHSA-mrhx-c7xc-m3w5), so ask npm's as well.
+      # Only what ships (--omit=dev) and only high or critical, so a moderate advisory in a
+      # dev tool can't block a merge
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
       # proof that the timezones above are really in effect
       - name: Show timezones
         run: |
