@@ -1,0 +1,10 @@
+[Unit]
+Description=Deploy the newest booking-system image from GHCR
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+ExecStart=/opt/booking/deploy.sh

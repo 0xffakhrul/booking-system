@@ -1,0 +1,10 @@
+[Unit]
+Description=Check GHCR for a new booking-system image every minute
+
+[Timer]
+OnBootSec=1min
+# a minute after the last check finished, so a slow deploy never overlaps the next one
+OnUnitInactiveSec=1min
+
+[Install]
+WantedBy=timers.target

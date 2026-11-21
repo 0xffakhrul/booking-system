@@ -1,0 +1,93 @@
+# Production stack on the Lighthouse server (/opt/booking). The app image is never
+# pulled by Compose: deploy.sh pulls it from GHCR, runs the migrations, and tags it
+# booking-app:current only once they've worked. See deploy/README.md.
+name: booking
+
+services:
+  postgres:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?set in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
+      POSTGRES_DB: ${POSTGRES_DB:?set in .env}
+    # no ports: only the app and the migrations reach it, over the Compose network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    logging: &logging
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+  app:
+    image: booking-app:current
+    pull_policy: never
+    restart: unless-stopped
+    environment:
+      # the API's own plain user, so Row-Level Security applies to it (ADR-0003)
+      DATABASE_URL: postgres://tempah_app:${APP_DB_PASSWORD:?set in .env}@postgres:5432/${POSTGRES_DB}
+      APP_ORIGIN: https://${APP_HOSTNAME:?set in .env}
+      NODE_ENV: production
+      PORT: 3009
+      # Caddy is the one proxy in front, and it replaces X-Forwarded-For from the client
+      TRUST_PROXY: 1
+      LOG_LEVEL: info
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # the image has no curl, so Node asks itself; /api/health also checks the database
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3009/api/health').then(r => process.exit(r.ok ? 0 : 1), () => process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+      start_interval: 2s
+    logging: *logging
+
+  # Run by deploy.sh before the new image goes live: migrations and the app role, as the
+  # admin user. Not started by `docker compose up`.
+  migrate:
+    image: booking-app:candidate
+    pull_policy: never
+    profiles: [deploy]
+    command: ["node", "dist/db/setup.js"]
+    environment:
+      MIGRATION_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      DATABASE_URL: postgres://tempah_app:${APP_DB_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    logging: *logging
+
+  caddy:
+    image: caddy:2.11
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp" # HTTP/3
+    environment:
+      APP_HOSTNAME: ${APP_HOSTNAME}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data # certificates: keep, or Let's Encrypt rate limits bite
+      - caddy-config:/config
+    depends_on:
+      - app
+    logging: *logging
+
+volumes:
+  postgres-data:
+  caddy-data:
+  caddy-config:
