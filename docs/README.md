@@ -21,3 +21,5 @@
 | [0007](adr/0007-bigint-ids-and-public-refs.md) | BIGINT identity keys, with random references for customers | Accepted |
 | [0008](adr/0008-react-spa-for-the-frontend.md) | React single-page app with Vite for the frontend | Accepted |
 | [0009](adr/0009-lock-staff-row-before-booking-insert.md) | Lock the staff row before inserting a booking | Accepted |
+| [0010](adr/0010-one-image-built-and-scanned-in-ci.md) | One production image, built and scanned in CI | Accepted |
+| [0011](adr/0011-pull-based-deploys-from-the-server.md) | The server pulls new releases itself | Accepted |
