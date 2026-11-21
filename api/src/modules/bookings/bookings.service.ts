@@ -2,6 +2,7 @@ import pg from "pg";
 import { bookingRules } from "../../config/booking.js";
 import { withTransaction } from "../../db/transaction.js";
 import { ConflictError, NotFoundError, RuleError } from "../../lib/errors.js";
+import { bookingConflicts, bookingsCreated } from "../../lib/metrics.js";
 import { addDays, localDate } from "../../lib/time.js";
 import { findService } from "../services/services.repository.js";
 import { findStaff, staffExists } from "../staff/staff.repository.js";
@@ -71,9 +72,10 @@ export async function createBooking(
     );
 
   // One small insert per candidate. Each runs on its own, so a failed one doesn't affect the next.
-  for (const candidate of candidates.filter((c) => c.free)) {
+  const free = candidates.filter((c) => c.free);
+  for (const candidate of free) {
     try {
-      return await insertWithRetries({
+      const booking = await insertWithRetries({
         tenantId: tenant.id,
         staffId: candidate.id,
         serviceId: service.id,
@@ -83,12 +85,21 @@ export async function createBooking(
         end,
         source,
       });
+      // Counted before the request's COMMIT. If that fails (very rare), the client gets a 500
+      // and this count is one too high.
+      bookingsCreated.inc({ source });
+      return booking;
     } catch (err) {
       if (isOverlap(err)) continue; // someone else got this person first; try the next
       throw err;
     }
   }
 
+  // nobody looked free ("check"), or everyone who did was taken in a race ("constraint")
+  bookingConflicts.inc({
+    operation: "create",
+    caught_by: free.length > 0 ? "constraint" : "check",
+  });
   throw new ConflictError(
     "SLOT_TAKEN",
     "that time was just booked, please pick another",
@@ -161,11 +172,13 @@ async function moveBooking(
     if (!moved) throw cancelledError(); // cancelled while we were checking
     return moved;
   } catch (err) {
-    if (isOverlap(err))
+    if (isOverlap(err)) {
+      bookingConflicts.inc({ operation: "move", caught_by: "constraint" });
       throw new ConflictError(
         "SLOT_TAKEN",
         `${staff.name} already has a booking at that time`,
       );
+    }
     throw err;
   }
 }

@@ -3,6 +3,7 @@ import { env } from "./config/env.js";
 import { checkAppRole } from "./db/app-role.js";
 import { pool } from "./db/pool.js";
 import { logger } from "./lib/logger.js";
+import { createMetricsServer } from "./metrics-server.js";
 import { deleteExpiredSessions } from "./modules/sessions/sessions.js";
 
 // Refuse to start as a user that skips Row-Level Security: every tenant's data would be visible
@@ -12,6 +13,10 @@ const app = createApp();
 
 const server = app.listen(env.PORT, () => {
   logger.info({ port: env.PORT, env: env.NODE_ENV }, "api listening");
+});
+
+const metricsServer = createMetricsServer().listen(env.METRICS_PORT, () => {
+  logger.info({ port: env.METRICS_PORT }, "metrics listening");
 });
 
 const cleanup = setInterval(
@@ -38,6 +43,7 @@ process.on("uncaughtException", (err) => {
 function shutdown(signal: string) {
   logger.info({ signal }, "shutting down");
   clearInterval(cleanup);
+  metricsServer.close();
   server.close(async () => {
     await pool.end();
     logger.info("shutdown complete");

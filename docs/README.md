@@ -23,3 +23,4 @@
 | [0009](adr/0009-lock-staff-row-before-booking-insert.md) | Lock the staff row before inserting a booking | Accepted |
 | [0010](adr/0010-one-image-built-and-scanned-in-ci.md) | One production image, built and scanned in CI | Accepted |
 | [0011](adr/0011-pull-based-deploys-from-the-server.md) | The server pulls new releases itself | Accepted |
+| [0012](adr/0012-metrics-on-a-separate-port.md) | Prometheus metrics on a separate, unpublished port | Accepted |

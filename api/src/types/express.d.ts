@@ -9,6 +9,8 @@ declare global {
        * URL's :slug on public routes. tenantTransaction uses it for Row-Level Security.
        */
       tenantId: string | null;
+      /** Where the current router is mounted, e.g. /api/bookings (http-metrics.ts) */
+      routePrefix?: string;
     }
   }
 }
