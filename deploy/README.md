@@ -3,12 +3,12 @@
 Production runs on one Tencent Cloud Lighthouse server (`infra/terraform`) from
 `/opt/booking`, as a Compose stack:
 
-| Service | What it does |
-| --- | --- |
-| `caddy` | HTTPS on 80/443 for `booking.0xffakhrul.xyz`, certificates from Let's Encrypt |
-| `app` | The API and the React app, from the image CI built and scanned |
-| `postgres` | The database, not reachable from outside |
-| `migrate` | Runs once per deploy, before the new image goes live |
+| Service    | What it does                                                                  |
+| ---------- | ----------------------------------------------------------------------------- |
+| `caddy`    | HTTPS on 80/443 for `booking.0xffakhrul.xyz`, certificates from Let's Encrypt |
+| `app`      | The API and the React app, from the image CI built and scanned                |
+| `postgres` | The database, not reachable from outside                                      |
+| `migrate`  | Runs once per deploy, before the new image goes live                          |
 
 New releases go live on their own: a systemd timer runs `deploy.sh` every minute,
 which pulls `:main` from GHCR, migrates, swaps the image in, and rolls back if
