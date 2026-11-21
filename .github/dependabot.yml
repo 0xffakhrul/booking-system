@@ -1,4 +1,6 @@
-# Keeps the pinned action SHAs and the Docker base image up to date, one PR per update
+# Keeps the pinned action SHAs and the Docker base image up to date, one PR per update.
+# npm has no entry here: GitHub's Dependabot security updates open npm PRs only for advisories,
+# and CI's npm audit step catches what ships.
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -9,6 +11,12 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      # A Node major is a manual upgrade: the Dockerfile, .nvmrc (which CI uses), "engines"
+      # and @types/node move together, onto an LTS line. A Dockerfile-only bump would ship
+      # a Node that CI never tested.
+      - dependency-name: node
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: terraform
     directory: /infra/terraform
     schedule:
