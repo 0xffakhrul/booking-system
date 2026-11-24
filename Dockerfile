@@ -42,6 +42,6 @@ COPY --from=build /app/api/migrations ./api/migrations
 COPY --from=build /app/web/dist ./web/dist
 WORKDIR /app/api
 USER node
-EXPOSE 3009
+EXPOSE 3009 9464
 # Migrations and the app role: `node dist/db/setup.js` (MIGRATION_DATABASE_URL + DATABASE_URL)
 CMD ["node", "dist/index.js"]

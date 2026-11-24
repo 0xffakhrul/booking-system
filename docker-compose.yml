@@ -34,6 +34,7 @@ services:
       TRUST_PROXY: 0
     ports:
       - "127.0.0.1:3009:3009"
+      - "127.0.0.1:9464:9464" # /metrics
     depends_on:
       postgres:
         condition: service_healthy
