@@ -6,7 +6,8 @@ import { Spinner } from "@/components/ui/spinner";
 import { ApiError } from "@/lib/api";
 import { dateOf, describeDate, describeGap, formatTime } from "@/lib/time";
 import { cn } from "@/lib/utils";
-import { BottomBar, bigButton } from "./BottomBar";
+import { focusRing, Note } from "./BookingLayout";
+import { BottomBar, barInCard, bigButton } from "./BottomBar";
 import type { Slot } from "./useAvailability";
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
   slots: Slot[] | undefined; // fresh availability for the same service and day
   timeZone: string;
   serviceName: string;
+  customerName: string;
   onBook: (start: string) => Promise<void>;
   onSeeAll: () => void;
 };
@@ -31,6 +33,7 @@ export function TakenScreen({
   slots,
   timeZone,
   serviceName,
+  customerName,
   onBook,
   onSeeAll,
 }: Props) {
@@ -56,38 +59,39 @@ export function TakenScreen({
 
   return (
     <>
-      <main className="flex flex-col gap-5 p-5">
+      <main className="flex flex-col gap-6 px-[18px] pt-[22px] pb-6 md:px-0 md:pt-0">
         <div
           role="alert"
-          className="flex items-start gap-3 rounded-[14px] border border-[#fecdca] bg-[#fef3f2] p-4"
+          className="flex items-start gap-3 rounded-xl border border-destructive-border bg-destructive-tint p-4"
         >
-          <CircleAlertIcon className="mt-px size-[22px] shrink-0 text-[#b42318]" />
+          <CircleAlertIcon
+            aria-hidden
+            className="mt-px size-5 shrink-0 text-destructive"
+          />
           <div className="flex flex-col gap-1">
-            <p className="text-[15px] font-bold text-[#912018]">
+            <p className="text-[15px] font-semibold text-destructive">
               {formatTime(wanted, timeZone)} was just booked
             </p>
-            <p className="text-sm leading-snug text-muted-foreground">
-              Someone grabbed it a moment before you. Your name and phone are
-              saved, so just pick another time.
+            <p className="text-sm leading-snug text-foreground/80">
+              Someone got it a moment before you. Your name and phone are saved,
+              so just pick another time.
             </p>
           </div>
         </div>
 
-        <section className="flex flex-col gap-2.5">
-          <h2 id="nearest-heading" className="text-[15px] font-semibold">
-            Nearest open times · {day}
+        <section className="flex flex-col gap-2">
+          <h2 id="nearest-heading" className="text-sm font-semibold">
+            Nearest free times · {day}
           </h2>
           {slots === undefined ? (
             <Spinner className="mx-auto my-4 size-5 text-muted-foreground" />
           ) : options.length === 0 ? (
-            <p className="rounded-lg border bg-card p-4 text-sm text-muted-foreground">
-              Nothing else is free on {day}.
-            </p>
+            <Note>Nothing else is free on {day}.</Note>
           ) : (
             <div
               role="radiogroup"
               aria-labelledby="nearest-heading"
-              className="flex flex-col gap-2.5"
+              className="flex flex-col gap-2"
             >
               {options.map((slot) => {
                 const selected = slot.start === choice;
@@ -99,13 +103,14 @@ export function TakenScreen({
                     aria-checked={selected}
                     onClick={() => setPicked(slot.start)}
                     className={cn(
-                      "flex min-h-14 items-center justify-between rounded-lg border bg-card px-4 py-2.5 transition-colors",
+                      "flex min-h-14 items-center justify-between rounded-lg bg-card px-4 transition-[background-color,box-shadow] duration-150",
+                      focusRing,
                       selected
-                        ? "border-2 border-primary bg-accent px-[15px] py-[9px]"
-                        : "hover:border-primary/40",
+                        ? "bg-accent shadow-[inset_0_0_0_2px_var(--primary)]"
+                        : "shadow-[inset_0_0_0_1px_var(--border)] hover:shadow-[inset_0_0_0_1px_var(--input)]",
                     )}
                   >
-                    <span className="text-base font-bold">
+                    <span className="text-base font-semibold">
                       {formatTime(slot.start, timeZone)}
                     </span>
                     <span className="text-[13px] text-muted-foreground">
@@ -118,7 +123,7 @@ export function TakenScreen({
           )}
           <Button
             variant="link"
-            className="h-auto self-start p-0 py-2.5 font-semibold"
+            className="h-11 self-start px-0 text-sm font-medium underline decoration-accent-border underline-offset-4 hover:decoration-primary"
             onClick={onSeeAll}
           >
             See all times and dates
@@ -134,6 +139,8 @@ export function TakenScreen({
       {choice && (
         <BottomBar
           summary={`${serviceName} · ${day}, ${formatTime(choice, timeZone)}`}
+          aside={customerName}
+          className={cn(barInCard, "md:px-0")}
         >
           <Button className={bigButton} disabled={booking} onClick={book}>
             {booking && <Spinner />}

@@ -1,0 +1,738 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-09T03:43:47+00:00",
+  "title": "Design System: Tempah",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Booking Blue",
+        "canonical": "#1556e0",
+        "tonalRamp": [
+          "#0a2363",
+          "#0d3a9e",
+          "#0f47bf",
+          "#1556e0",
+          "#4a7deb",
+          "#8fb0f3",
+          "#c9daff",
+          "#eef4ff"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Pressed Blue",
+        "canonical": "#0f47bf",
+        "tonalRamp": [
+          "#0a2363",
+          "#0d3a9e",
+          "#0f47bf",
+          "#1556e0",
+          "#4a7deb",
+          "#8fb0f3",
+          "#c9daff",
+          "#eef4ff"
+        ]
+      },
+      "primary-foreground": {
+        "role": "primary",
+        "displayName": "On Blue",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0a0a0a",
+          "#2b2b2b",
+          "#5c5c5c",
+          "#8a8a8a",
+          "#d6d6d6",
+          "#e8e8e8",
+          "#f1f1f1",
+          "#ffffff"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Clear Sky Tint",
+        "canonical": "#eef4ff",
+        "tonalRamp": [
+          "#0a2363",
+          "#0d3a9e",
+          "#0f47bf",
+          "#1556e0",
+          "#4a7deb",
+          "#8fb0f3",
+          "#c9daff",
+          "#eef4ff"
+        ]
+      },
+      "accent-foreground": {
+        "role": "primary",
+        "displayName": "Deep Ink Blue",
+        "canonical": "#0d3a9e",
+        "tonalRamp": [
+          "#0a2363",
+          "#0d3a9e",
+          "#0f47bf",
+          "#1556e0",
+          "#4a7deb",
+          "#8fb0f3",
+          "#c9daff",
+          "#eef4ff"
+        ]
+      },
+      "accent-border": {
+        "role": "primary",
+        "displayName": "Sky Edge",
+        "canonical": "#c9daff",
+        "tonalRamp": [
+          "#0a2363",
+          "#0d3a9e",
+          "#0f47bf",
+          "#1556e0",
+          "#4a7deb",
+          "#8fb0f3",
+          "#c9daff",
+          "#eef4ff"
+        ]
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "Paper Grey",
+        "canonical": "#fafafa",
+        "tonalRamp": [
+          "#0a0a0a",
+          "#2b2b2b",
+          "#5c5c5c",
+          "#8a8a8a",
+          "#d6d6d6",
+          "#e8e8e8",
+          "#f1f1f1",
+          "#fafafa"
+        ]
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0a0a0a",
+          "#2b2b2b",
+          "#5c5c5c",
+          "#8a8a8a",
+          "#d6d6d6",
+          "#e8e8e8",
+          "#f1f1f1",
+          "#ffffff"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#0a0a0a",
+        "tonalRamp": [
+          "#0a0a0a",
+          "#2b2b2b",
+          "#5c5c5c",
+          "#8a8a8a",
+          "#d6d6d6",
+          "#e8e8e8",
+          "#f1f1f1",
+          "#fafafa"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Mist",
+        "canonical": "#f1f1f1",
+        "tonalRamp": [
+          "#0a0a0a",
+          "#2b2b2b",
+          "#5c5c5c",
+          "#8a8a8a",
+          "#d6d6d6",
+          "#e8e8e8",
+          "#f1f1f1",
+          "#fafafa"
+        ]
+      },
+      "muted-foreground": {
+        "role": "neutral",
+        "displayName": "Slate Text",
+        "canonical": "#5c5c5c",
+        "tonalRamp": [
+          "#0a0a0a",
+          "#2b2b2b",
+          "#5c5c5c",
+          "#8a8a8a",
+          "#d6d6d6",
+          "#e8e8e8",
+          "#f1f1f1",
+          "#fafafa"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#e8e8e8",
+        "tonalRamp": [
+          "#0a0a0a",
+          "#2b2b2b",
+          "#5c5c5c",
+          "#8a8a8a",
+          "#d6d6d6",
+          "#e8e8e8",
+          "#f1f1f1",
+          "#fafafa"
+        ]
+      },
+      "input": {
+        "role": "neutral",
+        "displayName": "Field Edge",
+        "canonical": "#d6d6d6",
+        "tonalRamp": [
+          "#0a0a0a",
+          "#2b2b2b",
+          "#5c5c5c",
+          "#8a8a8a",
+          "#d6d6d6",
+          "#e8e8e8",
+          "#f1f1f1",
+          "#fafafa"
+        ]
+      },
+      "destructive": {
+        "role": "secondary",
+        "displayName": "Taken Red",
+        "canonical": "#b42318",
+        "tonalRamp": [
+          "#55100b",
+          "#8a1c13",
+          "#b42318",
+          "#d9483d",
+          "#ec8a82",
+          "#f6cfca",
+          "#fbe4e1",
+          "#fef3f2"
+        ]
+      },
+      "destructive-tint": {
+        "role": "secondary",
+        "displayName": "Taken Tint",
+        "canonical": "#fef3f2",
+        "tonalRamp": [
+          "#55100b",
+          "#8a1c13",
+          "#b42318",
+          "#d9483d",
+          "#ec8a82",
+          "#f6cfca",
+          "#fbe4e1",
+          "#fef3f2"
+        ]
+      },
+      "destructive-border": {
+        "role": "secondary",
+        "displayName": "Taken Edge",
+        "canonical": "#f6cfca",
+        "tonalRamp": [
+          "#55100b",
+          "#8a1c13",
+          "#b42318",
+          "#d9483d",
+          "#ec8a82",
+          "#f6cfca",
+          "#fbe4e1",
+          "#fef3f2"
+        ]
+      },
+      "success": {
+        "role": "secondary",
+        "displayName": "Booked Green",
+        "canonical": "#0f7b55",
+        "tonalRamp": [
+          "#05321f",
+          "#0a5a3d",
+          "#0f7b55",
+          "#2e9e75",
+          "#6cc4a1",
+          "#b4e5cf",
+          "#d8f3e6",
+          "#ecfaf3"
+        ]
+      },
+      "success-tint": {
+        "role": "secondary",
+        "displayName": "Booked Tint",
+        "canonical": "#ecfaf3",
+        "tonalRamp": [
+          "#05321f",
+          "#0a5a3d",
+          "#0f7b55",
+          "#2e9e75",
+          "#6cc4a1",
+          "#b4e5cf",
+          "#d8f3e6",
+          "#ecfaf3"
+        ]
+      },
+      "hatch-light": {
+        "role": "neutral",
+        "displayName": "Hatch Light",
+        "canonical": "#f7f7f7",
+        "tonalRamp": [
+          "#0a0a0a",
+          "#2b2b2b",
+          "#5c5c5c",
+          "#8a8a8a",
+          "#d6d6d6",
+          "#e8e8e8",
+          "#f1f1f1",
+          "#fafafa"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Outcome headline (\"You're booked in\"), the owner app's page date heading, settings page titles and the login/register headings; one per screen at most."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "The shop name in the public header, every dialog title, and the auth preview's one-line headline."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Pane titles: calendar month, \"Your details\"; the Tempah name beside its mark."
+      },
+      "option": {
+        "displayName": "Option",
+        "purpose": "Service names, prices, big-button labels, desktop day heading, the shop name in the owner top bar."
+      },
+      "section-label": {
+        "displayName": "Section label",
+        "purpose": "Plain sentence-case section headings: Service, With, Date, Time."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Summary rows, notes, alert copy, time-slot labels, app tabs, menu items, staff names."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Durations, counts, bottom-bar summary, hints, segment labels, owner totals sentence, status-card details, timeline booking names."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "The Tempah credit, calendar weekday heads, timeline hour labels and now-line time, monogram and avatar initials."
+      },
+      "ref-mono": {
+        "displayName": "Ref mono",
+        "purpose": "The booking ref only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "panel-lift",
+        "value": "0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.05)",
+        "purpose": "Booker card from tablet up and the confirmation ticket."
+      },
+      {
+        "name": "button-weight",
+        "value": "0 1px 2px rgba(13,58,158,0.25)",
+        "purpose": "Under primary buttons only (48px public button; 44px auth submit; 36px New booking, settings page actions, Save hours)."
+      },
+      {
+        "name": "segment-lift",
+        "value": "0 1px 2px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04)",
+        "purpose": "Selected segment in a segmented control."
+      },
+      {
+        "name": "inset-edge",
+        "value": "inset 0 0 0 1px var(--border)",
+        "purpose": "Resting drawn border of tiles, slots, date chips."
+      },
+      {
+        "name": "inset-edge-hover",
+        "value": "inset 0 0 0 1px var(--input)",
+        "purpose": "Hover edge on tiles and chips."
+      },
+      {
+        "name": "inset-edge-selected",
+        "value": "inset 0 0 0 2px var(--primary)",
+        "purpose": "Chosen option tile; 2px without layout shift."
+      },
+      {
+        "name": "focus-ring",
+        "value": "0 0 0 3px rgb(21 86 224 / 0.4)",
+        "purpose": "Keyboard focus on custom controls (shadcn primitives use 50%)."
+      },
+      {
+        "name": "card-rest",
+        "value": "0 1px 2px rgba(0,0,0,0.04)",
+        "purpose": "The owner schedule panel, settings lists and the hours editor card."
+      },
+      {
+        "name": "menu-lift",
+        "value": "0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08)",
+        "purpose": "Dropdown menus, the date picker popover, and the auth preview's sample schedule card."
+      },
+      {
+        "name": "block-hover",
+        "value": "0 2px 8px rgba(0,0,0,0.08)",
+        "purpose": "A timeline booking under the pointer."
+      },
+      {
+        "name": "phone-lift",
+        "value": "0 2px 4px rgba(0,0,0,0.05), 0 20px 48px rgba(13,58,158,0.18)",
+        "purpose": "The auth preview's sample phone only, in front of the Menu lift schedule card. Not for panels, menus or dialogs."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-fade",
+        "value": "150ms background-color, box-shadow, color",
+        "purpose": "Selection and hover changes on tiles, slots, days, segments."
+      },
+      {
+        "name": "continue-slide",
+        "value": "200ms ease-out slide-in-from-left 8px",
+        "purpose": "The split Continue beside a picked desktop time; disabled under prefers-reduced-motion."
+      },
+      {
+        "name": "press-nudge",
+        "value": "translateY(1px) on :active",
+        "purpose": "Button press feedback (shadcn primitive)."
+      },
+      {
+        "name": "overlay-in",
+        "value": "fade-in + zoom-in from 95% (100-150ms)",
+        "purpose": "Dropdown menus and dialogs opening."
+      },
+      {
+        "name": "book-press",
+        "value": "scale(1) -> scale(0.96) + primary-hover -> scale(1); 0.4s ease-out, 0.6s delay, once",
+        "purpose": "Auth preview: the phone's Book button is pressed once. motion-safe only."
+      },
+      {
+        "name": "slot-fill",
+        "value": "clip-path inset(0 100% 0 0 round 5px) -> inset(0 0 0 0 round 5px); 0.7s cubic-bezier(0.16,1,0.3,1), 1.1s delay, once, fill-mode both",
+        "purpose": "Auth preview: the dashed empty slot fills with the new online booking. motion-safe only; under reduced motion the slot is shown filled."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "0px",
+        "purpose": "Single column, sticky bottom bar."
+      },
+      {
+        "name": "sm",
+        "value": "640px",
+        "purpose": "Owner app: Copy link and staff Hours buttons show their labels; hours editor puts day and times side by side."
+      },
+      {
+        "name": "md",
+        "value": "768px",
+        "purpose": "Two-pane bordered booker card; owner settings lists gain column headers."
+      },
+      {
+        "name": "lg",
+        "value": "1024px",
+        "purpose": "Three-pane booker with month calendar and time list; login/register split into form and preview halves."
+      },
+      {
+        "name": "xl",
+        "value": "1280px",
+        "purpose": "Auth preview: the sample phone shows at full scale (85% below)."
+      }
+    ],
+    "patterns": [
+      {
+        "name": "off-hours-hatch",
+        "value": "repeating-linear-gradient(135deg, var(--muted) 0 6px, #f7f7f7 6px 12px)",
+        "purpose": "Timeline hours a staff member isn't working."
+      },
+      {
+        "name": "hour-hairlines",
+        "value": "repeating-linear-gradient(to bottom, var(--border) 0 1px, transparent 1px 64px)",
+        "purpose": "A 1px hairline every hour on timeline columns."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The 48px full-width main action at the thumb; one per screen.",
+      "html": "<button class=\"ds-btn-primary\">Continue</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:48px;width:100%;border:0;border-radius:6px;background:var(--primary,#1556e0);color:var(--primary-foreground,#fff);font-family:'Onest Variable',system-ui,sans-serif;font-size:15px;font-weight:600;box-shadow:0 1px 2px rgba(13,58,158,.25);cursor:pointer;transition:background-color 150ms}.ds-btn-primary:hover{background:var(--primary-hover,#0f47bf)}.ds-btn-primary:active{transform:translateY(1px)}.ds-btn-primary:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .5)}.ds-btn-primary:disabled{background:var(--muted,#f1f1f1);color:var(--muted-foreground,#5c5c5c);box-shadow:none;cursor:default}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "White 48px companion action, e.g. Book another.",
+      "html": "<button class=\"ds-btn-secondary\">Book another</button>",
+      "css": ".ds-btn-secondary{height:48px;width:100%;border:0;border-radius:6px;background:var(--card,#fff);color:var(--foreground,#0a0a0a);font-family:'Onest Variable',system-ui,sans-serif;font-size:15px;font-weight:600;box-shadow:inset 0 0 0 1px var(--input,#d6d6d6);cursor:pointer;transition:background-color 150ms}.ds-btn-secondary:hover{background:var(--muted,#f1f1f1)}.ds-btn-secondary:focus-visible{outline:none;box-shadow:inset 0 0 0 1px var(--input,#d6d6d6),0 0 0 3px rgb(21 86 224 / .4)}"
+    },
+    {
+      "name": "Option Tile",
+      "kind": "card",
+      "refersTo": "option-tile",
+      "description": "Radio tile for a service or a nearest free time; selected is tint plus 2px blue inset edge.",
+      "html": "<div class=\"ds-tiles\"><button class=\"ds-tile\" aria-checked=\"true\"><span><b>Haircut</b><small><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 6v6l4 2\"/></svg>30 min</small></span><b>RM 28</b></button><button class=\"ds-tile\" aria-checked=\"false\"><span><b>Beard trim</b><small><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 6v6l4 2\"/></svg>15 min</small></span><b>RM 12</b></button></div>",
+      "css": ".ds-tiles{display:flex;flex-direction:column;gap:8px;width:300px}.ds-tile{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:10px 14px;border:0;border-radius:6px;background:var(--card,#fff);color:var(--foreground,#0a0a0a);font-family:'Onest Variable',system-ui,sans-serif;text-align:left;cursor:pointer;box-shadow:inset 0 0 0 1px var(--border,#e8e8e8);transition:background-color 150ms,box-shadow 150ms}.ds-tile span{display:flex;flex-direction:column;gap:2px}.ds-tile b{font-size:15px;font-weight:600}.ds-tile small{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted-foreground,#5c5c5c)}.ds-tile:hover{box-shadow:inset 0 0 0 1px var(--input,#d6d6d6)}.ds-tile[aria-checked=true]{background:var(--accent,#eef4ff);box-shadow:inset 0 0 0 2px var(--primary,#1556e0)}.ds-tile:focus-visible{outline:none;box-shadow:inset 0 0 0 1px var(--border,#e8e8e8),0 0 0 3px rgb(21 86 224 / .4)}"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "nav",
+      "refersTo": "segmented-control",
+      "description": "Staff choice: Anyone or one named person; wraps when crowded.",
+      "html": "<div class=\"ds-seg\" role=\"radiogroup\"><button aria-checked=\"true\">Anyone</button><button aria-checked=\"false\">Ali</button><button aria-checked=\"false\">Siti</button></div>",
+      "css": ".ds-seg{display:flex;flex-wrap:wrap;gap:2px;padding:3px;border-radius:6px;background:var(--muted,#f1f1f1);width:280px}.ds-seg button{flex:1 0 auto;min-width:64px;height:44px;padding:0 12px;border:0;border-radius:4px;background:transparent;font-family:'Onest Variable',system-ui,sans-serif;font-size:13px;font-weight:500;color:rgb(10 10 10 / .75);cursor:pointer;transition:background-color 150ms,box-shadow 150ms}.ds-seg button:hover{color:var(--foreground,#0a0a0a)}.ds-seg button[aria-checked=true]{background:var(--card,#fff);color:var(--foreground,#0a0a0a);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.04)}.ds-seg button:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}"
+    },
+    {
+      "name": "Time Slots",
+      "kind": "chip",
+      "refersTo": "time-slot",
+      "description": "Phone grid of free times; picked slot is solid blue.",
+      "html": "<div class=\"ds-slots\"><button>12:00 PM</button><button aria-checked=\"true\">12:30 PM</button><button>1:00 PM</button><button>1:30 PM</button><button>2:00 PM</button><button>2:30 PM</button></div>",
+      "css": ".ds-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:300px}.ds-slots button{height:44px;border:0;border-radius:6px;background:var(--card,#fff);color:var(--foreground,#0a0a0a);font-family:'Onest Variable',system-ui,sans-serif;font-size:14px;font-weight:500;white-space:nowrap;cursor:pointer;box-shadow:inset 0 0 0 1px var(--border,#e8e8e8);transition:background-color 150ms,box-shadow 150ms,color 150ms}.ds-slots button:hover{box-shadow:inset 0 0 0 1px var(--primary,#1556e0)}.ds-slots button[aria-checked=true]{background:var(--primary,#1556e0);color:var(--primary-foreground,#fff);font-weight:600;box-shadow:none}.ds-slots button:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}"
+    },
+    {
+      "name": "Split Continue Row",
+      "kind": "custom",
+      "refersTo": "time-slot-picked-list",
+      "description": "Desktop time list: the picked time splits into tinted time plus blue Continue that slides in.",
+      "html": "<div class=\"ds-split\"><button class=\"ds-split-time\">2:00 PM</button><button class=\"ds-split-go\">Continue</button></div>",
+      "css": ".ds-split{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:252px;font-family:'Onest Variable',system-ui,sans-serif}.ds-split button{height:44px;border:0;border-radius:6px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}.ds-split-time{background:var(--accent,#eef4ff);color:var(--accent-foreground,#0d3a9e);box-shadow:inset 0 0 0 1px var(--accent-border,#c9daff)}.ds-split-go{background:var(--primary,#1556e0);color:var(--primary-foreground,#fff);animation:ds-slide 200ms ease-out}.ds-split-go:hover{background:var(--primary-hover,#0f47bf)}.ds-split button:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}@keyframes ds-slide{from{opacity:0;transform:translateX(-8px)}}@media (prefers-reduced-motion:reduce){.ds-split-go{animation:none}}"
+    },
+    {
+      "name": "Month Calendar Days",
+      "kind": "custom",
+      "refersTo": "calendar-day-bookable",
+      "description": "Desktop calendar: bookable days tinted, selected solid blue, today dotted, outside window disabled.",
+      "html": "<div class=\"ds-cal\"><button disabled>7</button><button disabled>8</button><button class=\"today\">9</button><button>10</button><button aria-checked=\"true\">11</button><button>12</button><button>13</button></div>",
+      "css": ".ds-cal{display:grid;grid-template-columns:repeat(7,48px);gap:6px}.ds-cal button{position:relative;aspect-ratio:1;border:0;border-radius:6px;background:var(--accent,#eef4ff);color:var(--accent-foreground,#0d3a9e);font-family:'Onest Variable',system-ui,sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:background-color 150ms,box-shadow 150ms}.ds-cal button:hover{box-shadow:inset 0 0 0 1px var(--accent-border,#c9daff)}.ds-cal button[aria-checked=true]{background:var(--primary,#1556e0);color:var(--primary-foreground,#fff)}.ds-cal button:disabled{background:transparent;color:var(--muted-foreground,#5c5c5c);font-weight:500;cursor:default;box-shadow:none}.ds-cal .today::after{content:'';position:absolute;bottom:6px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:currentColor}.ds-cal button:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "46px input with label above and hint below; blue focus and caret.",
+      "html": "<label class=\"ds-field\"><span>Phone number</span><input type=\"tel\" placeholder=\"012-345 6789\"><small>The shop uses this if they need to reach you.</small></label>",
+      "css": ".ds-field{display:flex;flex-direction:column;gap:8px;width:300px;font-family:'Onest Variable',system-ui,sans-serif}.ds-field span{font-size:14px;font-weight:500;color:var(--foreground,#0a0a0a)}.ds-field input{height:46px;padding:0 14px;border:1px solid var(--input,#d6d6d6);border-radius:6px;background:var(--card,#fff);font:inherit;font-size:15px;color:var(--foreground,#0a0a0a);caret-color:var(--primary,#1556e0);outline:none;transition:border-color 150ms,box-shadow 150ms}.ds-field input::placeholder{color:var(--muted-foreground,#5c5c5c)}.ds-field input:focus-visible{border-color:var(--primary,#1556e0);box-shadow:0 0 0 3px rgb(21 86 224 / .5)}.ds-field small{font-size:13px;color:var(--muted-foreground,#5c5c5c)}"
+    },
+    {
+      "name": "Slot-taken Alert",
+      "kind": "card",
+      "refersTo": "alert-taken",
+      "description": "The calm red notice when someone booked the time first.",
+      "html": "<div class=\"ds-taken\" role=\"alert\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" x2=\"12\" y1=\"8\" y2=\"12\"/><line x1=\"12\" x2=\"12.01\" y1=\"16\" y2=\"16\"/></svg><div><p class=\"h\">2:00 PM was just booked</p><p>Someone got it a moment before you. Your name and phone are saved, so just pick another time.</p></div></div>",
+      "css": ".ds-taken{display:flex;align-items:flex-start;gap:12px;max-width:400px;padding:16px;border:1px solid var(--destructive-border,#f6cfca);border-radius:8.4px;background:var(--destructive-tint,#fef3f2);font-family:'Onest Variable',system-ui,sans-serif}.ds-taken svg{flex-shrink:0;margin-top:1px;color:var(--destructive,#b42318)}.ds-taken p{margin:0;font-size:14px;line-height:1.375;color:rgb(10 10 10 / .8)}.ds-taken .h{margin-bottom:4px;font-size:15px;font-weight:600;color:var(--destructive,#b42318)}"
+    },
+    {
+      "name": "Confirmation Ticket",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Booked ticket: mono ref over a dashed perforation, then receipt rows.",
+      "html": "<div class=\"ds-ticket\"><div class=\"ref\"><span>Booking ref</span><code>TMP-7K2Q</code></div><dl><div><dt>When</dt><dd>Fri 13 Nov, 2:00 to 2:30 PM</dd></div><div><dt>With</dt><dd>Ali</dd></div><div><dt>Price</dt><dd>RM 28 \u00b7 pay at the shop</dd></div></dl></div>",
+      "css": ".ds-ticket{width:360px;overflow:hidden;border:1px solid var(--border,#e8e8e8);border-radius:8.4px;background:var(--card,#fff);box-shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);font-family:'Onest Variable',system-ui,sans-serif}.ds-ticket .ref{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px dashed var(--input,#d6d6d6)}.ds-ticket .ref span{font-size:13px;color:var(--muted-foreground,#5c5c5c)}.ds-ticket code{font-family:'JetBrains Mono Variable',ui-monospace,monospace;font-size:15px;font-weight:500;letter-spacing:.08em}.ds-ticket dl{display:flex;flex-direction:column;gap:10px;margin:0;padding:14px 16px;font-size:14px}.ds-ticket dl div{display:flex;justify-content:space-between;gap:16px}.ds-ticket dl div:last-child{border-top:1px solid var(--border,#e8e8e8);padding-top:10px}.ds-ticket dt{color:var(--muted-foreground,#5c5c5c)}.ds-ticket dd{margin:0;font-weight:500;text-align:right}"
+    },
+    {
+      "name": "App Frame",
+      "kind": "nav",
+      "refersTo": "app-bar",
+      "description": "Owner top bar: monogram and shop name, tabs with a blue underline on the active one, copy-link button, account avatar.",
+      "html": "<header class=\"ds-appbar\"><div class=\"ds-appbar-shop\"><span class=\"ds-appbar-mono\">KG</span><span>Kedai Gunting Ali</span></div><nav class=\"ds-appbar-tabs\"><a href=\"#\" aria-current=\"page\">Schedule</a><a href=\"#\">Services</a><a href=\"#\">Staff</a></nav><div class=\"ds-appbar-end\"><button class=\"ds-appbar-link\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71\"/><path d=\"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71\"/></svg>Copy booking link</button><button class=\"ds-appbar-avatar\" aria-label=\"Account\">DE</button></div></header>",
+      "css": ".ds-appbar{display:flex;align-items:center;gap:24px;height:56px;width:860px;padding:0 32px;background:var(--card,#fff);border-bottom:1px solid var(--border,#e8e8e8);font-family:'Onest Variable',system-ui,sans-serif}.ds-appbar-shop{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;color:var(--foreground,#0a0a0a);white-space:nowrap}.ds-appbar-mono{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px;background:var(--accent,#eef4ff);color:var(--accent-foreground,#0d3a9e);font-size:12px;font-weight:600;box-shadow:inset 0 0 0 1px var(--accent-border,#c9daff)}.ds-appbar-tabs{display:flex;gap:4px;height:100%}.ds-appbar-tabs a{display:flex;align-items:center;padding:0 12px;border-bottom:2px solid transparent;font-size:14px;font-weight:500;color:var(--muted-foreground,#5c5c5c);text-decoration:none;transition:color 150ms}.ds-appbar-tabs a:hover{color:var(--foreground,#0a0a0a)}.ds-appbar-tabs a[aria-current=page]{border-bottom-color:var(--primary,#1556e0);color:var(--foreground,#0a0a0a)}.ds-appbar-tabs a:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}.ds-appbar-end{display:flex;align-items:center;gap:8px;margin-left:auto}.ds-appbar-link{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border:1px solid var(--border,#e8e8e8);border-radius:6px;background:var(--card,#fff);font:inherit;font-size:14px;font-weight:500;color:var(--foreground,#0a0a0a);cursor:pointer;transition:background-color 150ms}.ds-appbar-link:hover{background:var(--muted,#f1f1f1)}.ds-appbar-avatar{width:36px;height:36px;border:0;border-radius:9999px;background:var(--muted,#f1f1f1);font:inherit;font-size:12px;font-weight:600;color:var(--foreground,#0a0a0a);cursor:pointer}.ds-appbar-avatar:hover{background:#e7e7e7}.ds-appbar-link:focus-visible,.ds-appbar-avatar:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}"
+    },
+    {
+      "name": "Day Header",
+      "kind": "custom",
+      "refersTo": "button-toolbar",
+      "description": "Owner date heading, prev/Today/next controls, one-line totals sentence and the New booking button.",
+      "html": "<div class=\"ds-dayhead\"><h1>Monday 10 November<span>Tomorrow</span></h1><div class=\"ds-dayhead-nav\"><button aria-label=\"Previous day\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m15 18-6-6 6-6\"/></svg></button><button>Today</button><button aria-label=\"Next day\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 18 6-6-6-6\"/></svg></button></div><p><span><b>9</b> bookings</span> \u00b7 <span><b>5h</b> booked</span> \u00b7 <span><b>5</b> online</span></p><button class=\"ds-dayhead-new\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg>New booking</button></div>",
+      "css": ".ds-dayhead{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 16px;width:880px;font-family:'Onest Variable',system-ui,sans-serif}.ds-dayhead h1{margin:0;font-size:24px;line-height:1.25;font-weight:600;letter-spacing:-.02em;color:var(--foreground,#0a0a0a)}.ds-dayhead h1 span{margin-left:8px;font-size:16px;font-weight:400;letter-spacing:0;color:var(--muted-foreground,#5c5c5c)}.ds-dayhead-nav{display:flex;gap:6px}.ds-dayhead-nav button{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;padding:0 10px;border:1px solid var(--border,#e8e8e8);border-radius:6px;background:var(--card,#fff);font:inherit;font-size:14px;font-weight:500;color:var(--foreground,#0a0a0a);cursor:pointer;transition:background-color 150ms}.ds-dayhead-nav button:hover{background:var(--muted,#f1f1f1)}.ds-dayhead p{margin:0 0 8px;font-size:13px;color:var(--muted-foreground,#5c5c5c)}.ds-dayhead p span{white-space:nowrap}.ds-dayhead p b{font-weight:600;color:var(--foreground,#0a0a0a)}.ds-dayhead-new{display:inline-flex;align-items:center;gap:6px;height:36px;margin-left:auto;padding:0 14px;border:0;border-radius:6px;background:var(--primary,#1556e0);color:var(--primary-foreground,#fff);font:inherit;font-size:14px;font-weight:600;box-shadow:0 1px 2px rgba(13,58,158,.25);cursor:pointer;transition:background-color 150ms}.ds-dayhead-new:hover{background:var(--primary-hover,#0f47bf)}.ds-dayhead button:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}"
+    },
+    {
+      "name": "Status Cards",
+      "kind": "card",
+      "refersTo": "status-card",
+      "description": "Today only: one card per staff member, busy or free and until when; dot filled blue = busy, blue ring = free, grey = not working now.",
+      "html": "<div class=\"ds-status\"><div class=\"ds-status-card\"><div class=\"r1\"><i class=\"free\"></i><b>Ali</b><span>16m free</span></div><p><span>Free</span><span> \u00b7 next: Daniel Tan at 11:00</span></p></div><div class=\"ds-status-card\"><div class=\"r1\"><i class=\"busy\"></i><b>Hafiz</b><span>until 11:15</span></div><p><span>With Lim Wei Ming</span><span> \u00b7 Cut + wash</span></p></div><div class=\"ds-status-card\"><div class=\"r1\"><i></i><b>Wei Jie</b></div><p><span>Starts at 13:00</span></p></div></div>",
+      "css": ".ds-status{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;width:780px;font-family:'Onest Variable',system-ui,sans-serif}.ds-status-card{display:flex;flex-direction:column;gap:4px;padding:12px 16px;border:1px solid var(--border,#e8e8e8);border-radius:8.4px;background:var(--card,#fff)}.ds-status-card .r1{display:flex;align-items:center;gap:10px}.ds-status-card i{width:8px;height:8px;flex-shrink:0;border-radius:9999px;background:var(--input,#d6d6d6)}.ds-status-card i.busy{background:var(--primary,#1556e0)}.ds-status-card i.free{background:var(--card,#fff);box-shadow:inset 0 0 0 2px var(--primary,#1556e0)}.ds-status-card b{font-size:14px;font-weight:600;color:var(--foreground,#0a0a0a)}.ds-status-card .r1 span{margin-left:auto;font-size:13px;font-weight:500;white-space:nowrap;color:var(--foreground,#0a0a0a)}.ds-status-card p{margin:0;padding-left:18px;font-size:13px;color:var(--muted-foreground,#5c5c5c)}.ds-status-card p span{white-space:nowrap}"
+    },
+    {
+      "name": "Day Timeline",
+      "kind": "custom",
+      "refersTo": "timeline-block-online",
+      "description": "Staff columns at 64px per hour: hourly hairlines, hatched off-hours, online (tint) / walk-in (grey) / past (white) blocks, red now line drawn under the blocks.",
+      "html": "<div class=\"ds-tl\"><div class=\"ds-tl-gutter\"><span style=\"top:0\">10:00</span><span style=\"top:56px\">11:00</span><span style=\"top:120px\">12:00</span><span style=\"top:184px\">13:00</span><b style=\"top:47px\">10:44</b></div><div class=\"ds-tl-col\"><button class=\"past\" style=\"top:1px;height:30px\"><strong>Faiz Rahman <em>\u00b7 Haircut</em></strong></button><button class=\"walkin\" style=\"top:65px;height:46px\"><strong>Daniel Tan</strong><small>Cut + wash \u00b7 11:00 \u2013 11:45</small></button><div class=\"off\" style=\"top:192px;height:64px\"></div></div><div class=\"ds-tl-col\"><button class=\"online\" style=\"top:129px;height:30px\"><strong>Adam <em>\u00b7 Kids haircut</em></strong></button><div class=\"off\" style=\"top:0;height:64px\"></div></div><div class=\"ds-tl-now\" style=\"top:47px\"><i></i></div></div>",
+      "css": ".ds-tl{position:relative;display:grid;grid-template-columns:3.5rem repeat(2,minmax(10rem,1fr));gap:10px;width:520px;font-family:'Onest Variable',system-ui,sans-serif}.ds-tl-gutter{position:relative;height:256px}.ds-tl-gutter span{position:absolute;right:0;font-size:12px;color:var(--muted-foreground,#5c5c5c);white-space:nowrap}.ds-tl-gutter b{position:absolute;right:6px;z-index:3;transform:translateY(-50%);padding:0 4px;border-radius:2px;background:var(--card,#fff);font-size:12px;font-weight:600;color:var(--destructive,#b42318)}.ds-tl-col{position:relative;height:256px;overflow:hidden;border-radius:6px;background-image:repeating-linear-gradient(to bottom,var(--border,#e8e8e8) 0 1px,transparent 1px 64px)}.ds-tl-col .off{position:absolute;left:0;right:0;background:repeating-linear-gradient(135deg,var(--muted,#f1f1f1) 0 6px,#f7f7f7 6px 12px)}.ds-tl-col button{position:absolute;left:4px;right:4px;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:0 10px;border:0;border-radius:4.8px;text-align:left;line-height:1.25;font:inherit;cursor:pointer;transition:box-shadow 150ms}.ds-tl-col button strong{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-tl-col button em{font-style:normal;font-weight:400}.ds-tl-col button small{font-size:12px}.ds-tl-col .online{background:var(--accent,#eef4ff);color:var(--accent-foreground,#0d3a9e);box-shadow:inset 0 0 0 1px var(--accent-border,#c9daff)}.ds-tl-col .walkin{background:var(--muted,#f1f1f1);color:var(--foreground,#0a0a0a);box-shadow:inset 0 0 0 1px var(--input,#d6d6d6)}.ds-tl-col .past{background:var(--card,#fff);color:var(--muted-foreground,#5c5c5c);box-shadow:inset 0 0 0 1px var(--border,#e8e8e8)}.ds-tl-col button:hover{box-shadow:0 2px 8px rgba(0,0,0,.08)}.ds-tl-col button:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}.ds-tl-now{position:absolute;left:56px;right:0;z-index:1;border-top:2px solid var(--destructive,#b42318);pointer-events:none}.ds-tl-now i{position:absolute;top:-5px;left:0;width:8px;height:8px;border-radius:9999px;background:var(--destructive,#b42318)}"
+    },
+    {
+      "name": "Dropdown Menu",
+      "kind": "custom",
+      "refersTo": "dropdown-menu",
+      "description": "The account menu: email label, hairline separator, 36px items with a muted highlight.",
+      "html": "<div class=\"ds-menu\" role=\"menu\"><div class=\"ds-menu-label\">ali@kedaigunting.my</div><div class=\"ds-menu-sep\"></div><button class=\"ds-menu-item\" role=\"menuitem\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"/><polyline points=\"16 17 21 12 16 7\"/><line x1=\"21\" x2=\"9\" y1=\"12\" y2=\"12\"/></svg>Log out</button></div>",
+      "css": ".ds-menu{min-width:224px;padding:4px;border:1px solid var(--border,#e8e8e8);border-radius:8.4px;background:var(--popover,#fff);color:var(--foreground,#0a0a0a);box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.08);font-family:'Onest Variable',system-ui,sans-serif;animation:ds-menu-in 150ms ease-out}.ds-menu-label{padding:8px 10px;font-size:13px;color:var(--muted-foreground,#5c5c5c);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ds-menu-sep{height:1px;margin:4px 0;background:var(--border,#e8e8e8)}.ds-menu-item{display:flex;align-items:center;gap:8px;width:100%;height:36px;padding:0 10px;border:0;border-radius:6px;background:transparent;font:inherit;font-size:14px;color:inherit;text-align:left;cursor:default}.ds-menu-item svg{color:var(--muted-foreground,#5c5c5c)}.ds-menu-item:hover,.ds-menu-item:focus-visible{outline:none;background:var(--muted,#f1f1f1)}.ds-menu-item:disabled{opacity:.5}@keyframes ds-menu-in{from{opacity:0;transform:scale(.95)}}"
+    },
+    {
+      "name": "Page Header",
+      "kind": "custom",
+      "refersTo": "button-primary-compact",
+      "description": "Settings page title row: 24px semibold title, one 14px Slate Text line, one 36px blue action pinned right; only the text wraps.",
+      "html": "<div class=\"ds-pagehead\"><div><h1>Services</h1><p>What customers can book.</p></div><button class=\"ds-pagehead-action\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg>Add service</button></div>",
+      "css": ".ds-pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;width:880px;max-width:100%;font-family:'Onest Variable',system-ui,sans-serif}.ds-pagehead>div{display:flex;flex-direction:column;gap:4px;min-width:0}.ds-pagehead h1{margin:0;font-size:24px;line-height:1.25;font-weight:600;letter-spacing:-.02em;color:var(--foreground,#0a0a0a)}.ds-pagehead p{margin:0;font-size:14px;line-height:1.43;color:var(--muted-foreground,#5c5c5c)}.ds-pagehead-action{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:0;border-radius:6px;background:var(--primary,#1556e0);color:var(--primary-foreground,#fff);font:inherit;font-size:14px;font-weight:600;box-shadow:0 1px 2px rgba(13,58,158,.25);cursor:pointer;transition:background-color 150ms}.ds-pagehead-action:hover{background:var(--primary-hover,#0f47bf)}.ds-pagehead-action:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}"
+    },
+    {
+      "name": "Settings List",
+      "kind": "card",
+      "refersTo": "settings-list",
+      "description": "One bordered card per settings page: md+ column header on Paper Grey, hairline-divided 56px rows sharing its grid, 36px ghost icon actions.",
+      "html": "<div class=\"ds-slist\"><div class=\"ds-slist-head\"><span>Service</span><span>Length</span><span>Price</span><span></span></div><ul><li><b>Cut + wash</b><span>45 min</span><span>RM 35.00</span><div><button class=\"ds-slist-icon\" aria-label=\"Edit\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21.17 6.81a1 1 0 0 0-3.99-3.99L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z\"/><path d=\"m15 5 4 4\"/></svg></button><button class=\"ds-slist-icon\" aria-label=\"Remove\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 6h18\"/><path d=\"M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6\"/><path d=\"M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2\"/></svg></button></div></li><li><b>Beard trim</b><span>20 min</span><span>RM 15.00</span><div><button class=\"ds-slist-icon\" aria-label=\"Edit\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21.17 6.81a1 1 0 0 0-3.99-3.99L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z\"/><path d=\"m15 5 4 4\"/></svg></button><button class=\"ds-slist-icon\" aria-label=\"Remove\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 6h18\"/><path d=\"M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6\"/><path d=\"M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2\"/></svg></button></div></li></ul></div>",
+      "css": ".ds-slist{width:880px;max-width:100%;overflow:hidden;border:1px solid var(--border,#e8e8e8);border-radius:8.4px;background:var(--card,#fff);box-shadow:0 1px 2px rgba(0,0,0,.04);font-family:'Onest Variable',system-ui,sans-serif}.ds-slist-head,.ds-slist li{display:grid;grid-template-columns:minmax(0,1fr) 7rem 7rem 5.5rem;gap:16px;align-items:center;padding:0 16px}.ds-slist-head{padding-top:10px;padding-bottom:10px;border-bottom:1px solid var(--border,#e8e8e8);background:var(--background,#fafafa);font-size:12px;font-weight:500;color:var(--muted-foreground,#5c5c5c)}.ds-slist ul{margin:0;padding:0;list-style:none}.ds-slist li{min-height:56px;padding-top:12px;padding-bottom:12px;box-sizing:border-box;font-size:14px;color:var(--foreground,#0a0a0a)}.ds-slist li+li{border-top:1px solid var(--border,#e8e8e8)}.ds-slist li b{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ds-slist li div{display:flex;justify-content:flex-end;gap:4px}.ds-slist-icon{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:0;border-radius:6px;background:transparent;color:var(--foreground,#0a0a0a);cursor:pointer;transition:background-color 150ms}.ds-slist-icon:hover{background:var(--muted,#f1f1f1)}.ds-slist-icon:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}"
+    },
+    {
+      "name": "Staff Week Summary",
+      "kind": "custom",
+      "refersTo": "settings-row",
+      "description": "A staff row: name, one line per run of matching neighbouring days (days muted in a 4.5rem column, 24-hour ranges kept whole), Hours outline button and icon actions.",
+      "html": "<div class=\"ds-week\"><b>Ali</b><dl><dt>Mon\u2013Fri</dt><dd><span>10:00\u201313:00,</span><span>14:00\u201319:00</span></dd><dt>Sat</dt><dd><span>10:00\u201316:00</span></dd></dl><div><a class=\"ds-week-hours\" href=\"#\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 6v6l4 2\"/></svg>Hours</a><button class=\"ds-week-icon\" aria-label=\"Edit Ali\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21.17 6.81a1 1 0 0 0-3.99-3.99L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z\"/><path d=\"m15 5 4 4\"/></svg></button><button class=\"ds-week-icon\" aria-label=\"Remove Ali\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 6h18\"/><path d=\"M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6\"/><path d=\"M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2\"/></svg></button></div></div>",
+      "css": ".ds-week{display:grid;grid-template-columns:12rem minmax(0,1fr) 10rem;gap:16px;align-items:center;width:880px;max-width:100%;min-height:56px;padding:12px 16px;box-sizing:border-box;border:1px solid var(--border,#e8e8e8);border-radius:8.4px;background:var(--card,#fff);font-family:'Onest Variable',system-ui,sans-serif;font-size:14px;color:var(--foreground,#0a0a0a)}.ds-week>b{font-weight:600}.ds-week dl{display:grid;grid-template-columns:4.5rem minmax(0,1fr);gap:2px 12px;margin:0}.ds-week dt{color:var(--muted-foreground,#5c5c5c)}.ds-week dd{display:flex;flex-wrap:wrap;gap:0 8px;margin:0}.ds-week dd span{white-space:nowrap}.ds-week>div{display:flex;justify-content:flex-end;gap:4px}.ds-week-hours{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border:1px solid var(--border,#e8e8e8);border-radius:6px;background:var(--background,#fafafa);color:var(--foreground,#0a0a0a);font:inherit;font-size:14px;font-weight:500;text-decoration:none;cursor:pointer;transition:background-color 150ms}.ds-week-hours:hover{background:var(--muted,#f1f1f1)}.ds-week-hours:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}.ds-week-icon{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:0;border-radius:6px;background:transparent;color:var(--foreground,#0a0a0a);cursor:pointer;transition:background-color 150ms}.ds-week-icon:hover{background:var(--muted,#f1f1f1)}.ds-week-icon:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}"
+    },
+    {
+      "name": "Time Input",
+      "kind": "input",
+      "refersTo": "time-input",
+      "description": "Typed 24-hour HH:MM field (never the browser time input), 36px, tidied on blur (\"930\" to \"09:30\"); 96px wide in the hours editor.",
+      "html": "<div class=\"ds-time\"><input class=\"ds-time-field\" value=\"10:00\" placeholder=\"09:00\" inputmode=\"numeric\" aria-label=\"Start\"><span>\u2013</span><input class=\"ds-time-field\" value=\"13:00\" placeholder=\"09:00\" inputmode=\"numeric\" aria-label=\"End\"></div>",
+      "css": ".ds-time{display:flex;align-items:center;gap:8px;font-family:'Onest Variable',system-ui,sans-serif}.ds-time span{color:var(--muted-foreground,#5c5c5c)}.ds-time-field{height:36px;padding:0 10px;border:1px solid var(--input,#d6d6d6);border-radius:6px;background:var(--card,#fff);color:var(--foreground,#0a0a0a);font:inherit;font-size:14px;outline:none;transition:border-color 150ms,box-shadow 150ms}.ds-time-field::placeholder{color:var(--muted-foreground,#5c5c5c)}.ds-time-field:focus-visible{border-color:var(--primary,#1556e0);box-shadow:0 0 0 3px rgb(21 86 224 / .5)}.ds-time-field[aria-invalid=\"true\"]{border-color:var(--destructive,#b42318);box-shadow:0 0 0 3px rgb(180 35 24 / .2)}.ds-time-field{width:96px;box-sizing:border-box}"
+    },
+    {
+      "name": "Date Picker",
+      "kind": "input",
+      "refersTo": "date-picker-day-selected",
+      "description": "A 36px field reading dd/mm/yyyy that opens a Monday-first month popover: uppercase weekday heads, 36px days, picked day solid blue, today dotted.",
+      "html": "<div class=\"ds-dp\"><button class=\"ds-dp-field\"><span>10/11/2026</span><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8 2v4\"/><path d=\"M16 2v4\"/><rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\"/><path d=\"M3 10h18\"/></svg></button><div class=\"ds-dp-pop\"><div class=\"ds-dp-top\"><b>November 2026</b><span><button class=\"ds-dp-arrow\" aria-label=\"Previous month\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m15 18-6-6 6-6\"/></svg></button><button class=\"ds-dp-arrow\" aria-label=\"Next month\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 18 6-6-6-6\"/></svg></button></span></div><div class=\"ds-dp-grid\"><i>Mon</i><i>Tue</i><i>Wed</i><i>Thu</i><i>Fri</i><i>Sat</i><i>Sun</i><i></i><i></i><i></i><i></i><i></i><i></i><button class=\"ds-dp-day\">1</button><button class=\"ds-dp-day\">2</button><button class=\"ds-dp-day\">3</button><button class=\"ds-dp-day\">4</button><button class=\"ds-dp-day\">5</button><button class=\"ds-dp-day\">6</button><button class=\"ds-dp-day\">7</button><button class=\"ds-dp-day\">8</button><button class=\"ds-dp-day today\">9</button><button class=\"ds-dp-day sel\" aria-pressed=\"true\">10</button><button class=\"ds-dp-day\">11</button><button class=\"ds-dp-day\">12</button><button class=\"ds-dp-day\">13</button><button class=\"ds-dp-day\">14</button><button class=\"ds-dp-day\">15</button><button class=\"ds-dp-day\">16</button><button class=\"ds-dp-day\">17</button><button class=\"ds-dp-day\">18</button><button class=\"ds-dp-day\">19</button><button class=\"ds-dp-day\">20</button><button class=\"ds-dp-day\">21</button><button class=\"ds-dp-day\">22</button><button class=\"ds-dp-day\">23</button><button class=\"ds-dp-day\">24</button><button class=\"ds-dp-day\">25</button><button class=\"ds-dp-day\">26</button><button class=\"ds-dp-day\">27</button><button class=\"ds-dp-day\">28</button><button class=\"ds-dp-day\">29</button><button class=\"ds-dp-day\">30</button></div></div></div>",
+      "css": ".ds-dp{display:flex;flex-direction:column;gap:6px;width:288px;font-family:'Onest Variable',system-ui,sans-serif}.ds-dp-field{display:flex;align-items:center;justify-content:space-between;height:36px;padding:0 10px;border:1px solid var(--input,#d6d6d6);border-radius:6px;background:var(--card,#fff);font:inherit;font-size:14px;color:var(--foreground,#0a0a0a);cursor:pointer}.ds-dp-field svg{color:var(--muted-foreground,#5c5c5c)}.ds-dp-field:focus-visible{outline:none;border-color:var(--primary,#1556e0);box-shadow:0 0 0 3px rgb(21 86 224 / .5)}.ds-dp-pop{padding:12px;border:1px solid var(--border,#e8e8e8);border-radius:8.4px;background:var(--card,#fff);box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.08)}.ds-dp-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:14px;font-weight:600}.ds-dp-top span{display:flex;gap:4px}.ds-dp-arrow{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border:0;border-radius:6px;background:transparent;box-shadow:inset 0 0 0 1px var(--border,#e8e8e8);color:var(--foreground,#0a0a0a);cursor:pointer}.ds-dp-arrow:hover{background:var(--muted,#f1f1f1)}.ds-dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.ds-dp-grid i{padding-bottom:4px;text-align:center;font-style:normal;font-size:12px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--muted-foreground,#5c5c5c)}.ds-dp-day{position:relative;height:36px;border:0;border-radius:6px;background:transparent;font:inherit;font-size:14px;color:var(--foreground,#0a0a0a);cursor:pointer;transition:background-color 150ms}.ds-dp-day:hover{background:var(--muted,#f1f1f1)}.ds-dp-day:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}.ds-dp-day.today::after{content:'';position:absolute;bottom:4px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:currentColor}.ds-dp-day.sel{background:var(--primary,#1556e0);color:var(--primary-foreground,#fff);font-weight:600}"
+    },
+    {
+      "name": "Hours Editor",
+      "kind": "custom",
+      "refersTo": "save-bar",
+      "description": "A day row (switch, semibold day in a 10rem column, 96px 24-hour fields, ghost remove, Add hours) above the sticky save bar: Paper Grey, top hairline, note left, Discard ghost and Save primary (grey when disabled).",
+      "html": "<div class=\"ds-hours\"><div class=\"ds-hours-card\"><div class=\"ds-hours-day\"><label><span class=\"ds-hours-switch\" role=\"switch\" aria-checked=\"true\"></span>Monday</label><div><div class=\"ds-hours-range\"><input class=\"ds-hours-field\" value=\"10:00\" aria-label=\"Start\"><span>\u2013</span><input class=\"ds-hours-field\" value=\"13:00\" aria-label=\"End\"><button class=\"ds-hours-icon\" aria-label=\"Remove\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg></button></div><div class=\"ds-hours-range\"><input class=\"ds-hours-field\" value=\"14:00\" aria-label=\"Start\"><span>\u2013</span><input class=\"ds-hours-field\" value=\"19:00\" aria-label=\"End\"><button class=\"ds-hours-icon\" aria-label=\"Remove\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg></button></div><button class=\"ds-hours-add\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg>Add hours</button></div></div></div><div class=\"ds-hours-bar\"><span>Unsaved changes</span><button class=\"ds-hours-ghost\">Discard</button><button class=\"ds-hours-save\">Save hours</button></div><div class=\"ds-hours-bar\"><span>Saved</span><button class=\"ds-hours-save\" disabled>Save hours</button></div></div>",
+      "css": ".ds-hours{width:640px;max-width:100%;font-family:'Onest Variable',system-ui,sans-serif;font-size:14px;color:var(--foreground,#0a0a0a)}.ds-hours-card{padding:0 20px;border:1px solid var(--border,#e8e8e8);border-radius:8.4px;background:var(--card,#fff);box-shadow:0 1px 2px rgba(0,0,0,.04)}.ds-hours-day{display:flex;gap:12px;padding:16px 0}.ds-hours-day label{display:flex;align-items:center;gap:12px;align-self:flex-start;width:10rem;flex-shrink:0;padding-top:4px;font-weight:600}.ds-hours-day>div{display:flex;flex-direction:column;gap:8px}.ds-hours-switch{position:relative;width:32px;height:18px;border-radius:9999px;background:var(--primary,#1556e0)}.ds-hours-switch::after{content:'';position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:#fff}.ds-hours-range{display:flex;align-items:center;gap:8px}.ds-hours-range span{color:var(--muted-foreground,#5c5c5c)}.ds-hours-field{height:36px;padding:0 10px;border:1px solid var(--input,#d6d6d6);border-radius:6px;background:var(--card,#fff);color:var(--foreground,#0a0a0a);font:inherit;font-size:14px;outline:none;transition:border-color 150ms,box-shadow 150ms}.ds-hours-field::placeholder{color:var(--muted-foreground,#5c5c5c)}.ds-hours-field:focus-visible{border-color:var(--primary,#1556e0);box-shadow:0 0 0 3px rgb(21 86 224 / .5)}.ds-hours-field[aria-invalid=\"true\"]{border-color:var(--destructive,#b42318);box-shadow:0 0 0 3px rgb(180 35 24 / .2)}.ds-hours-field{width:96px;box-sizing:border-box}.ds-hours-icon{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:0;border-radius:6px;background:transparent;color:var(--foreground,#0a0a0a);cursor:pointer;transition:background-color 150ms}.ds-hours-icon:hover{background:var(--muted,#f1f1f1)}.ds-hours-icon:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}.ds-hours-add,.ds-hours-ghost{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 8px;border:0;border-radius:6px;background:transparent;font:inherit;font-size:14px;font-weight:500;color:rgb(10 10 10 / .8);cursor:pointer;transition:background-color 150ms}.ds-hours-add{align-self:flex-start;margin-left:-8px}.ds-hours-add:hover,.ds-hours-ghost:hover{background:var(--muted,#f1f1f1)}.ds-hours-bar{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-top:16px;padding:12px 0;border-top:1px solid var(--border,#e8e8e8);background:var(--background,#fafafa)}.ds-hours-bar span{margin-right:auto;color:var(--muted-foreground,#5c5c5c)}.ds-hours-save{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:0;border-radius:6px;background:var(--primary,#1556e0);color:var(--primary-foreground,#fff);font:inherit;font-size:14px;font-weight:600;box-shadow:0 1px 2px rgba(13,58,158,.25);cursor:pointer;transition:background-color 150ms}.ds-hours-save:hover{background:var(--primary-hover,#0f47bf)}.ds-hours-save:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .4)}.ds-hours-save:disabled{background:var(--muted,#f1f1f1);color:var(--muted-foreground,#5c5c5c);box-shadow:none;cursor:default}"
+    },
+    {
+      "name": "Tempah Mark",
+      "kind": "custom",
+      "refersTo": "tempah-mark",
+      "description": "Tempah's own mark on login and register only: a 28px blue tile with a white T beside the 16px semibold name. Never on a shop's page.",
+      "html": "<div class=\"ds-tmark\"><span aria-hidden=\"true\">T</span>Tempah</div>",
+      "css": ".ds-tmark{display:inline-flex;align-items:center;gap:10px;font-family:'Onest Variable',system-ui,sans-serif;font-size:16px;font-weight:600;color:var(--foreground,#0a0a0a)}.ds-tmark span{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;background:var(--primary,#1556e0);color:var(--primary-foreground,#fff);font-size:13px;font-weight:700}"
+    },
+    {
+      "name": "Auth Layout",
+      "kind": "custom",
+      "refersTo": "auth-preview-pane",
+      "description": "Login/register split: white form half (mark, 24px heading over a 15px help line, 40px fields (44px on phones), 44px full-width primary, switch line) beside a Clear Sky Tint preview half with a Sky Edge hairline; phone shows the form only.",
+      "html": "<div class=\"ds-auth\"><div class=\"ds-auth-form\"><div class=\"ds-auth-mark\"><span>T</span>Tempah</div><div class=\"ds-auth-col\"><h1>Log in</h1><p>See today's bookings and manage your shop.</p><label>Email<input type=\"email\" placeholder=\"you@shop.my\"></label><label>Password<input type=\"password\"></label><button>Log in</button><small>New here? <a href=\"#\">Create your shop</a></small></div></div><div class=\"ds-auth-preview\"><b>Customers book online, and it lands on your schedule.</b></div></div>",
+      "css": ".ds-auth{display:grid;grid-template-columns:1fr 1fr;width:880px;min-height:420px;background:var(--card,#fff);border:1px solid var(--border,#e8e8e8);font-family:'Onest Variable',system-ui,sans-serif;color:var(--foreground,#0a0a0a)}.ds-auth-form{display:flex;flex-direction:column;padding:24px 40px}.ds-auth-mark{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:600}.ds-auth-mark span{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;background:var(--primary,#1556e0);color:#fff;font-size:13px;font-weight:700}.ds-auth-col{display:flex;flex-direction:column;gap:20px;max-width:380px;margin:auto 0}.ds-auth-col h1{margin:0;font-size:24px;line-height:1.25;font-weight:600;letter-spacing:-.02em}.ds-auth-col p{margin:-12px 0 8px;font-size:15px;color:var(--muted-foreground,#5c5c5c)}.ds-auth-col label{display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:500}.ds-auth-col input{height:40px;padding:0 12px;border:1px solid var(--input,#d6d6d6);border-radius:6px;background:var(--card,#fff);font:inherit;font-size:15px;font-weight:400;outline:none;caret-color:var(--primary,#1556e0);transition:border-color 150ms,box-shadow 150ms}.ds-auth-col input:focus-visible{border-color:var(--primary,#1556e0);box-shadow:0 0 0 3px rgb(21 86 224 / .5)}.ds-auth-col button{height:44px;width:100%;border:0;border-radius:6px;background:var(--primary,#1556e0);color:#fff;font:inherit;font-size:15px;font-weight:600;box-shadow:0 1px 2px rgba(13,58,158,.25);cursor:pointer;transition:background-color 150ms}.ds-auth-col button:hover{background:var(--primary-hover,#0f47bf)}.ds-auth-col button:focus-visible{outline:none;box-shadow:0 0 0 3px rgb(21 86 224 / .5)}.ds-auth-col small{margin-top:-4px;font-size:14px;color:var(--muted-foreground,#5c5c5c)}.ds-auth-col a{color:var(--foreground,#0a0a0a);text-decoration-color:var(--accent-border,#c9daff);text-underline-offset:3px}.ds-auth-col a:hover{text-decoration-color:var(--primary,#1556e0)}.ds-auth-preview{display:flex;align-items:center;padding:40px;border-left:1px solid var(--accent-border,#c9daff);background:var(--accent,#eef4ff);font-size:17px;letter-spacing:-.01em}"
+    },
+    {
+      "name": "Prefixed Field",
+      "kind": "input",
+      "refersTo": "prefixed-field",
+      "description": "The register booking link: fixed host/book/ prefix inside the 40px field in Slate Text, slug in Ink; focus ring on the whole box.",
+      "html": "<label class=\"ds-prefix\"><span>Booking link</span><div class=\"ds-prefix-box\"><i>tempah.my/book/</i><input placeholder=\"your-shop\" value=\"kedai-gunting-ali\" spellcheck=\"false\"></div><small>Lowercase letters, numbers and hyphens.</small></label>",
+      "css": ".ds-prefix{display:flex;flex-direction:column;gap:8px;width:380px;font-family:'Onest Variable',system-ui,sans-serif}.ds-prefix>span{font-size:14px;font-weight:500;color:var(--foreground,#0a0a0a)}.ds-prefix-box{display:flex;align-items:center;height:40px;overflow:hidden;border:1px solid var(--input,#d6d6d6);border-radius:6px;background:var(--card,#fff);transition:border-color 150ms,box-shadow 150ms}.ds-prefix-box:focus-within{border-color:var(--primary,#1556e0);box-shadow:0 0 0 3px rgb(21 86 224 / .5)}.ds-prefix-box i{flex-shrink:0;padding-left:12px;font-style:normal;font-size:15px;color:var(--muted-foreground,#5c5c5c);user-select:none}.ds-prefix-box input{flex:1;min-width:0;height:100%;padding:0 12px 0 0;border:0;background:transparent;font:inherit;font-size:15px;color:var(--foreground,#0a0a0a);outline:none}.ds-prefix-box input::placeholder{color:var(--muted-foreground,#5c5c5c)}.ds-prefix small{font-size:13px;color:var(--muted-foreground,#5c5c5c)}"
+    },
+    {
+      "name": "Product Preview",
+      "kind": "custom",
+      "refersTo": "preview-phone",
+      "description": "Auth preview: a Menu lift sample schedule (24-hour, now line under the blocks) with a phone booking card in front on Phone lift (20px corners, 5px white frame, 12-hour slots); Book is pressed once and the dashed slot fills, motion-safe only.",
+      "html": "<div class=\"ds-pv\"><div class=\"ds-pv-sched\"><div class=\"ds-pv-top\"><b>Monday 9 November</b><em>Sample</em></div><div class=\"ds-pv-tl\"><span style=\"top:0\">10:00</span><span style=\"top:46px\">11:00</span><span style=\"top:92px\">12:00</span><span style=\"top:138px\">13:00</span><div class=\"ds-pv-col\"><div class=\"blk on\" style=\"top:24px;height:32px\">Lim Wei Ming</div><div class=\"slot\" style=\"top:139px;height:21px\"><div class=\"blk on fill\">Aisyah \u00b7 Haircut</div></div></div><div class=\"ds-pv-col\"><div class=\"blk\" style=\"top:1px;height:21px\">Faiz Rahman</div><div class=\"blk\" style=\"top:47px;height:32px\">Daniel Tan</div></div><div class=\"ds-pv-now\" style=\"top:62px\"><i></i></div></div></div><div class=\"ds-pv-phone\"><div class=\"bar\">tempah.my/book/kedai-gunting-ali</div><div class=\"shop\"><span>KG</span><b>Kedai Gunting Ali</b></div><div class=\"body\"><div class=\"slots\"><span>12:00 PM</span><span class=\"sel\">1:00 PM</span><span>1:30 PM</span></div><button>Book 1:00 PM</button></div></div></div>",
+      "css": ".ds-pv{position:relative;width:520px;height:330px;padding:24px;background:var(--accent,#eef4ff);font-family:'Onest Variable',system-ui,sans-serif;color:var(--foreground,#0a0a0a)}.ds-pv-sched{position:absolute;top:24px;left:24px;width:380px;padding:16px;border:1px solid var(--border,#e8e8e8);border-radius:8.4px;background:var(--card,#fff);box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.08)}.ds-pv-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;font-size:14px}.ds-pv-top em{padding:2px 8px;border-radius:4.8px;background:var(--muted,#f1f1f1);font-style:normal;font-size:12px;color:var(--muted-foreground,#5c5c5c)}.ds-pv-tl{position:relative;display:grid;grid-template-columns:2.5rem 1fr 1fr;gap:8px;height:190px}.ds-pv-tl>span{position:absolute;left:0;font-size:12px;color:var(--muted-foreground,#5c5c5c);transform:translateY(-50%)}.ds-pv-col{position:relative;grid-row:1;background:repeating-linear-gradient(to bottom,var(--border,#e8e8e8) 0 1px,transparent 1px 46px)}.ds-pv-col:nth-of-type(1){grid-column:2}.ds-pv-col:nth-of-type(2){grid-column:3}.blk{position:absolute;left:2px;right:2px;z-index:2;display:flex;align-items:center;padding:0 8px;border-radius:5px;background:var(--muted,#f1f1f1);box-shadow:inset 0 0 0 1px var(--input,#d6d6d6);font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden}.blk.on{background:var(--accent,#eef4ff);color:var(--accent-foreground,#0d3a9e);box-shadow:inset 0 0 0 1px var(--accent-border,#c9daff)}.slot{position:absolute;left:2px;right:2px;border:1px dashed var(--accent-border,#c9daff);border-radius:5px}.slot .blk{inset:-1px}.blk.fill{animation:ds-slot-fill .7s cubic-bezier(.16,1,.3,1) 1.1s both}.ds-pv-now{position:absolute;left:3rem;right:0;z-index:1;border-top:2px solid var(--destructive,#b42318)}.ds-pv-now i{position:absolute;top:-5px;left:0;width:8px;height:8px;border-radius:50%;background:var(--destructive,#b42318)}.ds-pv-phone{position:absolute;right:24px;bottom:16px;z-index:3;width:210px;overflow:hidden;border:5px solid var(--card,#fff);border-radius:20px;background:var(--card,#fff);box-shadow:0 2px 4px rgba(0,0,0,.05),0 20px 48px rgba(13,58,158,.18)}.ds-pv-phone .bar{padding:6px 12px;background:var(--muted,#f1f1f1);font-size:11px;text-align:center;color:var(--muted-foreground,#5c5c5c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-pv-phone .shop{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border,#e8e8e8);font-size:13px}.ds-pv-phone .shop span{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:4.8px;background:var(--accent,#eef4ff);color:var(--accent-foreground,#0d3a9e);box-shadow:inset 0 0 0 1px var(--accent-border,#c9daff);font-size:11px;font-weight:600}.ds-pv-phone .body{display:flex;flex-direction:column;gap:8px;padding:10px 12px;background:var(--background,#fafafa)}.ds-pv-phone .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.ds-pv-phone .slots span{display:flex;align-items:center;justify-content:center;height:26px;border-radius:4.8px;background:var(--card,#fff);box-shadow:inset 0 0 0 1px var(--border,#e8e8e8);font-size:11px;font-weight:500;white-space:nowrap}.ds-pv-phone .slots .sel{background:var(--primary,#1556e0);color:#fff;box-shadow:none}.ds-pv-phone button{height:30px;border:0;border-radius:4.8px;background:var(--primary,#1556e0);color:#fff;font:inherit;font-size:12px;font-weight:600;animation:ds-book-press .4s ease-out .6s 1}@keyframes ds-slot-fill{from{clip-path:inset(0 100% 0 0 round 5px)}to{clip-path:inset(0 0 0 0 round 5px)}}@keyframes ds-book-press{0%,100%{transform:scale(1)}50%{transform:scale(.96);background-color:var(--primary-hover,#0f47bf)}}@media (prefers-reduced-motion:reduce){.blk.fill,.ds-pv-phone button{animation:none}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Category Standard, Played Straight",
+    "overview": "**Creative North Star: \"The Category Standard, Played Straight\"**\n\nTempah looks like the booking tool you already trust: neutral greys, white surfaces, hairline edges, and one confident blue that marks what you can press and what you've chosen. It refuses ornament on purpose. The quality is in the craft (exact radii, borders that never shift layout, thumb-sized targets, a calm loss screen) rather than in any brand flourish. The bar is Cal.com and Stripe.\n\nThe business leads; Tempah does not. A shop's page opens on the shop's name and initials, and Tempah appears only as a small \"Bookings by Tempah\" credit at the foot of the page. Tempah's own mark (a blue tile with a \"T\") belongs to Tempah's own pages, login and register, and never to a shop's. Density is moderate and phone-first: one column at the thumb on a phone, a bordered booker card from tablet up.\n\nConfirmed rejections: purple or violet anywhere, the shadcn-default stacked-card look with a tinted brand, and the generic AI-generated aesthetic (gradients as decoration, glass, glow).",
+    "keyCharacteristics": [
+      "One blue for action, selection and focus; everything else neutral.",
+      "Status colour is single-purpose: red means a slot was taken (or marks \"now\" on the owner timeline), green means booked.",
+      "Borders are inset shadows, so a 2px selected edge never moves a pixel of content.",
+      "Every public-page target is at least 44px tall.",
+      "Owner screens tell time on the 24-hour clock; the customer's booking page keeps 12-hour.",
+      "Motion is nearly absent: 150ms colour and edge fades, one slide-in, a quick fade-and-zoom on menus and dialogs, and one played-once moment in the auth preview."
+    ],
+    "rules": [
+      {
+        "name": "The One Blue Rule",
+        "body": "Blue means \"press this\", \"you chose this\" or \"you are here\" (the active tab), nothing else, with one owner-side extension: in the owner app it also marks the shop's own online bookings (the quiet tint), a staff member working right now (the status dots) and a finished setup step. Tempah's own login and register pages add two more: the Tempah mark tile is solid blue, and the preview half sits on the quiet tint. No blue decoration, no blue headings, no second accent hue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Single-Purpose Status Rule",
+        "body": "Red appears only when something was lost or rejected (slot taken, error) and as the owner timeline's now line, the one place red marks time rather than loss. Green appears only when a booking succeeded; done setup steps tick in blue, not green. Neither is borrowed for emphasis.",
+        "section": "colors"
+      },
+      {
+        "name": "The No-Purple Rule",
+        "body": "No purple or violet in any token, illustration, chart or state. This is a standing brand commitment.",
+        "section": "colors"
+      },
+      {
+        "name": "The Proportional Figures Rule",
+        "body": "Times, prices and dates use Onest's default proportional figures. Do not turn on tabular figures: Onest's tabular \"1\" reads badly. (The direction contract asked for tabular figures; the build overruled it.)",
+        "section": "typography"
+      },
+      {
+        "name": "The Two Clocks Rule",
+        "body": "Every time the owner app shows or takes is on the 24-hour clock (\"14:30\", \"13:00\u201319:00\"): the timeline gutter, booking blocks, the now label, status cards, dialogs, the staff week summary and every time field. The customer's booking page keeps the 12-hour clock (\"2:00 PM\"). The auth preview keeps both: its phone reads \"1:00 PM\", its sample schedule \"13:00\". Typed dates read dd/mm/yyyy. Neither follows the computer's locale.",
+        "section": "typography"
+      },
+      {
+        "name": "The Plain Heading Rule",
+        "body": "Sections are headed by a plain sentence-case word at the section-label size. No kicker, eyebrow or overline above a heading.",
+        "section": "typography"
+      },
+      {
+        "name": "The Thumb Rule",
+        "body": "On public pages every tappable target is at least 44px tall; the main action is 48px and lives at the bottom of a phone screen.",
+        "section": "layout"
+      },
+      {
+        "name": "The Inset Edge Rule",
+        "body": "Selectable tiles draw their border as an inset box-shadow, never a CSS border, so the 2px selected edge does not shift text.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use Booking Blue (#1556e0) for the primary action, the chosen state (including the active tab underline) and focus; in the owner app also for online bookings (as the tint), the working-now status dots and finished setup steps.",
+      "Do mark chosen options with Clear Sky Tint (#eef4ff) plus a 2px blue inset edge, and bookable days with the tint alone.",
+      "Do draw selectable borders as inset box-shadows so selection never shifts layout.",
+      "Do keep every public-page target at least 44px tall and the main action 48px at the bottom of the phone screen.",
+      "Do limit motion to 150ms background/edge colour transitions, the one Continue slide-in, the quick fade-and-zoom of menus and dialogs, and the auth preview's one played-once press-and-fill, and turn the slide-in and the auth moment off under reduced motion.",
+      "Do let the business lead: shop name and monogram at the top, \"Bookings by Tempah\" as a small credit at the foot. The Tempah mark appears only on Tempah's own login and register pages.",
+      "Do keep the ref in JetBrains Mono and everything else in Onest with default proportional figures.",
+      "Do show and take every owner-app time on the 24-hour clock (\"14:30\") and every typed date as dd/mm/yyyy; keep \"2:00 PM\" for the customer's booking page.",
+      "Do keep owner controls at 36px and settings pages left-aligned on the frame, at most 880px wide."
+    ],
+    "donts": [
+      "Don't use purple or violet anywhere.",
+      "Don't use red for anything but a lost slot, an error or the owner timeline's now line, or green for anything but a completed booking.",
+      "Don't add kicker, eyebrow or overline labels above headings.",
+      "Don't use gradients, glass, glow or tinted-brand card stacks as decoration. Gradients are allowed only where they do a job: the edge fade mask on the scrolling time list, the off-hours hatch on the timeline, and the timeline's hourly 1px hairlines.",
+      "Don't enable tabular figures in Onest.",
+      "Don't show a disabled primary button in pale blue; it goes grey.",
+      "Don't promote Tempah's own name into a shop's page header or hero.",
+      "Don't use the browser's own time or date inputs, or format times and dates by the computer's locale.",
+      "Don't give each settings row its own card, or centre a settings page off the frame's left edge."
+    ]
+  }
+}

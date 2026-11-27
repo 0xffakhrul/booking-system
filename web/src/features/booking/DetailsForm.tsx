@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { setServerErrors } from "@/lib/form-errors";
-import { BottomBar, bigButton } from "./BottomBar";
+import { BottomBar, barInCard, bigButton } from "./BottomBar";
 
 // Field names match the API's, so a 400 from the server lands next to the right input.
 // The phone check is loose on purpose: the server turns "012-345 6789" into +60123456789.
@@ -33,20 +33,13 @@ const detailsSchema = z.object({
 export type Details = z.infer<typeof detailsSchema>;
 
 type Props = {
-  summary: string; // "Haircut & wash · Tue 3 Nov, 2:00 PM"
   bookLabel: string; // "Book 2:00 PM"
   defaultValues?: Details; // kept from an earlier try
-  onChange: () => void;
   onBook: (details: Details) => Promise<void>;
 };
 
-export function DetailsForm({
-  summary,
-  bookLabel,
-  defaultValues,
-  onChange,
-  onBook,
-}: Props) {
+/** Name and phone, then Book. The booking summary sits beside it (desktop) or above (phone). */
+export function DetailsForm({ bookLabel, defaultValues, onBook }: Props) {
   const {
     register,
     handleSubmit,
@@ -72,30 +65,15 @@ export function DetailsForm({
 
   return (
     <form onSubmit={onSubmit} noValidate className="flex flex-1 flex-col">
-      <main className="flex flex-col gap-[18px] px-5 pt-4 pb-6">
-        <p className="text-xs font-semibold tracking-[0.06em] text-muted-foreground uppercase">
-          Step 2 of 2 · Your details
-        </p>
-
-        <div className="flex items-center justify-between gap-3 rounded-lg border bg-card px-3.5 py-3">
-          <p className="text-sm font-semibold">{summary}</p>
-          <Button
-            type="button"
-            variant="link"
-            className="h-auto shrink-0 p-0"
-            onClick={onChange}
-          >
-            Change
-          </Button>
-        </div>
-
-        <FieldGroup>
+      <div className="flex flex-col gap-5 px-[18px] pt-[22px] pb-6 md:p-6">
+        <h2 className="text-base font-semibold">Your details</h2>
+        <FieldGroup className="gap-5">
           <Field data-invalid={!!errors.customerName}>
             <FieldLabel htmlFor="customerName">Your name</FieldLabel>
             <Input
               id="customerName"
               autoComplete="name"
-              className="h-12 bg-card text-base"
+              className={input}
               aria-invalid={!!errors.customerName}
               {...register("customerName")}
             />
@@ -109,11 +87,18 @@ export function DetailsForm({
               inputMode="tel"
               autoComplete="tel"
               placeholder="012-345 6789"
-              className="h-12 bg-card text-base"
+              className={input}
               aria-invalid={!!errors.customerPhone}
+              aria-describedby="phone-hint"
               {...register("customerPhone")}
             />
-            <FieldError errors={[errors.customerPhone]} />
+            {errors.customerPhone ? (
+              <FieldError errors={[errors.customerPhone]} />
+            ) : (
+              <p id="phone-hint" className="text-[13px] text-muted-foreground">
+                The shop uses this if they need to reach you.
+              </p>
+            )}
           </Field>
         </FieldGroup>
 
@@ -122,9 +107,9 @@ export function DetailsForm({
             <AlertDescription>{errors.root.server.message}</AlertDescription>
           </Alert>
         )}
-      </main>
+      </div>
 
-      <BottomBar summary="The shop will see your name and phone number.">
+      <BottomBar className={barInCard}>
         <Button type="submit" className={bigButton} disabled={isSubmitting}>
           {isSubmitting && <Spinner />}
           {bookLabel}
@@ -133,3 +118,6 @@ export function DetailsForm({
     </form>
   );
 }
+
+/** 46px tall, 16px text so iOS doesn't zoom in on focus */
+const input = "h-[46px] rounded-lg bg-card px-3.5 text-base md:text-[15px]";

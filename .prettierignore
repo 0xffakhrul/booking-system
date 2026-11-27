@@ -7,3 +7,7 @@ docs/
 
 # Terraform's downloads and state. infra/terraform/.gitignore covers them, but Prettier only reads the root one
 infra/terraform/.terraform/
+
+# design-tool state and mockups (Impeccable), written by the tool, not by hand
+**/.impeccable/
+**/DESIGN.md

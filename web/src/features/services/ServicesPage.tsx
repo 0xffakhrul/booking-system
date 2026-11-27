@@ -1,7 +1,12 @@
 import { PencilIcon, PlusIcon, ScissorsIcon, Trash2Icon } from "lucide-react";
 import { useState } from "react";
-import { PageHeader } from "@/components/PageHeader";
+import { PageHeader, pageAction } from "@/components/PageHeader";
 import { RemoveDialog } from "@/components/RemoveDialog";
+import {
+  SettingsList,
+  SettingsRow,
+  SettingsSkeleton,
+} from "@/components/SettingsList";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,18 +17,12 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import {
-  Item,
-  ItemActions,
-  ItemContent,
-  ItemDescription,
-  ItemGroup,
-  ItemTitle,
-} from "@/components/ui/item";
-import { Spinner } from "@/components/ui/spinner";
 import { formatPrice } from "@/lib/money";
 import { ServiceFormDialog } from "./ServiceFormDialog";
 import { useDeleteService, useServices, type Service } from "./useServices";
+
+// name, length, price, then edit and remove; the same template for the header and rows
+const columns = "md:grid-cols-[minmax(0,1fr)_7rem_7rem_5.5rem]";
 
 // `open` is kept apart from `service`, so the dialog's text doesn't change while it animates closed
 type DialogState = { open: boolean; service?: Service };
@@ -35,7 +34,7 @@ export function ServicesPage() {
   const [removing, setRemoving] = useState<DialogState>({ open: false });
 
   const addButton = (
-    <Button onClick={() => setForm({ open: true })}>
+    <Button className={pageAction} onClick={() => setForm({ open: true })}>
       <PlusIcon />
       Add service
     </Button>
@@ -50,13 +49,13 @@ export function ServicesPage() {
       />
 
       {isPending ? (
-        <Spinner className="mx-auto mt-8 size-6 text-muted-foreground" />
+        <SettingsSkeleton />
       ) : error ? (
         <Alert variant="destructive">
           <AlertDescription>{error.message}</AlertDescription>
         </Alert>
       ) : services.length === 0 ? (
-        <Empty className="border bg-card">
+        <Empty className="rounded-xl border bg-card">
           <EmptyHeader>
             <EmptyMedia variant="icon">
               <ScissorsIcon />
@@ -69,39 +68,57 @@ export function ServicesPage() {
           <EmptyContent>{addButton}</EmptyContent>
         </Empty>
       ) : (
-        <ItemGroup className="gap-2">
+        <SettingsList
+          columns={columns}
+          headings={["Service", "Length", "Price", ""]}
+        >
           {services.map((service) => (
-            <Item key={service.id} variant="outline" className="bg-card">
-              <ItemContent>
-                <ItemTitle>{service.name}</ItemTitle>
-                <ItemDescription>
-                  {service.durationMin} min · {formatPrice(service.price)}
-                </ItemDescription>
-              </ItemContent>
-              <ItemActions>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label={`Edit ${service.name}`}
-                  onClick={() => setForm({ open: true, service })}
-                >
-                  <PencilIcon />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label={`Remove ${service.name}`}
-                  onClick={() => {
-                    remove.reset(); // clear an error left from last time
-                    setRemoving({ open: true, service });
-                  }}
-                >
-                  <Trash2Icon />
-                </Button>
-              </ItemActions>
-            </Item>
+            <SettingsRow
+              key={service.id}
+              columns={columns}
+              actions={
+                <>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-9"
+                    aria-label={`Edit ${service.name}`}
+                    onClick={() => setForm({ open: true, service })}
+                  >
+                    <PencilIcon />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-9"
+                    aria-label={`Remove ${service.name}`}
+                    onClick={() => {
+                      remove.reset(); // clear an error left from last time
+                      setRemoving({ open: true, service });
+                    }}
+                  >
+                    <Trash2Icon />
+                  </Button>
+                </>
+              }
+            >
+              <span className="truncate text-sm font-semibold">
+                {service.name}
+              </span>
+              {/* one muted line on a phone, two columns from md up */}
+              <span className="text-[13px] text-muted-foreground md:text-sm md:text-foreground">
+                {service.durationMin} min
+                <span className="md:hidden">
+                  {" · "}
+                  {formatPrice(service.price)}
+                </span>
+              </span>
+              <span className="hidden text-sm md:block">
+                {formatPrice(service.price)}
+              </span>
+            </SettingsRow>
           ))}
-        </ItemGroup>
+        </SettingsList>
       )}
 
       <ServiceFormDialog
