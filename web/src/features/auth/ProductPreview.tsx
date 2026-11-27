@@ -25,7 +25,7 @@ export function ProductPreview({
         <div className="absolute top-0 left-0 flex w-[80%] flex-col gap-4">
           <ScheduleCard />
           <p className="max-w-[60%] text-[13px] text-muted-foreground">
-            Sample shop and bookings. Blue bookings came in online; grey ones
+            Sample shop and bookings. Green bookings came in online; grey ones
             the owner added.
           </p>
         </div>
@@ -193,8 +193,8 @@ function PhoneCard({ shopName, slug }: { shopName: string; slug: string }) {
     <div
       aria-hidden
       className={cn(
-        // in front of the schedule: a deeper, blue-tinted lift than any panel
-        "absolute right-0 bottom-0 flex w-[248px] origin-bottom-right scale-[0.85] flex-col overflow-hidden rounded-[20px] border-[5px] border-card bg-card shadow-[0_2px_4px_rgba(0,0,0,0.05),0_20px_48px_rgba(13,58,158,0.18)] xl:scale-100",
+        // in front of the schedule: a deeper lift than any panel
+        "absolute right-0 bottom-0 flex w-[248px] origin-bottom-right scale-[0.85] flex-col overflow-hidden rounded-[20px] border-[5px] border-card bg-card shadow-[0_2px_4px_rgba(0,0,0,0.05),0_20px_48px_rgba(15,23,42,0.14)] xl:scale-100",
       )}
     >
       <div className="truncate bg-muted px-3 py-1.5 text-center text-xs text-muted-foreground">

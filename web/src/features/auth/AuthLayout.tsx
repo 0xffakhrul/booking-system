@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 /**
- * Login and register: the form on a white half, the product preview on a pale blue half
+ * Login and register: the form on a white half, the product preview on a pale green half
  * (from lg up). On a phone the form is the whole page.
  */
 export function AuthLayout({
@@ -30,7 +30,7 @@ export function AuthLayout({
   );
 }
 
-/** The product's own mark: a blue tile with a T, beside the name */
+/** The product's own mark: a lime tile with a T, beside the name */
 function TempahMark() {
   return (
     <div className="flex items-center gap-2.5 text-base font-semibold">
@@ -68,6 +68,6 @@ export function AuthHeading({
 /** 44px fields on a phone (thumb targets), 40px from lg up: roomier than the app's 36px */
 export const authInput = "h-11 bg-card px-3 text-base md:text-[15px] lg:h-10";
 
-/** The full-width blue submit button */
+/** The full-width lime submit button */
 export const authButton =
   "h-11 w-full text-[15px] font-semibold shadow-[0_1px_2px_rgba(13,58,158,0.25)]";

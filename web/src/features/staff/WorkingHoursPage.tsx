@@ -226,7 +226,7 @@ function WeekEditor({ staffId, saved }: { staffId: string; saved: Range[] }) {
         )}
         <Button
           type="submit"
-          // nothing to save yet: grey, not pale blue, like Continue on the booking page
+          // nothing to save yet: grey, not pale lime, like Continue on the booking page
           className={cn(
             pageAction,
             "disabled:bg-muted disabled:text-muted-foreground disabled:opacity-100 disabled:shadow-none",

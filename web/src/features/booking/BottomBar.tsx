@@ -47,7 +47,7 @@ export function BottomBar({
 export const bigButton =
   "h-12 w-full rounded-lg border-0 text-[15px] font-semibold shadow-[0_1px_2px_rgba(13,58,158,0.25)] transition-transform";
 
-/** A Continue that can't be pressed yet goes grey, not pale blue */
+/** A Continue that can't be pressed yet goes grey, not pale lime */
 export const greyWhenDisabled =
   "disabled:bg-muted disabled:text-muted-foreground disabled:opacity-100 disabled:shadow-none";
 

@@ -1,33 +1,41 @@
 import type { ReactNode } from "react";
 
-/** The title row of a settings page: heading and one line of help, the main action at the right */
+/**
+ * The top bar of a settings page: title and one line of help on the left, the main action
+ * on the right, a rule underneath. It runs the full width of the content, edge to edge.
+ * `back` goes above the title, e.g. a link back to the list a page came from.
+ */
 export function PageHeader({
   title,
   description,
   action,
+  back,
 }: {
   title: string;
   description?: string;
   action?: ReactNode;
+  back?: ReactNode;
 }) {
   return (
-    <div className="mb-5 flex items-end justify-between gap-3">
+    <div className="-mx-4 mb-6 max-w-none! border-b px-4 pb-4 md:-mx-8 md:px-8 md:pt-6">
+      {back}
       {/* only the text wraps; the action stays at the right on every page */}
-      <div className="flex min-w-0 flex-col gap-1">
-        <h1 className="text-2xl leading-tight font-semibold tracking-[-0.02em]">
-          {title}
-        </h1>
-        {description && (
-          <p className="text-sm text-pretty text-muted-foreground">
-            {description}
-          </p>
-        )}
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <h1 className="text-xl leading-tight font-semibold tracking-[-0.02em]">
+            {title}
+          </h1>
+          {description && (
+            <p className="text-[13px] text-pretty text-muted-foreground">
+              {description}
+            </p>
+          )}
+        </div>
+        {action}
       </div>
-      {action}
     </div>
   );
 }
 
-/** The blue "Add …" button on settings pages, the same size as New booking */
-export const pageAction =
-  "h-9 px-3.5 font-semibold shadow-[0_1px_2px_rgba(13,58,158,0.25)]";
+/** The lime "Add …" button on settings pages, the same size as New booking */
+export const pageAction = "font-semibold";

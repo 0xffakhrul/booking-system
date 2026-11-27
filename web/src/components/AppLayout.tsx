@@ -1,4 +1,14 @@
-import { CheckIcon, LinkIcon, LogOutIcon } from "lucide-react";
+import {
+  CalendarDaysIcon,
+  CheckIcon,
+  ChevronsUpDownIcon,
+  CopyIcon,
+  ExternalLinkIcon,
+  LinkIcon,
+  LogOutIcon,
+  ScissorsIcon,
+  UsersIcon,
+} from "lucide-react";
 import { DropdownMenu } from "radix-ui";
 import { useEffect, useState } from "react";
 import { NavLink, Outlet, useMatch } from "react-router";
@@ -9,72 +19,109 @@ import { useMe } from "@/features/auth/useMe";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { to: "/app", label: "Schedule", end: true },
-  { to: "/app/services", label: "Services" },
-  { to: "/app/staff", label: "Staff" },
+  { to: "/app", label: "Schedule", icon: CalendarDaysIcon, end: true },
+  { to: "/app/services", label: "Services", icon: ScissorsIcon },
+  { to: "/app/staff", label: "Staff", icon: UsersIcon },
 ];
 
 /**
- * The frame around every owner page: the shop, the tabs, the booking link and the
- * account menu. On a phone the tabs get their own row under the shop name.
+ * The frame around every owner page. From md up: a sidebar with the shop, the pages,
+ * the booking link and the account. On a phone: the shop and the tabs across the top.
  */
 export function AppLayout() {
   const { data: account } = useMe(); // RequireAuth already made sure this exists
+  const name = account?.tenant.name ?? "";
   // the schedule needs the width for its columns; settings pages read better narrower,
-  // but stay on the frame's left edge
+  // but stay on the content's left edge
   const wide = useMatch({ path: "/app", end: true });
 
   return (
-    <div className="min-h-svh bg-background">
-      <header className="border-b bg-card">
-        <div className="mx-auto flex max-w-[1280px] flex-wrap items-center gap-x-6 px-4 md:h-14 md:flex-nowrap md:px-8">
-          <div className="flex h-14 min-w-0 flex-1 items-center gap-2.5 md:flex-none">
-            <span
-              aria-hidden
-              className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-accent text-xs font-semibold text-accent-foreground ring-1 ring-accent-border ring-inset"
+    <div className="min-h-svh bg-background md:flex">
+      <header className="border-b bg-card md:hidden">
+        <div className="flex h-14 items-center gap-2.5 px-4">
+          <ShopTile name={name} />
+          <span className="min-w-0 flex-1 truncate text-[15px] font-semibold">
+            {name}
+          </span>
+          {account && <CopyLinkButton slug={account.tenant.slug} iconOnly />}
+          {account && <AccountMenu email={account.user.email} />}
+        </div>
+        <nav aria-label="Main" className="flex gap-1 overflow-x-auto px-2">
+          {links.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              end={link.end}
+              className={({ isActive }) =>
+                cn(
+                  "flex h-11 items-center border-b-2 px-3 text-sm font-medium whitespace-nowrap outline-none focus-visible:ring-3 focus-visible:ring-ring/40",
+                  isActive
+                    ? "border-foreground text-foreground"
+                    : "border-transparent text-muted-foreground hover:text-foreground",
+                )
+              }
             >
-              {initials(account?.tenant.name ?? "")}
-            </span>
-            <span className="truncate text-[15px] font-semibold">
-              {account?.tenant.name}
-            </span>
-          </div>
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
+      </header>
 
-          <nav
-            aria-label="Main"
-            className="order-last -mx-4 flex w-[calc(100%+2rem)] gap-1 overflow-x-auto px-2 md:order-none md:mx-0 md:h-full md:w-auto md:px-0"
-          >
-            {links.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                end={link.end}
-                className={({ isActive }) =>
-                  cn(
-                    "flex h-11 items-center border-b-2 px-3 text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/40 md:h-full",
-                    isActive
-                      ? "border-primary text-foreground"
-                      : "border-transparent text-muted-foreground hover:text-foreground",
-                  )
-                }
-              >
-                {link.label}
-              </NavLink>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-2 md:ml-auto">
-            {account && <CopyLinkButton slug={account.tenant.slug} />}
-            {account && <AccountMenu email={account.user.email} />}
+      <aside className="sticky top-0 hidden h-svh w-60 shrink-0 flex-col gap-6 border-r bg-sidebar px-3 py-4 text-sidebar-foreground md:flex">
+        <div className="flex items-center gap-2.5 px-2">
+          <ShopTile name={name} />
+          <div className="min-w-0">
+            <p className="truncate text-[13px] font-semibold">{name}</p>
+            <p className="text-xs text-muted-foreground">Owner</p>
           </div>
         </div>
-      </header>
-      <main className="mx-auto max-w-[1280px] px-4 py-5 md:px-8 md:py-6">
-        <div className={cn(!wide && "max-w-[880px]")}>
+
+        <nav aria-label="Main" className="flex flex-col gap-0.5">
+          {links.map(({ to, label, icon: Icon, end }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={end}
+              className={({ isActive }) =>
+                cn(
+                  "flex h-9 items-center gap-2.5 rounded-md px-2.5 text-[13px] font-medium outline-none focus-visible:ring-3 focus-visible:ring-ring/40 [&_svg]:size-4",
+                  isActive
+                    ? "bg-muted text-foreground"
+                    : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
+                )
+              }
+            >
+              <Icon aria-hidden />
+              {label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="mt-auto flex flex-col gap-3">
+          {account && <BookingLinkCard slug={account.tenant.slug} />}
+          {account && <AccountMenu email={account.user.email} row />}
+        </div>
+      </aside>
+
+      <main className="min-w-0 flex-1 px-4 pt-5 pb-10 md:px-8 md:pt-0">
+        {/* *: so a page's header bar can still run the full width */}
+        <div className={cn(!wide && "*:max-w-[880px]")}>
           <Outlet />
         </div>
       </main>
     </div>
+  );
+}
+
+/** The shop's initials on a lime tile */
+function ShopTile({ name }: { name: string }) {
+  return (
+    <span
+      aria-hidden
+      className="flex size-8 shrink-0 items-center justify-center rounded-md bg-primary text-xs font-bold text-primary-foreground"
+    >
+      {initials(name)}
+    </span>
   );
 }
 
@@ -88,7 +135,41 @@ function initials(name: string) {
     .join("");
 }
 
-function CopyLinkButton({ slug }: { slug: string }) {
+/** The sidebar's card: where customers book, with Copy and Open */
+function BookingLinkCard({ slug }: { slug: string }) {
+  const url = `${location.origin}/book/${slug}`;
+  return (
+    <div className="rounded-lg border bg-muted/40 p-3">
+      <p className="text-xs font-semibold">Your booking page</p>
+      <p className="mt-0.5 truncate text-xs text-muted-foreground" title={url}>
+        {location.host}/book/{slug}
+      </p>
+      <div className="mt-2.5 flex gap-1.5">
+        <CopyLinkButton slug={slug} className="h-7 flex-1 text-xs" />
+        <Button variant="outline" size="icon-sm" asChild>
+          <a
+            href={url}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open booking page in a new tab"
+          >
+            <ExternalLinkIcon />
+          </a>
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function CopyLinkButton({
+  slug,
+  iconOnly = false,
+  className,
+}: {
+  slug: string;
+  iconOnly?: boolean;
+  className?: string;
+}) {
   const [state, setState] = useState<"idle" | "copied" | "failed">("idle");
 
   useEffect(() => {
@@ -107,44 +188,79 @@ function CopyLinkButton({ slug }: { slug: string }) {
     }
   }
 
+  const label =
+    state === "copied"
+      ? "Copied"
+      : state === "failed"
+        ? "Couldn't copy"
+        : "Copy link";
+
   return (
     <Button
       variant="outline"
-      className="h-9 px-3"
-      aria-label="Copy booking link"
+      size={iconOnly ? "icon" : "default"}
+      className={className}
+      aria-label={iconOnly ? "Copy booking link" : undefined}
       onClick={copy}
     >
-      {state === "copied" ? <CheckIcon /> : <LinkIcon />}
-      {/* just the icon on a phone, so the row fits */}
-      <span className="hidden sm:inline" aria-live="polite">
-        {state === "copied"
-          ? "Copied"
-          : state === "failed"
-            ? "Couldn't copy"
-            : "Copy booking link"}
-      </span>
+      {state === "copied" ? (
+        <CheckIcon />
+      ) : iconOnly ? (
+        <LinkIcon />
+      ) : (
+        <CopyIcon />
+      )}
+      {iconOnly ? (
+        <span className="sr-only" aria-live="polite">
+          {state === "idle" ? "" : label}
+        </span>
+      ) : (
+        <span aria-live="polite">{label}</span>
+      )}
     </Button>
   );
 }
 
-/** The owner's initials in a circle; opens to their email and Log out */
-function AccountMenu({ email }: { email: string }) {
+/** The owner's account; opens to their email and Log out. A full row in the sidebar. */
+function AccountMenu({ email, row = false }: { email: string; row?: boolean }) {
   const logout = useLogout();
+  const avatar = (
+    <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted text-[11px] font-semibold uppercase">
+      {email.slice(0, 2)}
+    </span>
+  );
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger
         aria-label="Account"
-        className="flex size-9 items-center justify-center rounded-full bg-muted text-xs font-semibold uppercase outline-none hover:bg-[color-mix(in_oklch,var(--muted),var(--foreground)_6%)] focus-visible:ring-3 focus-visible:ring-ring/40"
+        className={cn(
+          "flex items-center outline-none focus-visible:ring-3 focus-visible:ring-ring/40",
+          row
+            ? "h-11 w-full gap-2.5 rounded-md px-2 text-left hover:bg-muted/60 data-[state=open]:bg-muted/60"
+            : "size-9 justify-center rounded-full",
+        )}
       >
-        {email.slice(0, 2)}
+        {avatar}
+        {row && (
+          <>
+            <span className="min-w-0 flex-1 truncate text-xs font-medium">
+              {email}
+            </span>
+            <ChevronsUpDownIcon
+              aria-hidden
+              className="size-3.5 text-muted-foreground"
+            />
+          </>
+        )}
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          align="end"
+          align={row ? "start" : "end"}
+          side={row ? "top" : "bottom"}
           sideOffset={6}
-          className="z-50 min-w-56 rounded-xl border bg-popover p-1 text-popover-foreground shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.08)] data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95"
+          className="z-50 min-w-56 rounded-lg border bg-popover p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95"
         >
-          <DropdownMenu.Label className="truncate px-2.5 py-2 text-[13px] text-muted-foreground">
+          <DropdownMenu.Label className="truncate px-2 py-1.5 text-xs text-muted-foreground">
             {email}
           </DropdownMenu.Label>
           <DropdownMenu.Separator className="my-1 h-px bg-border" />
@@ -154,7 +270,7 @@ function AccountMenu({ email }: { email: string }) {
               e.preventDefault(); // keep the menu open so the spinner shows
               logout.mutate();
             }}
-            className="flex h-9 cursor-default items-center gap-2 rounded-lg px-2.5 text-sm outline-none select-none data-[disabled]:opacity-50 data-[highlighted]:bg-muted [&_svg]:size-4 [&_svg]:text-muted-foreground"
+            className="flex h-8 cursor-default items-center gap-2 rounded-md px-2 text-[13px] outline-none select-none data-[disabled]:opacity-50 data-[highlighted]:bg-muted [&_svg]:size-4 [&_svg]:text-muted-foreground"
           >
             {logout.isPending ? <Spinner /> : <LogOutIcon />}
             Log out

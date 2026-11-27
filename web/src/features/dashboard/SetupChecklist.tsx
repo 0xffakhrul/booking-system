@@ -38,7 +38,7 @@ export function SetupChecklist({ serviceCount, staffCount }: Props) {
             <Link to={step.to}>
               <ItemMedia>
                 {done ? (
-                  <CheckCircle2Icon className="text-primary" />
+                  <CheckCircle2Icon className="text-success" />
                 ) : (
                   <CircleIcon className="text-muted-foreground" />
                 )}
